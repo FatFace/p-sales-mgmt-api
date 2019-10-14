@@ -1,0 +1,58 @@
+http:
+  basePath: "/api/*"
+  host: "localhost"
+  port: "8081"
+  private:
+    port: "8091"
+  
+cloudhub:
+  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
+  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
+
+db:
+ audit: 
+  config:
+   host: "mule-sandbox.cm1i2vsjtzdf.eu-west-1.rds.amazonaws.com"
+   port: "1433"
+   user: "![AyD0mBi0zwPqptV8KbEJGkjzeMuTdVHL2AEWiq0N3sQ=]"
+   password: "![PX91DJD02zpJ0MJ3jLRKUw==]"
+   database: "FATFACE_DB" 
+
+sftp:
+  host: "ftp.fatface.com"
+  port: "22"
+  username: "![W49cMbSedB3HHfPcr0pWWyYHk27r5mLh++/a62Nglxg=]"
+  password: "![YoKYhq6QWsR9eW3AVcCh2TRSSvrwrp94baroSAHlBlg=]" 
+  
+sqs:
+  accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
+  secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
+  region: "![6lleIG6Qoif/fTA7pK+sUA==]"
+  queue:
+    target:
+      inventory: "Inventory"
+    url: 
+      reprocessingQueue: "https://sqs.eu-west-1.amazonaws.com/691628577374/msg-reprocessing-q"
+      targetQueueUrl: "https://sqs.eu-west-1.amazonaws.com/691628577374/inventory-q"
+smtp:
+  host: "![rpQtD0vL4qh+Uema8l2LJxRngvgfBbF6l4RD5XEkF7Y=]"
+  port: "![jd2yTmc7NHA+FUYVXGfwbQ==]"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+        
+
+azureauth:
+  host: "login.microsoftonline.com"
+  path: "/98feb338-6c8b-4865-84ce-6f5fc1212b56/oauth2/token"
+  clientId : "![y1ZTfedy8w4xshPXXuZbJJ/GU5c8VD312jEaFLEGUfv//eT1fDyEVTBSfe9S7XKM]"
+  clientSecret : "![vUhDa6pay9WGQv+kKUXOuzvIgkjEfmJox5SupZYbId1WXEp3qaDkdYi01sZ16m78]"
+  grantType : "client_credentials"
+  resource : "https://ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
+ 
+d365:
+ host: "ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
+ getStoreGroupPath: "/data/StoreGroups"
+ getStorePath: "/data/store"
+  
+response.timeout: "30000"
