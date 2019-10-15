@@ -7,12 +7,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/current/mule-sqs.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<http:request-config name="HTTP_D365_Request_configuration" doc:name="HTTP Request configuration" doc:id="acd4083c-29eb-4aa0-8abf-ca8926673d53" >
-		<http:request-connection host="0.0.0.0" port="8091" />
-	</http:request-config>
-	<http:request-config name="HTTP_S_DW_Request_configuration" doc:name="HTTP Request configuration" doc:id="98077cba-8b40-48d1-bce5-545d5db63220" >
-		<http:request-connection host="0.0.0.0" port="8082" />
-	</http:request-config>
+	
 	<flow name="b-sales-mgmt-appFlow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<scheduler doc:name="Scheduler" doc:id="68d96e60-ab32-4c03-874f-bfd3009fee3d" >
 			<scheduling-strategy >
@@ -31,9 +26,27 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	"Transaction-Start-Time" : "2018-08-02T16:58:12.121Z"
 }]]]></http:headers>
 		</http:request>
-		<http:request method="PUT" doc:name="Invoke System Layer of DW Api to Put Stores" doc:id="31c8f711-ac85-4c73-868f-35142b1bcd57" config-ref="HTTP_S_DW_Request_configuration" path="/api/v1/stores"/>
-		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow"/>
-		<flow-ref doc:name="Log Dispatcher Exit" doc:id="3c3e4236-5da2-4588-8e48-e170711e90cf" name="log-process-exit-sub-flow"/>
+		<choice doc:name="Choice" doc:id="30d1a4c9-3957-4c03-9017-c5e0c2590ae9" >
+			<when expression="!(payload is NullPayload)">
+				<ee:transform doc:name="Transform Message" doc:id="1156a448-0c85-470a-824c-ca82381b5007">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+
+	payload
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<http:request method="PUT" doc:name="Invoke System Layer of DW Api to Put Stores" doc:id="31c8f711-ac85-4c73-868f-35142b1bcd57" config-ref="HTTP_S_DW_Request_configuration" path="/api/v1/stores" />
+				<flow-ref doc:name="Audit Dispatcher Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow" />
+				<flow-ref doc:name="Log Dispatcher Exit" doc:id="3c3e4236-5da2-4588-8e48-e170711e90cf" name="log-process-exit-sub-flow" />
+			</when>
+			<otherwise>
+				<flow-ref doc:name="Log Dispatch " doc:id="4dfd774d-38a6-4a84-8b17-7982d8a7b52e" name="log-dispatcher-exit-sub-flow"/>
+				<flow-ref doc:name="Log Dispatch exit flow" doc:id="31901bea-7d78-4536-ba7e-ab5fe51dab59" name="log-dispatcher-exit-sub-flow"/>
+			</otherwise>
+		</choice>
 	</flow>
 	
 	</mule>
