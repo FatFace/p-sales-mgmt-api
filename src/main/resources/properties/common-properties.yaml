@@ -55,4 +55,5 @@ error:
       path: "SFTP Illegal Path"
       retry: "SFTP Retry Exhausted"  
       
-      
+batch:
+  response: "No Store Data From System Layer"

@@ -8,15 +8,15 @@ http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	
-	<flow name="b-sales-mgmt-appFlow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
+	<flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<scheduler doc:name="Scheduler" doc:id="68d96e60-ab32-4c03-874f-bfd3009fee3d" >
 			<scheduling-strategy >
-				<cron expression="0 30 16 1/1 * ? *"/>
+				<cron expression="${scheduler.cron.expression}" />
 			</scheduling-strategy>
 		</scheduler>
 		<flow-ref doc:name="Log Reveiver Entry" doc:id="ce31eff3-60e0-4548-9e5e-5c3d00392a07" name="log-receiver-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Receiver Entry" doc:id="bf50e0b4-0b9f-4807-a3df-6eb08b1a3374" name="audit-receiver-entry-sub-flow"/>
-		<http:request method="GET" doc:name="Invoke System Layer D365 Api to Get Stores" doc:id="23d656ed-c318-40fc-9c67-03ed077e8dd2" path="/api/stores" config-ref="HTTP_D365_Request_configuration">
+		<http:request method="GET" doc:name="Invoke System Layer D365 Api to Get Stores" doc:id="23d656ed-c318-40fc-9c67-03ed077e8dd2" path="${d365.getStorePath}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}">
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
@@ -27,26 +27,20 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 }]]]></http:headers>
 		</http:request>
 		<choice doc:name="Choice" doc:id="30d1a4c9-3957-4c03-9017-c5e0c2590ae9" >
-			<when expression="!(payload is NullPayload)">
+			<when expression="#[payload != null]">
 				<ee:transform doc:name="Transform Message" doc:id="1156a448-0c85-470a-824c-ca82381b5007">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-
-	payload
-]]></ee:set-payload>
+						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
 					</ee:message>
 				</ee:transform>
-				<http:request method="PUT" doc:name="Invoke System Layer of DW Api to Put Stores" doc:id="31c8f711-ac85-4c73-868f-35142b1bcd57" config-ref="HTTP_S_DW_Request_configuration" path="/api/v1/stores" />
-				<flow-ref doc:name="Audit Dispatcher Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Dispatcher Exit" doc:id="3c3e4236-5da2-4588-8e48-e170711e90cf" name="log-process-exit-sub-flow" />
+				<http:request method="PUT" doc:name="Invoke System Layer of DW Api to Put Stores" doc:id="31c8f711-ac85-4c73-868f-35142b1bcd57" config-ref="s_dw_Http_Request_configuration" path="${demandware.putStorePath}" responseTimeout="${response.timeout}"/>
 			</when>
 			<otherwise>
-				<flow-ref doc:name="Log Dispatch " doc:id="4dfd774d-38a6-4a84-8b17-7982d8a7b52e" name="log-dispatcher-exit-sub-flow"/>
-				<flow-ref doc:name="Log Dispatch exit flow" doc:id="31901bea-7d78-4536-ba7e-ab5fe51dab59" name="log-dispatcher-exit-sub-flow"/>
+				<logger level="INFO" doc:name="Logger" doc:id="cc04c0b8-1335-4ce6-bd22-0b657537653e" message="p(batch.response)"/>
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow" />
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="3c3e4236-5da2-4588-8e48-e170711e90cf" name="log-process-exit-sub-flow" />
 	</flow>
 	
 	</mule>

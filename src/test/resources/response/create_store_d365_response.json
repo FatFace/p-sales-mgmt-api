@@ -1,0 +1,35 @@
+{
+  "stores": [
+    {
+      "store-id": "Blu-SKY",
+      "name": "505275086776",
+      "store-address": {
+        "street": "MEADOW HOUSE FEN ROAD",
+        "city": "BURY ST. EDMUNDS",
+        "postcode": "IP31 2JS",
+        "county": "GBR",
+        "country": "UNITED KINGDOM",
+        "state": "London",
+        "contact-number": "938893839"
+      },
+      "click-and-collect": "true",
+      "store-fulfillment": "true",
+      "longitude": "1273849",
+      "latitude": "1273849",
+      "monday-open-time": "10:00:00",
+      "monday-close-time": "17:00:00",
+      "tuesday-open-time": "10:00:00",
+      "tuesday-close-time": "17:00:00",
+      "wednseday-open-time": "10:00:00",
+      "wednseday-close-time": "17:00:00",
+      "thursday-open-time": "10:00:00",
+      "thursday-close-time": "17:00:00",
+      "friday-open-time": "10:00:00",
+      "friday-close-time": "12:30:00",
+      "saturday-open-time": "10:00:00",
+      "saturday-close-time": "17:00:00",
+      "sunday-open-time": "10:00:00",
+      "sunday-close-time": "17:00:00"
+    }
+  ]
+}

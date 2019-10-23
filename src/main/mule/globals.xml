@@ -20,11 +20,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
    	<http:listener-config name="x-template-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="${http.port}" />
     </http:listener-config>
-    <http:request-config name="HTTP_D365_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="4db76e9b-766e-4450-9336-1084be62b197" >
-		<http:request-connection host="0.0.0.0" port="8091" />
+    <http:request-config name="D365_Http_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="4db76e9b-766e-4450-9336-1084be62b197" basePath="$(d365.basePath)">
+		<http:request-connection host="${d365.host}" port="${d365.port}" />
 	</http:request-config>
-	<http:request-config name="HTTP_S_DW_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" >
-		<http:request-connection host="0.0.0.0" port="8082" />
+	<http:request-config name="s_dw_Http_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" basePath="${demandware.basePath}">
+		<http:request-connection host="${demandware.host}" port="${demandware.port}" />
 	</http:request-config>
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="94ade351-48fd-4c61-af9e-cb622b0e9b3d" >
 		<db:mssql-connection host="${db.audit.config.host}" user="${secure::db.audit.config.user}" password="${secure::db.audit.config.password}" databaseName="${db.audit.config.database}" />
