@@ -46,5 +46,9 @@ scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
     
+client:
+  keystore:
+    password: ![bQO6YOBaGgBfhDsXXTHEPw==]
+    
         
     

@@ -1,7 +1,7 @@
 http:
   basePath: "/api/*"
   host: "localhost"
-  port: "8081"
+  port: "8082"
   private:
     port: "8091"
   
@@ -51,22 +51,32 @@ azureauth:
   resource : "https://ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
  
 d365:
- host: "0.0.0.0"
- port: "8091"
- basePath: "/api"
- getStorePath: "/stores"
+  host: "localhost"
+  #port: "8091"
+  port: "8083"
+  basePath: "/api"
+  getStorePath: "/stores"
+  clientId: "123"
+  clientSecret: "123"
+  
  
 demandware:
-  host: "0.0.0.0"
-  port: "8091"
+  host: "10.0.3.132"
+  #port: "8091"
+  port: "8082"
   basePath: "/api/v1"
-  putStorePath : "/stores"
+  putStorePath : "/store"
   
 response:
-  timeout: "30000"
+  timeout: "60000"
   
 scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
+    
+client:
+  keystore:
+    password: "![bQO6YOBaGgBfhDsXXTHEPw==]"
+
 
 

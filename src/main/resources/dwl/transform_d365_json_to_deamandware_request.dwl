@@ -1,30 +1,28 @@
 %dw 2.0
 output application/json
 ---
-{
-	stores: payload.stores map (value)->{
-		"store-id" : value."store-id",
-		"name" : value.name,
+payload.stores map {
+		"store-id" : $."store-id",
+		"name" : $.name,
 		"store-address":{
-			street : value."store-address".street,
-			city: value."store-address".city,
-			"postal-code" : value."store-address".postcode,
-			state : value."store-address".state,
-			"country-code" : value."store-address".county,
-			country : value."store-address".country,
-			phone : value."store-address"."contact-number"
+			street : $."store-address".street,
+			city: $."store-address".city,
+			"postal-code" : $."store-address".postcode,
+			state : $."store-address".state,
+			"country-code" : $."store-address".county,
+			country : $."store-address".country,
+			phone : $."store-address"."contact-number"
 			
 			},
-		latitude : value.latitude,
-		langitude : value.longitude,
-		"click-and-collect" : value."click-and-collect",
-		"store-fulfillment" : value."store-fulfillment",
-		"openingTimingsMonday" : value."monday-open-time" ++ " - " ++ value."monday-close-time",
-		"openingTimingTuesday" : value."tuesday-open-time" ++ " - " ++ value."tuesday-close-time",
-		"openingTimingWednesday" : value."wednseday-open-time" ++ " - "	++ value."wednseday-close-time",
-		"openingTimingThursday" : value."thursday-open-time" ++ " - " ++ value."thursday-close-time",
-		"openingTimingFriday" : value."friday-open-time" ++ " - " ++ value."friday-close-time",
-		"openingTimingSaturday" : value."saturday-open-time" ++ " - " ++ value."saturday-close-time",
-		"openingTimingSunday" : value."sunday-open-time" ++ " - " ++ value."sunday-close-time"	
+		latitude : $.latitude,
+		langitude : $.longitude,
+		"click-and-collect" : $."click-and-collect",
+		"store-fulfillment" : $."store-fulfillment",
+		"openingTimingsMonday" : $."monday-open-time" ++ " - " ++ $."monday-close-time",
+		"openingTimingTuesday" : $."tuesday-open-time" ++ " - " ++ $."tuesday-close-time",
+		"openingTimingWednesday" : $."wednesday-open-time" ++ " - "	++ $."wednesday-close-time",
+		"openingTimingThursday" : $."thursday-open-time" ++ " - " ++ $."thursday-close-time",
+		"openingTimingFriday" : $."friday-open-time" ++ " - " ++ $."friday-close-time",
+		"openingTimingSaturday" : $."saturday-open-time" ++ " - " ++ $."saturday-close-time",
+		"openingTimingSunday" : $."sunday-open-time" ++ " - " ++ $."sunday-close-time"	
 		}
-}

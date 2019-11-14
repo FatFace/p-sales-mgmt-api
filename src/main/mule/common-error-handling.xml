@@ -995,7 +995,7 @@ p('error.msg.compress.notDecompress')]]></ee:set-variable>
 				<ee:set-payload resource="dwl/create-queue-msg.dwl" />
 			</ee:message>
 		</ee:transform>
-		<sqs:send-message doc:name="Send message" doc:id="8ed49de8-9f6f-49a4-89eb-9347a168e355" config-ref="Amazon_SQS_Configuration" queueUrl="${sqs.queue.url.reprocessingQueue}">
+		<sqs:send-message doc:name="Send message" doc:id="8ed49de8-9f6f-49a4-89eb-9347a168e355" queueUrl="${sqs.queue.url.reprocessingQueue}" config-ref="Amazon_SQS_Configuration">
 			<reconnect frequency="${retry.frequency}" count="${retry.attempts}" />
 		</sqs:send-message>
 		<flow-ref doc:name="Log Process Exit" doc:id="abd1873c-eba8-4a5b-be86-b33193e72af4" name="log-process-exit-sub-flow"/>
