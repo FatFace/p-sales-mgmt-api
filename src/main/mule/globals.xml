@@ -26,7 +26,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 		<http:request-connection host="${d365.host}" port="${d365.port}"/>
 	</http:request-config>
 	<http:request-config name="s_dw_Http_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" basePath="${demandware.basePath}">
-		<http:request-connection host="${demandware.host}" port="${demandware.port}" protocol="HTTPS">
+		<http:request-connection host="${demandware.host}" port="${demandware.port}" protocol="HTTPS" connectionIdleTimeout="60000">
 			<tls:context >
 				<tls:trust-store path="FFClientTrustStore.jks" password="F@tf@c3C1!3Nt" type="jks"/>
 			</tls:context>

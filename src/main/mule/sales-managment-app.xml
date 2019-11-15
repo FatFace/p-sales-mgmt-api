@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<scheduler doc:name="Scheduler" doc:id="68d96e60-ab32-4c03-874f-bfd3009fee3d" >
 			<scheduling-strategy >
-				<fixed-frequency frequency="1" timeUnit="MINUTES" />
+				<fixed-frequency frequency="3" timeUnit="MINUTES" />
 			</scheduling-strategy>
 		</scheduler>
 		<flow-ref doc:name="Log Process Entry" doc:id="ce31eff3-60e0-4548-9e5e-5c3d00392a07" name="log-process-entry-sub-flow"/>

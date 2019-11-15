@@ -1,7 +1,8 @@
 %dw 2.0
 output application/json
 ---
-payload.stores map {
+{
+	stores: payload.stores map {
 		"store-id" : $."store-id",
 		"name" : $.name,
 		"store-address":{
@@ -26,3 +27,5 @@ payload.stores map {
 		"openingTimingSaturday" : $."saturday-open-time" ++ " - " ++ $."saturday-close-time",
 		"openingTimingSunday" : $."sunday-open-time" ++ " - " ++ $."sunday-close-time"	
 		}
+		
+}
