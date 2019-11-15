@@ -7,7 +7,7 @@ payload.stores map {
 		"store-address":{
 			street : $."store-address".street,
 			city: $."store-address".city,
-			"postcode" : $."store-address".postcode,
+			"post-code" : $."store-address".postcode,
 			state : $."store-address".state,
 			"country-code" : $."store-address".county,
 			country : $."store-address".country,

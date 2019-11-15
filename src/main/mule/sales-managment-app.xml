@@ -48,15 +48,13 @@ p('d365.clientSecret')]]></ee:set-variable>
 	"Transaction-Start-Time" : vars.transactionStartDate
 }]]]></http:headers>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="6d1f4921-8a71-494b-a90d-688d3e6c5f5e" message="#[payload]"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload != null]">
-				<ee:transform doc:name="Transform Message" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
+				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
 					</ee:message>
 				</ee:transform>
-				<logger level="INFO" doc:name="Logger" doc:id="5c6c8601-7ce3-4bc5-b0d5-a1837108bc88" message="#[payload]"/>
 				<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.putStorePath}" responseTimeout="${response.timeout}">
 					<http:headers ><![CDATA[#[output application/java
 ---
@@ -65,10 +63,16 @@ p('d365.clientSecret')]]></ee:set-variable>
 	"Client-Secret" : "1234"
 }]]]></http:headers>
 				</http:request>
-				<logger level="INFO" doc:name="Logger" doc:id="585ff77a-b7b2-40ad-9314-0e9815784aa3" message="#[payload]"/>
 			</when>
 			<otherwise>
-				<logger level="INFO" doc:name="Logger" doc:id="e9e30a6c-a3ec-4ad1-bd55-642d30f68ada" message="p(batch.response)"/>
+				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+p('batch.response')]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="Audit Process Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow" />
