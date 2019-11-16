@@ -1,10 +1,3 @@
-http:
-  basePath: "/api/*"
-  host: "localhost"
-  port: "8082"
-  private:
-    port: "8091"
-  
 cloudhub:
   username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
   password: "![TUOtb96a5rFz9HgwE5GrsA==]"
@@ -41,42 +34,30 @@ smtp:
   password: "![r9f7FSUCH+2adxR8OeswFg==]"
   subject: "Fatface API Exception"
         
-
-azureauth:
-  host: "login.microsoftonline.com"
-  path: "/98feb338-6c8b-4865-84ce-6f5fc1212b56/oauth2/token"
-  clientId : "![y1ZTfedy8w4xshPXXuZbJJ/GU5c8VD312jEaFLEGUfv//eT1fDyEVTBSfe9S7XKM]"
-  clientSecret : "![vUhDa6pay9WGQv+kKUXOuzvIgkjEfmJox5SupZYbId1WXEp3qaDkdYi01sZ16m78]"
-  grantType : "client_credentials"
-  resource : "https://ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
- 
 d365:
-  host: "localhost"
-  #port: "8091"
-  port: "8083"
-  basePath: "/api"
-  getStorePath: "/stores"
-  clientId: "123"
-  clientSecret: "123"
-  
- 
-demandware:
-  host: "localhost"
-  #port: "8091"
-  port: "8081"
+  host: "mule-worker-internal-dev-s-d365-api.ir-e1.cloudhub.io"
+  port: "8091"
   basePath: "/api/v1"
-  putStorePath : "/store"
+  path: "/stores"
+  client_id: "c1751cc13ad746a8a49c404c966839f7"
+  client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
+  
+  
+demandware:
+  host: "dev-s-dw-data-int.ir-e1.cloudhub.io"
+  port: "443"
+  basePath: "/api/v1"
+  path: "/store"
+  client_id: "3c006194f8eb46c08c49914d43be236b"
+  client_secret: "c7E1682e72Ed4Fd5a94072EfFCe72cbc"
   
 response:
   timeout: "120000"
   
 scheduler:
   cron:
-    expression: "0 30 16 1/1 * ? *"
+    expression: "0 30 14 1/1 * ? *"
     
 client:
   keystore:
-    password: "![bQO6YOBaGgBfhDsXXTHEPw==]"
-
-
-
+    password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"

@@ -19,16 +19,13 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<configuration-properties doc:name="Configuration properties" doc:id="2fcd69be-3f0c-4cd4-a23d-e9653e44a120" file="properties/${mule.env}-properties.yaml" />
    	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="04597a42-f531-482a-8bcc-b5392dbb80ca" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
 	</secure-properties:config>
-   	<http:listener-config name="x-template-api-httpListenerConfig">
-        <http:listener-connection host="localhost" port="${http.port}" />
-    </http:listener-config>
     <http:request-config name="D365_Http_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="4db76e9b-766e-4450-9336-1084be62b197" basePath="${d365.basePath}">
 		<http:request-connection host="${d365.host}" port="${d365.port}"/>
 	</http:request-config>
 	<http:request-config name="s_dw_Http_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" basePath="${demandware.basePath}">
-		<http:request-connection host="${demandware.host}" port="${demandware.port}" protocol="HTTPS" connectionIdleTimeout="60000">
+		<http:request-connection host="${demandware.host}" port="${demandware.port}" connectionIdleTimeout="60000" protocol="HTTPS">
 			<tls:context >
-				<tls:trust-store path="FFClientTrustStore.jks" password="F@tf@c3C1!3Nt" type="jks"/>
+				<tls:trust-store path="FFTrustStore.ts" password="${secure::client.keystore.password}" type="jks" insecure="true"/>
 			</tls:context>
 		</http:request-connection>
 	</http:request-config>
@@ -39,9 +36,6 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 			<cloudhub:connection username="${secure::cloudhub.username}" password="${secure::cloudhub.password}" environment="${environment.id}"/>
 	</cloudhub:config>
 	<configuration doc:name="Configuration" doc:id="f6e66f7a-360b-48c2-b9ca-2371bcbcaacf" defaultErrorHandler-ref="GlobalExceptionStrategy" />
-	<!-- <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="5d855aac-0374-4dc6-be7b-4efa2ee3e24d" >
-		<sftp:connection host="${secure::sftp.host}" port="${secure::sftp.port}" username="${secure::sftp.username}" password="${secure::sftp.password}" />
-	</sftp:config> -->
 	<sqs:config name="Amazon_SQS_Configuration" doc:name="Amazon SQS Configuration" doc:id="727eae00-f204-4e8f-a209-afbf5cdbb9fb">
 		<sqs:basic-connection accessKey="${secure::sqs.accessKey}" secretKey="${secure::sqs.secretKey}" region="${secure::sqs.region}"/>
 	</sqs:config>

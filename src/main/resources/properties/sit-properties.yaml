@@ -1,42 +1,62 @@
-http:
-  basePath: "/api/*"
-  private:
-    port: "8091"
-  api:
-    p-template-api:
-      basePath: "/"
-      host: ""
-      port: ""
-      path: ""  
-autodiscovery:
-  id: ""
-  flow: "x-template-api-main"
-
 cloudhub:
-  domain: ""
-  usrname: ""
-  password: ""
-  environment: ""
+  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
+  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
+
+db:
+ audit: 
+  config:
+   host: "mule-sandbox.cm1i2vsjtzdf.eu-west-1.rds.amazonaws.com"
+   port: "1433"
+   user: "![AyD0mBi0zwPqptV8KbEJGkjzeMuTdVHL2AEWiq0N3sQ=]"
+   password: "![PX91DJD02zpJ0MJ3jLRKUw==]"
+   database: "FATFACE_DB" 
+
+sftp:
+  host: "ftp.fatface.com"
+  port: "22"
+  username: "![W49cMbSedB3HHfPcr0pWWyYHk27r5mLh++/a62Nglxg=]"
+  password: "![YoKYhq6QWsR9eW3AVcCh2TRSSvrwrp94baroSAHlBlg=]" 
   
+sqs:
+  accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
+  secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
+  region: "![6lleIG6Qoif/fTA7pK+sUA==]"
+  queue:
+    target:
+      inventory: "Inventory"
+    url: 
+      reprocessingQueue: "https://sqs.eu-west-1.amazonaws.com/691628577374/msg-reprocessing-q"
+      targetQueueUrl: "https://sqs.eu-west-1.amazonaws.com/691628577374/inventory-q"
+smtp:
+  host: "![rpQtD0vL4qh+Uema8l2LJxRngvgfBbF6l4RD5XEkF7Y=]"
+  port: "![jd2yTmc7NHA+FUYVXGfwbQ==]"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+        
 d365:
- host: "0.0.0.0"
- port: "8091"
- basePath: "/api"
- getStorePath: "/stores"
- 
-demandware:
-  host: "0.0.0.0"
+  host: "mule-worker-internal-sit-s-d365-api.ir-e1.cloudhub.io"
   port: "8091"
   basePath: "/api/v1"
-  putStorePath : "/stores"
+  path: "/stores"
+  client_id: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"
+  client_secret: "C3a2082C36B54f5bbba606E704e11bDE"
+  
+demandware:
+  host: "sit-s-dw-data-int.eu.cloudhub.io"
+  port: "443"
+  basePath: "/api/v1"
+  path: "/store"
+  client_id: "3c006194f8eb46c08c49914d43be236b"
+  client_secret: "c7E1682e72Ed4Fd5a94072EfFCe72cbc"
   
 response:
-  timeout: "30000"
+  timeout: "120000"
   
 scheduler:
   cron:
-    expression: "0 30 16 1/1 * ? *"
+    expression: "0 30 14 1/1 * ? *"
     
 client:
   keystore:
-    password: ![bQO6YOBaGgBfhDsXXTHEPw==]
+    password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"
