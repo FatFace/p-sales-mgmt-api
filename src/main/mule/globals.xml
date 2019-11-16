@@ -15,31 +15,35 @@ http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
-	<configuration-properties doc:name="Configuration properties" doc:id="31655e4d-0651-4ec4-a6ce-965230ec7e76" file="properties/common-properties.yaml" />
-	<configuration-properties doc:name="Configuration properties" doc:id="3b617f7a-4e8a-4201-b997-c85fe04c302e" file="properties/${mule.env}-properties.yaml" />   
-   	<http:listener-config name="x-template-api-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="${http.port}" />
-    </http:listener-config>
-	<db:config name="Database_Config" doc:name="Database Config" doc:id="b8195697-f573-4c1d-9ebb-faaf0ba86e54" >
+	<configuration-properties doc:name="Configuration properties" doc:id="2b6c041d-78c5-4c8f-942f-fd7df87a78e1" file="properties/common-properties.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="2fcd69be-3f0c-4cd4-a23d-e9653e44a120" file="properties/${mule.env}-properties.yaml" />
+   	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="04597a42-f531-482a-8bcc-b5392dbb80ca" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
+	</secure-properties:config>
+    <http:request-config name="D365_Http_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="4db76e9b-766e-4450-9336-1084be62b197" basePath="${d365.basePath}">
+		<http:request-connection host="${d365.host}" port="${d365.port}"/>
+	</http:request-config>
+	<http:request-config name="s_dw_Http_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" basePath="${demandware.basePath}">
+		<http:request-connection host="${demandware.host}" port="${demandware.port}" connectionIdleTimeout="60000" protocol="HTTPS">
+			<tls:context >
+				<tls:trust-store path="FFTrustStore.ts" password="${secure::client.keystore.password}" type="jks" insecure="true"/>
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="94ade351-48fd-4c61-af9e-cb622b0e9b3d" >
 		<db:mssql-connection host="${db.audit.config.host}" user="${secure::db.audit.config.user}" password="${secure::db.audit.config.password}" databaseName="${db.audit.config.database}" />
 	</db:config>	
-	<cloudhub:config name="CloudHub_Config" doc:name="CloudHub Config" doc:id="611f09fe-93a3-4f69-ab0a-5693466aeb9a" >
+	<cloudhub:config name="CloudHub_Config" doc:name="CloudHub Config" doc:id="c2d1c81c-bd66-47dc-8aed-56e2f305bc0c" >
 			<cloudhub:connection username="${secure::cloudhub.username}" password="${secure::cloudhub.password}" environment="${environment.id}"/>
 	</cloudhub:config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="2cbb6432-2d0c-4d01-90aa-70326bc1731e" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
-	</secure-properties:config>
-	<configuration doc:name="Configuration" doc:id="54fa0143-7e1d-48e0-b340-a4e48738fc8d" defaultErrorHandler-ref="GlobalExceptionStrategy" />
-	<sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="d1857644-27b7-46ba-bb81-15e8b98f626f" >
-		<sftp:connection host="${secure::sftp.host}" port="${secure::sftp.port}" username="${secure::sftp.username}" password="${secure::sftp.password}" />
-	</sftp:config>
-	<sqs:config name="Amazon_SQS_Configuration" doc:name="Amazon SQS Configuration" doc:id="2b1b5722-42da-4e24-b1b0-e12becbd5d65">
+	<configuration doc:name="Configuration" doc:id="f6e66f7a-360b-48c2-b9ca-2371bcbcaacf" defaultErrorHandler-ref="GlobalExceptionStrategy" />
+	<sqs:config name="Amazon_SQS_Configuration" doc:name="Amazon SQS Configuration" doc:id="727eae00-f204-4e8f-a209-afbf5cdbb9fb">
 		<sqs:basic-connection accessKey="${secure::sqs.accessKey}" secretKey="${secure::sqs.secretKey}" region="${secure::sqs.region}"/>
 	</sqs:config>
-	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="986f0321-73a5-4b21-9bb0-2a5eb020c7f9" />
-	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="5adafb79-4340-4a30-8061-3bda81394ea1" >
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="0457504c-52a9-4eed-b547-b038f8385832" />
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="5f39d81d-4c68-4344-9187-1714ea78daac" >
 		<email:smtps-connection host="${secure::smtp.host}" user="${secure::smtp.user}"  tlsContext="TLS_Context" password="${secure::smtp.password}" port="${secure::smtp.port}"/>
 	</email:smtp-config>
-	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="9b4edc68-4a04-450d-b45c-e7f4ec9cd633" >
+	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="ba8e60ba-12da-479e-a910-85423bf21cf1" >
 		<tls:trust-store insecure="true" />
 	</tls:context>
 </mule>

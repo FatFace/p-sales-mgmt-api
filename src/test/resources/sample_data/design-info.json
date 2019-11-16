@@ -2,6 +2,9 @@
   "sampleData": {
     "928a3c03-9005-489c-bd2d-ccc42425c576": {
       "vars-transactionStartTime": "sample_data/defaultstringtype_1.dwl"
+    },
+    "1156a448-0c85-470a-824c-ca82381b5007": {
+      "payload": "sample_data/unknown.dwl"
     }
   }
 }

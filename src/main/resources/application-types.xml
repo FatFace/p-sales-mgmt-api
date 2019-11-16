@@ -38,4 +38,5 @@ type error = {|
   <types:enrichment select="#b9a498c1-4573-46e3-abf8-eb9be66cdc03"/>
   <types:enrichment select="#a8dfe333-5a21-485c-a37a-151562202a97"/>
   <types:enrichment select="#7f09d129-8d5b-40e9-a6db-8e1984b24cdb"/>
+  <types:enrichment select="#7736add6-6341-4786-8bff-c55a9672c804"/>
 </types:mule>
