@@ -44,6 +44,6 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 		<email:smtps-connection host="${secure::smtp.host}" user="${secure::smtp.user}"  tlsContext="TLS_Context" password="${secure::smtp.password}" port="${secure::smtp.port}"/>
 	</email:smtp-config>
 	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="ba8e60ba-12da-479e-a910-85423bf21cf1" >
-		<tls:trust-store insecure="true" />
+		<tls:trust-store insecure="false"/>
 	</tls:context>
 </mule>
