@@ -63,6 +63,15 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"client_secret" : p('demandware.client_secret')
 }]]]></http:query-params>
 				</http:request>
+				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
+					<when expression="#[http.status == 200]">
+						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
+					</when>
+					<otherwise>
+						<set-variable value="status is not success" doc:name="Set Variable" doc:id="19b3180b-6703-4c60-8262-948cafbc1efc" variableName="loggingPayload"/>
+						<flow-ref doc:name="Flow Reference" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
+					</otherwise>
+				</choice>
 			</when>
 			<otherwise>
 				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
