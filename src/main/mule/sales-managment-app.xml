@@ -14,29 +14,34 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<cron expression="${scheduler.cron.expression}" />
 			</scheduling-strategy>
 		</scheduler>
-		<ee:transform doc:name="Set Headers" doc:id="7736add6-6341-4786-8bff-c55a9672c804">
-			<ee:message>
+		<ee:transform doc:name="Flow Name" doc:id="ed1737a2-ac2d-4239-a81e-53dfffe8165f" >
+			<ee:message >
 			</ee:message>
-			<ee:variables>
-				<ee:set-variable variableName="transactionId"><![CDATA[%dw 2.0
+			<ee:variables >
+				<ee:set-variable variableName="flowName" ><![CDATA[%dw 2.0
 output application/java
 ---
-uuid()]]></ee:set-variable>
-				<ee:set-variable variableName="clientId"><![CDATA[%dw 2.0
-output application/java
----
-p('d365.client_id')]]></ee:set-variable>
-				<ee:set-variable variableName="clientSecret"><![CDATA[%dw 2.0
-output application/java
----
-p('d365.client_secret')]]></ee:set-variable>
-				<ee:set-variable variableName="transactionStartTime"><![CDATA[%dw 2.0
-output application/java
----
-now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
+'sales-managment-app-sub-flow']]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Log Process Entry" doc:id="ce31eff3-60e0-4548-9e5e-5c3d00392a07" name="log-process-entry-sub-flow"/>
+		
+		<ee:transform doc:name="Audit Key" doc:id="25b295ee-b5c2-4a2f-87d6-10a9b40cbbc2" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="primaryKey" ><![CDATA[%dw 2.0
+output application/java
+---
+'']]></ee:set-variable>
+				<ee:set-variable variableName="secondaryKey" ><![CDATA[%dw 2.0
+output application/java
+---
+'']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="7c3bf651-7a4c-486e-945b-89e4b4b286bd" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="a37ae1b2-d0df-41ab-9627-395e2e9ba1f2" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="bf50e0b4-0b9f-4807-a3df-6eb08b1a3374" name="audit-process-entry-sub-flow"/>
 		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="23d656ed-c318-40fc-9c67-03ed077e8dd2" path="${d365.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
 			<http:headers ><![CDATA[#[output application/java
@@ -48,6 +53,8 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 		</http:request>
+		<flow-ref doc:name="Log Process Exit" doc:id="2e46a157-5388-4ca3-9276-639baa5cc073" name="log-process-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Process Exit" doc:id="09a61997-4391-4bf7-b395-231f41135219" name="audit-process-exit-sub-flow"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload != null]">
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
@@ -55,21 +62,27 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
 					</ee:message>
 				</ee:transform>
+				
+				<flow-ref doc:name="Log Process Entry" doc:id="8759085f-1fbf-45a8-b428-cbe90a141d57" name="log-process-entry-sub-flow"/>
+				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
 				<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}">
 					<http:query-params ><![CDATA[#[output application/java
 ---
 {
 	"client_id" : p('demandware.client_id'),
-	"client_secret" : p('demandware.client_secret')
+	"client_secret" : p('demandware.client_secret'),
+	"vRequestId" : vars.transactionId
 }]]]></http:query-params>
 				</http:request>
+				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
 					</when>
 					<otherwise>
-						<set-variable value="status is not success" doc:name="Set Variable" doc:id="19b3180b-6703-4c60-8262-948cafbc1efc" variableName="loggingPayload"/>
-						<flow-ref doc:name="Flow Reference" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
+						<set-variable value="status is not success" doc:name="Set loggingPayload" doc:id="19b3180b-6703-4c60-8262-948cafbc1efc" variableName="loggingPayload"/>
+						<flow-ref doc:name="Logging Payload" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
 					</otherwise>
 				</choice>
 			</when>
@@ -84,8 +97,8 @@ p('batch.response')]]></ee:set-payload>
 				</ee:transform>
 			</otherwise>
 		</choice>
-		<flow-ref doc:name="Audit Process Exit" doc:id="dddc2633-50ab-48c3-bc30-d7f811cc64e6" name="audit-process-exit-sub-flow" />
-		<flow-ref doc:name="Log Process Exit" doc:id="3c3e4236-5da2-4588-8e48-e170711e90cf" name="log-process-exit-sub-flow" />
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="0f756c55-0041-46ab-b271-a6972433fcc7" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="2b23aeed-8181-499e-8e73-5bf3475703da" name="audit-dispatcher-exit-sub-flow"/>
 	</flow>
 	
 	</mule>
