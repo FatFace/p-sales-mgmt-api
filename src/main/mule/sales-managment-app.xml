@@ -63,7 +63,6 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"client_secret" : p('demandware.client_secret')
 }]]]></http:query-params>
 				</http:request>
-				<logger level="INFO" doc:name="Logger" doc:id="c89a510e-b06a-4d77-bc01-b41c27a5bb81" message='#["Kishan" ++ http.status]'/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
