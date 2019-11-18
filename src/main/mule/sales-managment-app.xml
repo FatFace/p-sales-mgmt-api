@@ -37,14 +37,6 @@ output application/java
 output application/java
 ---
 '']]></ee:set-variable>
-				<ee:set-variable variableName="transactionStartDate" ><![CDATA[%dw 2.0
-output application/java
----
-now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
-				<ee:set-variable variableName="transactionId" ><![CDATA[%dw 2.0
-output application/java
----
-uuid()]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
