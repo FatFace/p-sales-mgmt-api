@@ -37,13 +37,19 @@ output application/java
 output application/java
 ---
 '']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
+		<ee:transform doc:name="Transaction Start Time" doc:id="9f5dc3ca-5ee6-4786-a84e-bc09e471ee24" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
 				<ee:set-variable variableName="transactionStartDate" ><![CDATA[%dw 2.0
 output application/java
 ---
 now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
 		<flow-ref doc:name="Audit Receiver Entry" doc:id="7c3bf651-7a4c-486e-945b-89e4b4b286bd" name="audit-receiver-entry-sub-flow"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="a37ae1b2-d0df-41ab-9627-395e2e9ba1f2" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="bf50e0b4-0b9f-4807-a3df-6eb08b1a3374" name="audit-process-entry-sub-flow"/>
