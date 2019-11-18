@@ -42,9 +42,9 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"Client-Id" : vars.clientId,
+	"Client-Id" : p('d365.client_id'),
 	"Transaction-Id" : vars.transactionId,
-	"Client-Secret" : vars.clientSecret,
+	"Client-Secret" : p('d365.client_secret'),
 	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 		</http:request>
