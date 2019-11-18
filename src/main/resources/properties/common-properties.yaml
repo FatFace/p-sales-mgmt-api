@@ -16,10 +16,16 @@ flow:
     
 retry:
   frequency: "2000"
-  attempts: "3"
+  attempts: "3"   
 shipment:
-  labelImageFormat: "PNG"   
-  
+  labelImageFormat: "PNG"  
+
+db:
+  pool:
+    size:
+      max: "35"
+      min: "13"
+      
 error:
   msg:
     '404': "Resource not found"
@@ -62,6 +68,6 @@ error:
       notCompress: "Not able to compress"
       invalidFormat: "The given content does not match the format of the configured strategy"
       multipleEntry: "The archive to be decompressed has more than one entry"
-      notDecompress: "Not able to decompress"  
-batch:
-  response: "No Store Data From System Layer"
+      notDecompress: "Not able to decompress" 
+      
+      
