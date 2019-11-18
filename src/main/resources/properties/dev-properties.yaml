@@ -48,8 +48,8 @@ demandware:
   port: "443"
   basePath: "/api/v1"
   path: "/store"
-  client_id: "3c006194f8eb46c08c49914d43be236b"
-  client_secret: "c7E1682e72Ed4Fd5a94072EfFCe72cbc"
+  client_id: "c1751cc13ad746a8a49c404c966839f7"
+  client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
   
 response:
   timeout: "120000"
