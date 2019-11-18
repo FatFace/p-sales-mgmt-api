@@ -54,3 +54,4 @@ catalog/
 bin/
 /reports
 .DS_Store
+/bin/
