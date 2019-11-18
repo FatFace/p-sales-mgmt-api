@@ -56,7 +56,7 @@ response:
   
 scheduler:
   cron:
-    expression: "0 30 14 1/1 * ? *"
+    expression: "0 30 16 1/1 * ? *"
     
 client:
   keystore:
