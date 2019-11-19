@@ -60,7 +60,7 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"Client-Id" : p('d365.client_id'),
 	"Transaction-Id" : vars.transactionId,
 	"Client-Secret" : p('d365.client_secret'),
-	"Transaction-Start-Time" : vars.transactionStartTime
+	"Transaction-Start-Time" : vars.transactionStartDate
 }]]]></http:headers>
 		</http:request>
 		<flow-ref doc:name="Log Process Exit" doc:id="2e46a157-5388-4ca3-9276-639baa5cc073" name="log-process-exit-sub-flow"/>
