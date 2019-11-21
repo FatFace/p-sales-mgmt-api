@@ -8,17 +8,16 @@ output application/json
 		"store-address":{
 			street : $."store-address".street,
 			city: $."store-address".city,
-			"post-code" : $."store-address".postcode,
+			"postal-code" : $."store-address".postcode,
 			state : $."store-address".state,
-			"country-code" : $."store-address".county,
-			country : $."store-address".country,
+			"country-code" : $."store-address".country,
 			phone : $."store-address"."contact-number"
 			
 			},
 		latitude : $.latitude,
-		langitude : $.longitude,
-		"disableOnCheckout" : $."click-and-collect",
-        "fulfillFromStore" : $."fulfill-from-store",
+		longitude : $.longitude,
+		"disableOnCheckout" : upper($."click-and-collect"),
+        "fulfillFromStore" : upper($."fulfill-from-store"),
 		"openingTimingsMonday" : $."monday-open-time" ++ " - " ++ $."monday-close-time",
 		"openingTimingTuesday" : $."tuesday-open-time" ++ " - " ++ $."tuesday-close-time",
 		"openingTimingWednesday" : $."wednesday-open-time" ++ " - "	++ $."wednesday-close-time",

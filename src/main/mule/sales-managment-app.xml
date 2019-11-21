@@ -63,8 +63,8 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"Transaction-Start-Time" : vars.transactionStartDate
 }]]]></http:headers>
 		</http:request>
+		<flow-ref doc:name="Audit Process Exit" doc:id="09a61997-4391-4bf7-b395-231f41135219" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="2e46a157-5388-4ca3-9276-639baa5cc073" name="log-process-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Process Exit" doc:id="09a61997-4391-4bf7-b395-231f41135219" name="audit-process-exit-sub-flow"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload != null]">
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
@@ -84,8 +84,8 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"vRequestId" : vars.transactionId
 }]]]></http:query-params>
 				</http:request>
+				<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow" />
 				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
