@@ -75,7 +75,7 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 				
 				<flow-ref doc:name="Log Process Entry" doc:id="8759085f-1fbf-45a8-b428-cbe90a141d57" name="log-process-entry-sub-flow"/>
 				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
-				<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}">
+				<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}" outputMimeType="application/json">
 					<http:query-params ><![CDATA[#[output application/java
 ---
 {
@@ -84,6 +84,16 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"vRequestId" : vars.transactionId
 }]]]></http:query-params>
 				</http:request>
+				<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status" : "success"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow" />
 				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
