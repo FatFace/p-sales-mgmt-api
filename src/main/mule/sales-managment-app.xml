@@ -94,8 +94,6 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
@@ -105,6 +103,8 @@ output application/json
 						<flow-ref doc:name="Logging Payload" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
 					</otherwise>
 				</choice>
+				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
+				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow"/>
 			</when>
 			<otherwise>
 				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
