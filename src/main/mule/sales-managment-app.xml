@@ -37,6 +37,10 @@ output application/java
 output application/java
 ---
 '']]></ee:set-variable>
+				<ee:set-variable variableName="messageId" ><![CDATA[%dw 2.0
+output application/java
+---
+uuid()]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
@@ -84,19 +88,18 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"vRequestId" : vars.transactionId
 }]]]></http:query-params>
 				</http:request>
-				<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-	"status" : "success"
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
-						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
+						<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
+							<ee:message>
+								<ee:set-payload><![CDATA[%dw 2.0
+		output application/json
+		---
+		{
+			"status" : "success"
+		}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
 					</when>
 					<otherwise>
 						<set-variable value="status is not success" doc:name="Set loggingPayload" doc:id="19b3180b-6703-4c60-8262-948cafbc1efc" variableName="loggingPayload"/>
