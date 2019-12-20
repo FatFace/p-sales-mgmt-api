@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<sub-flow name="p-sales-click-collect-app-impl-flow" doc:id="74cc913f-9c1d-486c-bb48-0b23fadd557d" >
+		<set-variable value="p-sales-click-collect-app-impl-flow" doc:name="Set Flow Name" doc:id="a8f4d08e-f454-4e14-a062-2fa6b095728b" variableName="flowName"/>
+		
+		<flow-ref doc:name="Log Process Entry" doc:id="cfe0d4a6-ee6a-4ee8-99b9-5add5a70299d" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="7dec4b88-e5c2-4d77-8253-fdf8e142e6a6" name="audit-process-entry-sub-flow"/>
+		
+		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="3c2bae7f-ed78-4599-a1e7-dd91be8f728f" millisBetweenRetries="${retry.frequency}">
+			<try doc:name="Try" doc:id="11c2f8e2-c779-4a6c-981e-97d39601ed80">
+			
+		
+		<ee:transform doc:name="Request Mapping For DW" doc:id="a5bbc34e-7682-4aba-a949-23fdc67d1955" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "stores": [
+   {
+     "store-id": payload.'store-id',
+     "name": "",
+     "store-address": {
+       "street": "",
+       "country": "",
+       "postcode": "",
+       "city": "",
+       "state": "",
+       "contact-number": ""
+     },
+     "disableOnCheckout": payload."click-and-collect",
+     "fulfill-from-store": "",
+     "longitude": "",
+     "latitude": "",
+     "monday-open-time": "",
+     "monday-close-time": "",
+     "tuesday-open-time": "",
+     "tuesday-close-time": "",
+     "wednesday-open-time": "",
+     "wednesday-close-time": "",
+     "thursday-open-time": "",
+     "thursday-close-time": "",
+     "friday-open-time": "",
+     "friday-close-time": "",
+     "saturday-open-time": "",
+     "saturday-close-time": "",
+     "sunday-open-time": "",
+     "sunday-close-time": ""
+   }
+ ]
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="uriparameter" ><![CDATA[%dw 2.0
+output application/java
+---
+payload."store-id"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="attributes.uriParams.'store-id'" doc:name="store-id" doc:id="b0c9a3aa-ab14-4771-b6fd-5b23e52f0345" variableName="storeId"/>
+			<flow-ref doc:name="p-sales-click-collect-retry-impl-sub-flow" doc:id="641c583c-c8f0-49a0-b5db-e060dd85784e" name="p-sales-click-collect-retry-impl-sub-flow"/>
+				<error-handler>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8bf3cc87-662c-40f5-8456-1de0e728cf2c" type="ANY">
+					<flow-ref doc:name="Log Error Flow" doc:id="c8f427b3-ec50-4468-b27b-478553f590e0" name="log-error-sub-flow" />
+					<flow-ref doc:name="Audit Error Flow" doc:id="e5ee0ef1-e43a-4e9b-bd04-031b0b9fef5e" name="audit-error-sub-flow" />
+				</on-error-propagate>
+			</error-handler>
+			
+		</try>
+		</until-successful>
+		<ee:transform doc:name="Sucess response" doc:id="d2fb7e1c-ec74-4d1d-9592-dda29e2c4349" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responseCode: vars.httpStatus,
+  responseText: "success"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Audit Process Exit" doc:id="b1247951-160b-438f-aa32-de553301e2e7" name="audit-process-exit-sub-flow"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="960b4b97-15ad-44ca-bd41-1e739b1c6551" name="log-process-exit-sub-flow"/>
+		
+	</sub-flow>
+	<sub-flow name="p-sales-click-collect-retry-impl-sub-flow" doc:id="1a3eec2b-3e81-42dc-a145-5fd4395250fd" >
+		<try doc:name="Try" doc:id="275ff317-f167-4a1e-8932-1c3bfa702284">
+		<flow-ref doc:name="p-sales-click-collect-try-sub-flow" doc:id="86107249-689f-4902-a9e7-d4a202faebdd" name="p-sales-click-collect-try-sub-flow" />
+			<error-handler>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="bdc36e3d-bc4f-48bb-bb86-697f122035a8" type="MULE:RETRY_EXHAUSTED,HTTP:RETRY_EXHAUSTED,HTTP:BAD_REQUEST, HTTP:CLIENT_SECURITY, HTTP:CONNECTIVITY, HTTP:FORBIDDEN, HTTP:INTERNAL_SERVER_ERROR, HTTP:METHOD_NOT_ALLOWED, HTTP:NOT_ACCEPTABLE, HTTP:NOT_FOUND, HTTP:PARSING, HTTP:SECURITY, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS, HTTP:UNAUTHORIZED, HTTP:UNSUPPORTED_MEDIA_TYPE, EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED,EXPRESSION">
+					<flow-ref doc:name="Log Error Flow" doc:id="e455a469-8d22-4129-903f-8a6836fe9b1d" name="log-error-sub-flow" />
+					<flow-ref doc:name="Audit Error Flow" doc:id="efa7fd3c-8d11-4977-944c-8345f47cf00e" name="audit-error-sub-flow"/>
+				</on-error-propagate>
+				</error-handler>
+			</try>
+	</sub-flow>
+	
+	
+	<sub-flow name="p-sales-click-collect-try-sub-flow" doc:id="769c396c-65d5-47f4-8fba-60a19dc0424b" >
+		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="cc2bfa91-294b-4b58-a0e6-92a785b2472a" millisBetweenRetries="${retry.frequency}">
+			<try doc:name="Try" doc:id="6649cd11-7e60-49dc-91c2-6537f86e6fbb" >
+			<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="eefc5df4-978c-4108-bc01-3d9d5536ad5e" path="${demandware.path}" responseTimeout="9000000" config-ref="s_dw_Http_Request_configuration">
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"client_id" : p('demandware.client_id'),
+	"client_secret" : p('demandware.client_secret')
+}]]]></http:query-params>
+					<http:response-validator>
+					<http:success-status-code-validator values="200,201" />
+				</http:response-validator>
+		</http:request>
+				<error-handler >
+					<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5b1d0adc-7123-46a4-991e-44c88a627364" type="HTTP:BAD_REQUEST, HTTP:CLIENT_SECURITY, HTTP:CONNECTIVITY, HTTP:FORBIDDEN, HTTP:INTERNAL_SERVER_ERROR, HTTP:METHOD_NOT_ALLOWED, HTTP:NOT_ACCEPTABLE, HTTP:NOT_FOUND, HTTP:PARSING, HTTP:SECURITY, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS, HTTP:UNAUTHORIZED, HTTP:UNSUPPORTED_MEDIA_TYPE, EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED">
+						<flow-ref doc:name="Log Error Flow" doc:id="0f175318-537d-4f40-93c8-629461f7ec39" name="log-error-sub-flow" />
+						<flow-ref doc:name="Audit Error Flow" doc:id="f9d03b2a-1b9b-4ff9-b4f3-d7513ed3abb3" name="audit-error-sub-flow"/>
+						
+					
+					</on-error-propagate>
+				</error-handler>
+			</try>
+		</until-successful>
+	</sub-flow>
+	</mule>

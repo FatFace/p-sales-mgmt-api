@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="p-sales-click-collect-app-test-suite.xml" />
+	<import doc:name="Import" doc:id="714d7f49-0b58-4357-ae92-ee3c74e0a49b" file="p-sales-click-collect-app-test-suite.xml" />
+	<import doc:name="Import" doc:id="a8be9228-f052-43b5-b7c6-932703cc0422" file="b-sales-mgmt-app-test-suite.xml" />
+	
+	<import doc:name="Import" doc:id="2dfcf645-93e6-4086-a0a3-827957fb922a" file="globals.xml" />
+	<munit:test name="p-sales-click-collect-app-test-suite-impl-flowTest" description="Test" doc:id="e4c05c85-5793-4ab2-bfb3-dc2d552d8bf2" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Invoke System Layer of DW API to Put Stores" doc:id="8399f7a9-a6cc-4412-b45d-79a7e728dd99" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Invoke System Layer of DW API to Put Stores" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[MunitTools::getResourceAsString("sample_data/put-stores-response.xml")]'/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload doc:name="Set Payload" doc:id="39847a23-4986-4daf-9a06-d6c9ec55dcda" value='#[MunitTools::getResourceAsString("sample_data/put-stores-request.json")]' mimeType="application/json"/>
+			<ee:transform doc:name="Transform Message" doc:id="0f4b4a9e-4888-47ce-b69a-3c22f8aa22c3" >
+				<ee:message >
+					<ee:set-attributes ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"uriParams":{
+	"store-id": "0001"
+	}
+}]]></ee:set-attributes>
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="put:\stores\(store-id):p-sales-mgmt-api-config" doc:id="deefcef2-7d52-43c4-9834-5327aebfbd5a" name="put:\stores\(store-id):p-sales-mgmt-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="9b64d637-6dac-437d-ac6e-dc5f8a9756b7" expression="#[message.attributes.httpStatus == 200]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

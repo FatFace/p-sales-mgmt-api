@@ -1,3 +1,11 @@
+http:
+  basePath: "/api/v1/*"
+  host: "0.0.0.0"
+  port: "8083"
+  private:
+    port: "8091"
+  consolePath: "/console/*"
+
 cloudhub:
   username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
   password: "![TUOtb96a5rFz9HgwE5GrsA==]"
@@ -41,7 +49,6 @@ d365:
   path: "/stores"
   client_id: "c1751cc13ad746a8a49c404c966839f7"
   client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
-  
   
 demandware:
   host: "dev-s-dw-data-int.ir-e1.cloudhub.io"

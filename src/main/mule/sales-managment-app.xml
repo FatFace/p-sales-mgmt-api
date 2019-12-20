@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable variableName="flowName" ><![CDATA[%dw 2.0
+				<ee:set-variable variableName="flow Name" ><![CDATA[%dw 2.0
 output application/java
 ---
 'sales-managment-app-sub-flow']]></ee:set-variable>

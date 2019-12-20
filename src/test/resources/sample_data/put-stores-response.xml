@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<stores xmlns="http://www.demandware.com/xml/impex/store/2007-04-30">
+  <store store-id="12345678">
+    <name></name>
+    <address1></address1>
+    <city></city>
+    <state-code></state-code>
+    <latitude></latitude>
+    <longitude></longitude>
+    <disableOnCheckout>YES</disableOnCheckout>
+    <fulfillFromStore></fulfillFromStore>
+    <custom-attributes/>
+  </store>
+</stores>

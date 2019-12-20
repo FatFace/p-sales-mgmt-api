@@ -19,8 +19,8 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<configuration-properties doc:name="Configuration properties" doc:id="2fcd69be-3f0c-4cd4-a23d-e9653e44a120" file="properties/${mule.env}-properties.yaml" />
    	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="04597a42-f531-482a-8bcc-b5392dbb80ca" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
 	</secure-properties:config>
-    <http:request-config name="D365_Http_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="4db76e9b-766e-4450-9336-1084be62b197" basePath="${d365.basePath}">
-		<http:request-connection host="${d365.host}" port="${d365.port}"/>
+   <http:request-config name="D365_Http_Request_configuration" doc:name="HTTP_D365_Request_configuration" doc:id="541332d1-436d-4dc3-9792-204a6d44fa6b" basePath="${d365.basePath}">
+	<http:request-connection host="${d365.host}" port="${d365.port}"/>
 	</http:request-config>
 	<http:request-config name="s_dw_Http_Request_configuration" doc:name="HTTP_S_DW_Request_configuration" doc:id="ace3f2a0-b89c-4dc6-882a-0e5d08fa7b60" basePath="${demandware.basePath}">
 		<http:request-connection host="${demandware.host}" port="${demandware.port}" connectionIdleTimeout="60000" protocol="HTTPS">
@@ -46,4 +46,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="ba8e60ba-12da-479e-a910-85423bf21cf1" >
 		<tls:trust-store insecure="false"/>
 	</tls:context>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="63418da3-f176-4d05-a10a-99999ea31ac8" >
+		<http:listener-connection host="${http.host}" port="${http.private.port}" />
+	</http:listener-config>
 </mule>
