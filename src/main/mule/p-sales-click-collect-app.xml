@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 						<ee:set-payload><![CDATA[{
  "stores": [
    {
-     "store-id": "000062",
+     "store-id": payload."store-id",
      "name": "",
      "store-address": {
        "street": "",
