@@ -9,6 +9,10 @@ cloudhub:
   username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
   password: "![TUOtb96a5rFz9HgwE5GrsA==]"
 
+api:
+  discovery:
+    id: ""
+
 db:
  audit: 
   config:

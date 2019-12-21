@@ -50,4 +50,5 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="63418da3-f176-4d05-a10a-99999ea31ac8" >
 		<http:listener-connection host="${http.host}" port="${http.private.port}" />
 	</http:listener-config>
+	<api-gateway:autodiscovery apiId="${api.discovery.id}" doc:name="API Autodiscovery" doc:id="5d040bbc-db22-4141-8806-17a9385f71aa" flowRef="p-sales-mgmt-api-main" />
 </mule>
