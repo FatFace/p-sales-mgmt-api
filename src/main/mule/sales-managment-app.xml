@@ -37,6 +37,10 @@ output application/java
 output application/java
 ---
 '']]></ee:set-variable>
+				<ee:set-variable variableName="messageId" ><![CDATA[%dw 2.0
+output application/java
+---
+uuid()]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="Log Receiver Entry" doc:id="312ed8fd-4659-4c13-8d97-9193556fcf37" name="log-receiver-entry-sub-flow" />
@@ -66,7 +70,7 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 		<flow-ref doc:name="Audit Process Exit" doc:id="09a61997-4391-4bf7-b395-231f41135219" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="2e46a157-5388-4ca3-9276-639baa5cc073" name="log-process-exit-sub-flow"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
-			<when expression="#[payload != null]">
+			<when expression='#[attributes.statusCode == 200 and (sizeOf(payload.stores) &gt; 0)]'>
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
@@ -84,27 +88,26 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 	"vRequestId" : vars.transactionId
 }]]]></http:query-params>
 				</http:request>
-				<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-	"status" : "success"
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
-						<set-payload value='{"status" : "success"}' doc:name="Set Payload" doc:id="4cfcce25-d5aa-419c-ae43-fc682125729a" />
+						<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
+							<ee:message>
+								<ee:set-payload><![CDATA[%dw 2.0
+		output application/json
+		---
+		{
+			"status" : "success"
+		}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
 					</when>
 					<otherwise>
 						<set-variable value="status is not success" doc:name="Set loggingPayload" doc:id="19b3180b-6703-4c60-8262-948cafbc1efc" variableName="loggingPayload"/>
 						<flow-ref doc:name="Logging Payload" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
 					</otherwise>
 				</choice>
+				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
+				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow"/>
 			</when>
 			<otherwise>
 				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
