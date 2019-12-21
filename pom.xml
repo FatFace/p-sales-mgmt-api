@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.fatface.mule</groupId>
-	<artifactId>b-sales-mgmt-app</artifactId>
+	<artifactId>p-sales-mgmt-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>mule-application</packaging>
-	<name>b-sales-mgmt-app</name>
+	<name>p-sales-mgmt-api</name>
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

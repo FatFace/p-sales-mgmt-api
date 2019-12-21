@@ -52,7 +52,7 @@ d365:
   
 demandware:
   host: "sit-s-dw-data-int.eu.cloudhub.io"
-  port: "443"
+  port: "8082"
   basePath: "/api/v1"
   path: "/store"
   client_id: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"

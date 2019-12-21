@@ -51,8 +51,8 @@ d365:
   client_secret: "2Cf50B5970B14FC9a94D5aB48Fad1206"
   
 demandware:
-  host: "sit-s-dw-data-int.ir-e1.cloudhub.io"
-  port: "443"
+  host: "uat-s-dw-data-int.ir-e1.cloudhub.io"
+  port: "8082"
   basePath: "/api/v1"
   path: "/store"
   client_id: "b206a1a7bfbd4e109f591ca5b27631c3"
