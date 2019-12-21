@@ -13,69 +13,73 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		
 		<flow-ref doc:name="Log Process Entry" doc:id="cfe0d4a6-ee6a-4ee8-99b9-5add5a70299d" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="7dec4b88-e5c2-4d77-8253-fdf8e142e6a6" name="audit-process-entry-sub-flow"/>
-		
-		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="3c2bae7f-ed78-4599-a1e7-dd91be8f728f" millisBetweenRetries="${retry.frequency}">
-			<try doc:name="Try" doc:id="11c2f8e2-c779-4a6c-981e-97d39601ed80">
+<!-- 		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="3c2bae7f-ed78-4599-a1e7-dd91be8f728f" millisBetweenRetries="${retry.frequency}"> -->
+<!-- 			<try doc:name="Try" doc:id="11c2f8e2-c779-4a6c-981e-97d39601ed80"> -->
 			
 		
-		<ee:transform doc:name="Request Mapping For DW" doc:id="a5bbc34e-7682-4aba-a949-23fdc67d1955" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
+		<ee:transform doc:name="Request Mapping For DW" doc:id="a5bbc34e-7682-4aba-a949-23fdc67d1955">
+					<ee:message>
+						<ee:set-payload><![CDATA[{
  "stores": [
    {
-     "store-id": payload.'store-id',
+     "store-id": "000062",
      "name": "",
      "store-address": {
        "street": "",
-       "country": "",
-       "postcode": "",
        "city": "",
-       "state": "",
-       "contact-number": ""
+       "postal-code": "",
+       "state": null,
+       "country-code": "",
+       "phone": ""
      },
-     "disableOnCheckout": payload."click-and-collect",
-     "fulfill-from-store": "",
-     "longitude": "",
      "latitude": "",
-     "monday-open-time": "",
-     "monday-close-time": "",
-     "tuesday-open-time": "",
-     "tuesday-close-time": "",
-     "wednesday-open-time": "",
-     "wednesday-close-time": "",
-     "thursday-open-time": "",
-     "thursday-close-time": "",
-     "friday-open-time": "",
-     "friday-close-time": "",
-     "saturday-open-time": "",
-     "saturday-close-time": "",
-     "sunday-open-time": "",
-     "sunday-close-time": ""
+     "longitude": "",
+     "disableOnCheckout": "YES",
+     "fulfillFromStore": "YES",
+     "openingTimingsMonday": "",
+     "openingTimingTuesday": "",
+     "openingTimingWednesday": "",
+     "openingTimingThursday": "",
+     "openingTimingFriday": "",
+     "openingTimingSaturday": "",
+     "openingTimingSunday": ""
+   },
+   {
+     "store-id": "000063",
+     "name": "",
+     "store-address": {
+       "street": "",
+       "city": "",
+       "postal-code": "",
+       "state": null,
+       "country-code": "",
+       "phone": ""
+     },
+     "latitude": "",
+     "longitude": "",
+     "disableOnCheckout": upper(payload."click-and-collect"),
+     "fulfillFromStore": "",
+     "openingTimingsMonday": "",
+     "openingTimingTuesday": "",
+     "openingTimingWednesday": "",
+     "openingTimingThursday": "",
+     "openingTimingFriday": "",
+     "openingTimingSaturday": "",
+     "openingTimingSunday": ""
    }
+   
  ]
 }]]></ee:set-payload>
 					</ee:message>
-					<ee:variables >
-						<ee:set-variable variableName="uriparameter" ><![CDATA[%dw 2.0
+					<ee:variables>
+						<ee:set-variable variableName="uriparameter"><![CDATA[%dw 2.0
 output application/java
 ---
 payload."store-id"]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<set-variable value="attributes.uriParams.'store-id'" doc:name="store-id" doc:id="b0c9a3aa-ab14-4771-b6fd-5b23e52f0345" variableName="storeId"/>
-			<flow-ref doc:name="p-sales-click-collect-retry-impl-sub-flow" doc:id="641c583c-c8f0-49a0-b5db-e060dd85784e" name="p-sales-click-collect-retry-impl-sub-flow"/>
-				<error-handler>
-				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8bf3cc87-662c-40f5-8456-1de0e728cf2c" type="ANY">
-					<flow-ref doc:name="Log Error Flow" doc:id="c8f427b3-ec50-4468-b27b-478553f590e0" name="log-error-sub-flow" />
-					<flow-ref doc:name="Audit Error Flow" doc:id="e5ee0ef1-e43a-4e9b-bd04-031b0b9fef5e" name="audit-error-sub-flow" />
-				</on-error-propagate>
-			</error-handler>
-			
-		</try>
-		</until-successful>
+<!-- 				<set-variable value="attributes.uriParams.'store-id'" doc:name="store-id" doc:id="b0c9a3aa-ab14-4771-b6fd-5b23e52f0345" variableName="storeId" /> -->
+			<flow-ref doc:name="p-sales-click-collect-retry-impl-sub-flow" doc:id="641c583c-c8f0-49a0-b5db-e060dd85784e" name="p-sales-click-collect-retry-impl-sub-flow" />
 		<ee:transform doc:name="Sucess response" doc:id="d2fb7e1c-ec74-4d1d-9592-dda29e2c4349" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
