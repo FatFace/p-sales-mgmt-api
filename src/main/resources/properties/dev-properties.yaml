@@ -1,6 +1,7 @@
 http:
   basePath: "/api/v1/*"
   host: "0.0.0.0"
+  port: "8083"
   private:
     port: "8091"
   consolePath: "/console/*"
@@ -50,12 +51,12 @@ d365:
   client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
   
 demandware:
-  host: "dev-s-dw-data-int.ir-e1.cloudhub.io"
-  port: "8082"
-  basePath: "/api/v1"
-  path: "/store"
-  client_id: "c1751cc13ad746a8a49c404c966839f7"
-  client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
+ host: "dev-s-dw-data-int.eu.cloudhub.io"
+ port: "443"
+ basePath: "/api/v1"
+ path: "/store"
+ client_id: "b206a1a7bfbd4e109f591ca5b27631c3"
+ client_secret: "2Cf50B5970B14FC9a94D5aB48Fad1206"
   
 response:
   timeout: "120000"
