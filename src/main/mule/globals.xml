@@ -17,6 +17,10 @@ http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/em
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 	<configuration-properties doc:name="Configuration properties" doc:id="2b6c041d-78c5-4c8f-942f-fd7df87a78e1" file="properties/common-properties.yaml" />
 	<configuration-properties doc:name="Configuration properties" doc:id="2fcd69be-3f0c-4cd4-a23d-e9653e44a120" file="properties/${mule.env}-properties.yaml" />
+   	<import doc:name="Import" doc:id="85834da0-f5d7-4f44-87a7-bffbe671cbf9" file="common-auditing-framework.xml" />
+	<import doc:name="Import" doc:id="050ec19e-96db-405d-8a7d-d7c4bd4c3ef4" file="common-logging-framework.xml" />
+	<import doc:name="Import" doc:id="8bd327f9-41ac-42b6-84a1-0cd7ce279b5f" file="common-reprocessing-framework.xml" />
+	<import doc:name="Import" doc:id="40e6f2a1-ef2c-4a93-9667-e55caad6b292" file="common-error-handling.xml" />   	
    	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f6cb2147-90e1-4954-9a77-bde6f1ffd21f" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
        <secure-properties:encrypt algorithm="AES" mode="CBC"/>
    </secure-properties:config>
@@ -40,15 +44,8 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<sqs:config name="Amazon_SQS_Configuration" doc:name="Amazon SQS Configuration" doc:id="727eae00-f204-4e8f-a209-afbf5cdbb9fb">
 		<sqs:basic-connection accessKey="${secure::sqs.accessKey}" secretKey="${secure::sqs.secretKey}" region="${secure::sqs.region}"/>
 	</sqs:config>
-	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="0457504c-52a9-4eed-b547-b038f8385832" />
-	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="5f39d81d-4c68-4344-9187-1714ea78daac" >
-		<email:smtps-connection host="${secure::smtp.host}" user="${secure::smtp.user}"  tlsContext="TLS_Context" password="${secure::smtp.password}" port="${secure::smtp.port}"/>
-	</email:smtp-config>
-	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="ba8e60ba-12da-479e-a910-85423bf21cf1" >
-		<tls:trust-store insecure="false"/>
-	</tls:context>
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="63418da3-f176-4d05-a10a-99999ea31ac8" >
 		<http:listener-connection host="${http.host}" port="${http.private.port}" />
 	</http:listener-config>
-	<api-gateway:autodiscovery apiId="${api.discovery.id}" doc:name="API Autodiscovery" doc:id="5d040bbc-db22-4141-8806-17a9385f71aa" flowRef="p-sales-mgmt-api-main" />
+<!-- 	<api-gateway:autodiscovery apiId="${api.discovery.id}" doc:name="API Autodiscovery" doc:id="5d040bbc-db22-4141-8806-17a9385f71aa" flowRef="p-sales-mgmt-api-main" /> -->
 </mule>
