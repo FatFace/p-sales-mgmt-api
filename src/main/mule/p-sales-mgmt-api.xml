@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <http:listener-config name="p-sales-mgmt-api-httpListenerConfig">
+        <http:listener-connection host="${http.host}" port="${http.private.port}" />
+    </http:listener-config>
     <apikit:config name="p-sales-mgmt-api-config" raml="p-sales-mgmt-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="p-sales-mgmt-api-main">
-        <http:listener config-ref="HTTP_Listener_config" path="${http.basePath}">
+        <http:listener config-ref="p-sales-mgmt-api-httpListenerConfig" path="${http.basePath}">
             <http:response statusCode="#[vars.httpStatus default 200]">
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
@@ -14,7 +15,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
         <apikit:router config-ref="p-sales-mgmt-api-config" />
     </flow>
     <flow name="p-sales-mgmt-api-console">
-        <http:listener config-ref="HTTP_Listener_config" path="${http.consolePath}">
+        <http:listener config-ref="p-sales-mgmt-api-httpListenerConfig" path="/console/*">
+
             <http:response statusCode="#[vars.httpStatus default 200]">
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
@@ -45,17 +47,12 @@ now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="5ba86ec6-ec00-4b8a-87c8-bee42d40a5c8" name="audit-dispatcher-exit-sub-flow" />
         <flow-ref doc:name="Log Dispatcher Exit " doc:id="c2494997-bbd0-4a71-a08a-c4c6ff703783" name="log-dispatcher-exit-sub-flow" />
     </flow>
-	<flow name="post:\stores:application\json:p-sales-mgmt-api-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  responseCode: 0,
-  responseText: "success"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+    <flow name="post:\stores:application\json:p-sales-mgmt-api-config">
+        <set-variable value="#['post:\stores:application\json:p-sales-mgmt-api-config']" doc:name="Set Variable" doc:id="904d469c-5d9d-4ef6-af61-3343c1de8ca1" variableName="flowName"/>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="f866dd84-f0b8-44bc-98ee-077e6948fed6" name="log-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="8c5b5790-c7b7-452e-9f6f-5b2479e1d071" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Sales Store Manager Subflow" doc:id="100632d4-60ad-4bb9-983f-26771120c840" name="sales-managment-app-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="6fbd517a-6f38-4798-bba7-3f6bb239ccdd" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="51f097d9-0bfb-4155-becf-e9dd740b9156" name="audit-dispatcher-exit-sub-flow"/>
     </flow>
 </mule>

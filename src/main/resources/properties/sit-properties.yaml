@@ -1,7 +1,6 @@
 http:
   basePath: "/api/v1/*"
   host: "0.0.0.0"
-  port: "8083"
   private:
     port: "8091"
   consolePath: "/console/*"
@@ -53,6 +52,11 @@ d365:
   path: "/stores"
   client_id: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"
   client_secret: "C3a2082C36B54f5bbba606E704e11bDE"
+  dmf:
+    path: "/dmf/export"
+  store:
+    definitionGroupId: "IDD022-RetailStoreIntegration-Export"
+    packageName: "Store-Data-"
   
 demandware:
  host: "sit-s-dw-data-int.eu.cloudhub.io"
@@ -68,6 +72,7 @@ response:
 scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
+    fixed: "10"
     
 client:
   keystore:

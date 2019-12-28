@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="d365-schedulerFlow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2" >
+		<scheduler doc:name="Scheduler" doc:id="0b166167-9d22-41c7-a477-1c3f5897be0b" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="${scheduler.cron.fixed}" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<ee:transform doc:name="Transform Message" doc:id="7d43a99c-e3c3-4325-bebe-eebeb5135785" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="flowName" ><![CDATA[%dw 2.0
+output application/java
+---
+'d365-schedulerFlow']]></ee:set-variable>
+				<ee:set-variable variableName="primaryKey" ><![CDATA[%dw 2.0
+output application/java
+---
+'']]></ee:set-variable>
+				<ee:set-variable variableName="secondaryKey" ><![CDATA[%dw 2.0
+output application/java
+---
+'']]></ee:set-variable>
+				<ee:set-variable variableName="transactionStartDate" ><![CDATA[%dw 2.0
+output application/java
+---
+now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
+				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
+output application/java
+---
+p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+<flow-ref doc:name="Log Receiver Entry" doc:id="3825926c-6703-49b1-9007-c3d0abb1652f" name="log-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="5ee2fee4-e481-40f6-a5d2-cd8005911f57" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="b64a7415-c376-4908-9d6a-6cc0a8bfad33" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="audit-process-entry-sub-flow" doc:id="a57b0904-0d8f-4df3-84c6-ca0864a491a1" name="audit-process-entry-sub-flow"/>
+		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="3921f977-5d38-43a7-8eba-97a5d5fbc088" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"Client-Id" : p('d365.client_id'),
+	"Client-Secret" : p('d365.client_secret'),
+	"Transaction-Start-Time" : vars.transactionStartDate
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"definitionGroupId" : p('d365.store.definitionGroupId'),
+	"packageName" : vars.packageName
+}]]]></http:query-params>
+		
+</http:request>
+		<flow-ref doc:name="Flow Reference" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
+		<flow-ref doc:name="Audit Process Exit" doc:id="f8075c77-9c02-45c6-a995-e1af8a2e25bd" name="audit-process-exit-sub-flow" />
+		<flow-ref doc:name="Log Process Exit" doc:id="19251efe-dda8-4dad-9a74-050f8cbcfb9e" name="log-process-exit-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="67e079d4-6530-4243-aa79-198d6c75203a" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="d3645e17-39b6-4ce8-81ae-ce610ed83327" name="audit-dispatcher-exit-sub-flow"/>
+		
+	</flow>
+</mule>

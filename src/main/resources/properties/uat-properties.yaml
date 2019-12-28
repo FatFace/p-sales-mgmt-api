@@ -53,6 +53,11 @@ d365:
   path: "/stores"
   client_id: "b206a1a7bfbd4e109f591ca5b27631c3"
   client_secret: "2Cf50B5970B14FC9a94D5aB48Fad1206"
+  dmf:
+    path: "/dmf/export"
+  store:
+    definitionGroupId: "IDD022-RetailStoreIntegration-Export"
+    packageName: "Store-Data-"
   
 demandware:
   host: "uat-s-dw-data-int.ir-e1.cloudhub.io"
@@ -68,6 +73,7 @@ response:
 scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
+    fixed: "10"
     
 client:
   keystore:
