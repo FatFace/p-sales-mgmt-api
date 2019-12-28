@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
-    <http:listener-config name="p-sales-mgmt-api-httpListenerConfig">
-        <http:listener-connection host="${http.host}" port="${http.private.port}" />
-    </http:listener-config>
-    <apikit:config name="p-sales-mgmt-api-config" raml="p-sales-mgmt-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
     <flow name="p-sales-mgmt-api-main">
         <http:listener config-ref="p-sales-mgmt-api-httpListenerConfig" path="${http.basePath}">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -25,11 +22,9 @@
         </http:listener>
         <apikit:console config-ref="p-sales-mgmt-api-config" />
     </flow>
-    <flow name="put:\stores\(store-id):p-sales-mgmt-api-config">
-    <ee:transform xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="ef271039-5a26-4213-bd42-bc4b2a5f3733" doc:name="Flow Name">
-            <ee:message />
+    <flow name="put:\stores\(store-id):p-sales-mgmt-api-config">	
+        <ee:transform doc:name="Logging Parameter" doc:id="9442736b-8231-4b9b-a4d4-a01815eff628" >
+			<ee:message />
             <ee:variables>
                 <ee:set-variable variableName="flowName"><![CDATA[%dw 2.0
 output application/java
@@ -40,8 +35,8 @@ output application/java
 ---
 now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
             </ee:variables>
-        </ee:transform>
-        <flow-ref doc:name="Log Receiver Entry" doc:id="ee85e9bb-5327-481d-b5b6-f89e3eafc263" name="log-receiver-entry-sub-flow" />
+		</ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="ee85e9bb-5327-481d-b5b6-f89e3eafc263" name="log-receiver-entry-sub-flow" />
         <flow-ref doc:name="Audit Receiver Entry" doc:id="50a5189f-3e6a-4730-8ce8-85b7fe4cbe6b" name="audit-receiver-entry-sub-flow" />
 		<flow-ref doc:name="Click and Collect" doc:id="cdd9f483-393a-44b5-8923-2b4ce09ec903" name="p-sales-click-collect-app-impl-flow"/>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="5ba86ec6-ec00-4b8a-87c8-bee42d40a5c8" name="audit-dispatcher-exit-sub-flow" />
