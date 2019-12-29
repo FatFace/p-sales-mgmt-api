@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<sub-flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Flow Name" doc:id="4d38c8c1-1432-42f4-8bc1-55deb1121905" variableName="flowName"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
-			<when expression="#[sizeOf(payload.stores) != 0]">
+			<when expression="#[payload.stores != []]">
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
