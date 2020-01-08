@@ -50,5 +50,5 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<sqs:config name="Amazon_SQS_Configuration" doc:name="Amazon SQS Configuration" doc:id="727eae00-f204-4e8f-a209-afbf5cdbb9fb">
 		<sqs:basic-connection accessKey="${secure::sqs.accessKey}" secretKey="${secure::sqs.secretKey}" region="${secure::sqs.region}"/>
 	</sqs:config>
-	<api-gateway:autodiscovery apiId="${api.discovery.id}" doc:name="API Autodiscovery" doc:id="5d040bbc-db22-4141-8806-17a9385f71aa" flowRef="p-sales-mgmt-api-main" />
+<!-- 	<api-gateway:autodiscovery apiId="${api.discovery.id}" doc:name="API Autodiscovery" doc:id="5d040bbc-db22-4141-8806-17a9385f71aa" flowRef="p-sales-mgmt-api-main" /> -->
 </mule>
