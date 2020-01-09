@@ -1,5 +1,6 @@
 %dw 2.0
 output application/json
+fun returnCountryCode(countryCode) = (vars.vDBLookupCountryCodes.lookups filter ($."lookup-key" ==  countryCode as String))."lookup-value"[0]
 ---
 {
 	stores: payload.stores map {
@@ -10,7 +11,7 @@ output application/json
 			city: $."store-address".city,
 			"postal-code" : $."store-address".postcode,
 			state : $."store-address".state,
-			"country-code" : $."store-address".country[1 to 2],
+			"country-code" : returnCountryCode($."store-address".country),
 			phone : $."store-address"."contact-number"
 		},
 		latitude : $.latitude,

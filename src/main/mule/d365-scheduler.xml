@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="d365-schedulerFlow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2" >
+	<flow name="d365-schedulerFlow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
 		<scheduler doc:name="Scheduler" doc:id="0b166167-9d22-41c7-a477-1c3f5897be0b" >
 			<scheduling-strategy >
 				<fixed-frequency frequency="${scheduler.cron.fixed}" timeUnit="SECONDS"/>
@@ -42,8 +42,9 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		<flow-ref doc:name="Audit Receiver Entry" doc:id="5ee2fee4-e481-40f6-a5d2-cd8005911f57" name="audit-receiver-entry-sub-flow"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="b64a7415-c376-4908-9d6a-6cc0a8bfad33" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="audit-process-entry-sub-flow" doc:id="a57b0904-0d8f-4df3-84c6-ca0864a491a1" name="audit-process-entry-sub-flow"/>
-		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="3921f977-5d38-43a7-8eba-97a5d5fbc088" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
-			<http:headers ><![CDATA[#[output application/java
+		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="68613585-0977-4179-b108-7959f102ec53" millisBetweenRetries="${retry.frequency}">
+			<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="3921f977-5d38-43a7-8eba-97a5d5fbc088" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
+			<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Transaction-Id" : vars.transactionId,
@@ -51,7 +52,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 	"Client-Secret" : p('d365.client_secret'),
 	"Transaction-Start-Time" : vars.transactionStartDate
 }]]]></http:headers>
-			<http:query-params ><![CDATA[#[output application/java
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"definitionGroupId" : p('d365.store.definitionGroupId'),
@@ -59,6 +60,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 }]]]></http:query-params>
 		
 </http:request>
+		</until-successful>
 		<flow-ref doc:name="Sales Management APP Flow Call" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
 		<flow-ref doc:name="Audit Process Exit" doc:id="f8075c77-9c02-45c6-a995-e1af8a2e25bd" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="19251efe-dda8-4dad-9a74-050f8cbcfb9e" name="log-process-exit-sub-flow"/>
