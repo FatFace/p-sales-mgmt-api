@@ -19,36 +19,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		
 		<ee:transform doc:name="Request Mapping For DW" doc:id="a5bbc34e-7682-4aba-a949-23fdc67d1955">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
- "stores": [
-   {
-     "store-id": attributes.uriParams."store-id",
-     "name": "",
-     "store-address": {
-       "street": "",
-       "city": "",
-       "postal-code": "",
-       "state": "",
-       "country-code": "",
-       "phone": ""
-     },
-     "latitude": "",
-     "longitude": "",
-     "disableOnCheckout": upper(payload."click-and-collect"),
-     "fulfillFromStore": "",
-     "openingTimingsMonday": "",
-     "openingTimingTuesday": "",
-     "openingTimingWednesday": "",
-     "openingTimingThursday": "",
-     "openingTimingFriday": "",
-     "openingTimingSaturday": "",
-     "openingTimingSunday": ""
-   }
- ]
-}]]></ee:set-payload>
+				<ee:set-payload resource="dwl/put-stores-clickandcollect.dwl" />
 					</ee:message>
 					<ee:variables>
 				<ee:set-variable variableName="as" ><![CDATA[%dw 2.0
