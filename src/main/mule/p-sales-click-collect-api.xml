@@ -25,7 +25,6 @@ output application/json
 {
  "stores": [
    {
-//   "store-id": payload."store-id",
      "store-id": attributes.uriParams."store-id",
      "name": "",
      "store-address": {
