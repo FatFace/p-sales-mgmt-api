@@ -28,10 +28,6 @@ output application/java
 output application/java
 ---
 '']]></ee:set-variable>
-				<ee:set-variable variableName="transactionStartDate" ><![CDATA[%dw 2.0
-output application/java
----
-now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
 				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
 output application/java
 ---
@@ -49,7 +45,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 	"Transaction-Id" : vars.transactionId,
 	"Client-Id" : p('d365.client_id'),
 	"Client-Secret" : p('d365.client_secret'),
-	"Transaction-Start-Time" : vars.transactionStartDate
+	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 			<http:query-params ><![CDATA[#[output application/java
 ---
@@ -59,7 +55,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 }]]]></http:query-params>
 		
 </http:request>
-		<flow-ref doc:name="Sales Management APP Flow Call" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
+		<flow-ref doc:name="Sales Management Implementation Flow Call" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
 		<flow-ref doc:name="Audit Process Exit" doc:id="f8075c77-9c02-45c6-a995-e1af8a2e25bd" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="19251efe-dda8-4dad-9a74-050f8cbcfb9e" name="log-process-exit-sub-flow"/>
 		<flow-ref doc:name="Log Dispatcher Exit" doc:id="67e079d4-6530-4243-aa79-198d6c75203a" name="log-dispatcher-exit-sub-flow"/>

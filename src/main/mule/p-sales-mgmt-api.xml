@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-<!--     <apikit:config name="p-sales-mgmt-api-config" api="p-sales-mgmt-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" /> -->
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <!--     <apikit:config name="p-sales-mgmt-api-config" api="p-sales-mgmt-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" /> -->
     <flow name="p-sales-mgmt-api-main">
         <http:listener config-ref="p-sales-mgmt-api-httpListenerConfig" path="${http.basePath}">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -12,7 +11,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="p-sales-mgmt-api-config"/>
+        <apikit:router config-ref="p-sales-mgmt-api-config" />
     </flow>
     <flow name="p-sales-mgmt-api-console">
         <http:listener config-ref="p-sales-mgmt-api-httpListenerConfig" path="${http.consolePath}">
@@ -27,23 +26,32 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
         <apikit:console config-ref="p-sales-mgmt-api-config" />
     </flow>
     <flow name="put:\stores\(store-id):p-sales-mgmt-api-config">
-		<ee:transform doc:name="Flow Name" doc:id="3cabd9f8-8fe5-45c6-8509-35de8e0ca689" >
-		<ee:message />
+        <ee:transform doc:name="Flow Name" doc:id="3cabd9f8-8fe5-45c6-8509-35de8e0ca689">
+            <ee:message />
             <ee:variables>
                 <ee:set-variable variableName="flowName"><![CDATA[%dw 2.0
 output application/java
 ---
 'put:\stores\(store-id):p-sales-mgmt-api-config']]></ee:set-variable>
-                <ee:set-variable variableName="transactionStartTime"><![CDATA[%dw 2.0
-output application/java
----
-now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
         <flow-ref doc:name="Log Receiver Entry" doc:id="3055c916-40ef-4167-8565-7dcb81976865" name="log-receiver-entry-sub-flow" />
         <flow-ref doc:name="Audit Receiver Entry" doc:id="6b73d30e-1b30-4e79-9f70-19343e9943f4" name="audit-receiver-entry-sub-flow" />
-		<flow-ref doc:name="Click and Collect" doc:id="9f6f3b64-7c21-4e23-a732-c85472808991" name="p-sales-click-collect-api-impl-flow"/>
-		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="4c9e74f8-f365-4c94-87a9-21da1f73d5f6" name="audit-dispatcher-exit-sub-flow" />
+        <flow-ref doc:name="Click and Collect" doc:id="9f6f3b64-7c21-4e23-a732-c85472808991" name="p-sales-click-collect-api-impl-flow" />
+        <flow-ref doc:name="Audit Dispatcher Exit" doc:id="4c9e74f8-f365-4c94-87a9-21da1f73d5f6" name="audit-dispatcher-exit-sub-flow" />
         <flow-ref doc:name="Log Dispatcher Exit " doc:id="ce1f59c8-96cf-40b1-8d19-e8617a132067" name="log-dispatcher-exit-sub-flow" />
     </flow>
-    </mule>
+    <flow name="post:\stores:application\json:p-sales-mgmt-api-config">
+        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responseCode: 0,
+  responseText: "success"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
