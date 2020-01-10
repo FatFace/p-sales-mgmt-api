@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="p-sales-mgmt-api-test-suite.xml" />
+	<import doc:name="Import" doc:id="76eab35b-e654-402f-96d4-9b9a1812f3b3" file="p-sales-click-collect-app-test-suite.xml" />
+	<import doc:name="Import" doc:id="7c08ad5b-a865-4167-9861-29ac7531b505" file="b-sales-mgmt-app-test-suite.xml" />
+	
+	<import doc:name="Import" doc:id="67033f77-7f22-4154-b272-5c9522aa2cc9" file="globals.xml" />
+	<munit:test name="p-sales-mgmt-api-test-suite-post:\stores:application\json:p-sales-mgmt-api-configTest" description="Test" doc:id="026d0f00-01fc-4b77-912d-d3557faabe1d" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Invoke System Layer of DW API to Put Stores" doc:id="77334890-2001-420e-a240-6c3b3464e2d9" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Invoke System Layer of DW API to Put Stores" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-response.xml')]" mediaType="application/xml" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" doc:name="Set Payload" doc:id="815ce5d1-76d4-4046-b2f5-89562e56d111" mimeType="application/json"/>
+			<flow-ref doc:name="Flow-ref to post:\stores:application\json:p-sales-mgmt-api-config" doc:id="932a4717-b674-4e6d-abad-81749e047dd5" name="post:\stores:application\json:p-sales-mgmt-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5945732b-e0fe-48ae-b794-3c52482b8616" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="p-sales-mgmt-api-test-suite-post:\stores:application\json:p-sales-mgmt-api-configTest1" description="Test" doc:id="fa6e3d58-0550-4d42-85d5-024b060c4a89" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ce2114b8-bfcb-471d-8cf9-793424229b96" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Invoke System Layer of DW API to Put Stores" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-response.xml')]" mediaType="application/xml" />
+					<munit-tools:error typeId="HTTP:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" doc:name="Set Payload" doc:id="586f24bd-d828-49bf-bffd-436fe46fa2aa" mimeType="application/json"/>
+			<flow-ref doc:name="Flow-ref to post:\stores:application\json:p-sales-mgmt-api-config" doc:id="99ef9c87-2ace-4529-8b56-e4d9dfa21be0" name="post:\stores:application\json:p-sales-mgmt-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b66566a2-9d76-4343-a23c-214bef5c5580" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
