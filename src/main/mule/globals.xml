@@ -25,7 +25,6 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     <apikit:config name="p-sales-mgmt-api-config" raml="p-sales-mgmt-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
    	<import doc:name="Import" doc:id="85834da0-f5d7-4f44-87a7-bffbe671cbf9" file="common-auditing-framework.xml" />
 	<import doc:name="Import" doc:id="050ec19e-96db-405d-8a7d-d7c4bd4c3ef4" file="common-logging-framework.xml" />
-	<import doc:name="Import" doc:id="8bd327f9-41ac-42b6-84a1-0cd7ce279b5f" file="common-reprocessing-framework.xml" />
 	<import doc:name="Import" doc:id="40e6f2a1-ef2c-4a93-9667-e55caad6b292" file="common-error-handling.xml" />   	
    	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f6cb2147-90e1-4954-9a77-bde6f1ffd21f" file="properties/${mule.env}-properties.yaml" key="${encryption.key}">
        <secure-properties:encrypt algorithm="AES" mode="CBC"/>

@@ -33,12 +33,7 @@ sqs:
   accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
   secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
   region: "![6lleIG6Qoif/fTA7pK+sUA==]"
-  queue:
-    target:
-      inventory: "Inventory"
-    url: 
-      reprocessingQueue: "https://sqs.eu-west-1.amazonaws.com/691628577374/msg-reprocessing-q"
-      targetQueueUrl: "https://sqs.eu-west-1.amazonaws.com/691628577374/inventory-q"
+
 smtp:
   host: "![rpQtD0vL4qh+Uema8l2LJxRngvgfBbF6l4RD5XEkF7Y=]"
   port: "![jd2yTmc7NHA+FUYVXGfwbQ==]"
