@@ -42,16 +42,25 @@ output application/java
         <flow-ref doc:name="Log Dispatcher Exit " doc:id="ce1f59c8-96cf-40b1-8d19-e8617a132067" name="log-dispatcher-exit-sub-flow" />
     </flow>
     <flow name="post:\stores:application\json:p-sales-mgmt-api-config">
-        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
+        <ee:transform doc:name="Set Flow Name and Transaction Start Date" doc:id="b76f3edb-ec47-49bc-bb47-9d021de7de15">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="flowName"><![CDATA[%dw 2.0
+output application/java
 ---
-{
-  responseCode: 0,
-  responseText: "success"
-}]]></ee:set-payload>
-            </ee:message>
+
+'post:\stores:application\json:p-sales-mgmt-api-config']]></ee:set-variable>
+                <ee:set-variable variableName="transactionStartDate"><![CDATA[%dw 2.0
+output application/java
+
+---
+now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
+            </ee:variables>
         </ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="f866dd84-f0b8-44bc-98ee-077e6948fed6" name="log-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="8c5b5790-c7b7-452e-9f6f-5b2479e1d071" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Sales Store Manager Subflow" doc:id="100632d4-60ad-4bb9-983f-26771120c840" name="sales-managment-app-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="6fbd517a-6f38-4798-bba7-3f6bb239ccdd" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="51f097d9-0bfb-4155-becf-e9dd740b9156" name="audit-dispatcher-exit-sub-flow"/>
     </flow>
 </mule>

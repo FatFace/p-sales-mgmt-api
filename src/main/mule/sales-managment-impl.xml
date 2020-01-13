@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns:sqs="http://www.mulesoft.org/schema/mule/sqs"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:sqs="http://www.mulesoft.org/schema/mule/sqs" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/current/mule-sqs.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 	<sub-flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Flow Name" doc:id="4d38c8c1-1432-42f4-8bc1-55deb1121905" variableName="flowName"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload.stores != null and payload.stores != []]">
+				<flow-ref doc:name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="a01fe197-f7b2-4bde-b89c-d24ee9ee183d" name="get-country-code-from-dblookup-for-store-hours-sub-flow" target="vDBLookupCountryCodes" targetValue="#[payload]"/>
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
@@ -25,9 +27,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 					<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"client_id" : p('demandware.client_id'),
 	"client_secret" : p('demandware.client_secret'),
-	"vRequestId" : vars.transactionId
+	"vRequestId" : vars.transactionId,
+	"client_id" : p('demandware.client_id')
 }]]]></http:query-params>
 						
 				</http:request>
@@ -45,22 +47,22 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 output application/json
 ---
 {
-	"status" : "success"
+	"responsecode": p('status.responsecode'),
+	"responsemessage": p('status.responsemessage')
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<flow-ref doc:name="Audit Process Exit" doc:id="b56a5a2f-fbe7-4f45-9556-83003cfa3983" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="6474e22c-6834-46e1-8226-37c4adaf794d" name="log-process-exit-sub-flow"/>
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
-						<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
+						<ee:transform doc:name="Response Payload From Process Layer" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
 							<ee:message>
 								<ee:set-payload><![CDATA[%dw 2.0
-		output application/json
-		---
-		{
-			"status" : "success"
-		}]]></ee:set-payload>
+output application/json
+---
+{
+	"responsecode": p('status.responsecode'),
+	"responsemessage": p('status.responsemessage')
+}]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
 					</when>
@@ -83,8 +85,54 @@ p('batch.response')]]></ee:set-payload>
 				</ee:transform>
 			</otherwise>
 		</choice>
-		<flow-ref doc:name="Log Dispatcher Exit" doc:id="0f756c55-0041-46ab-b271-a6972433fcc7" name="log-dispatcher-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="2b23aeed-8181-499e-8e73-5bf3475703da" name="audit-dispatcher-exit-sub-flow"/>
 	</sub-flow>
 	
+	<sub-flow name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="eeeaca8e-3e17-4c62-aa52-f7146fdbc03e" >
+		<set-variable value="#['get-country-code-from-dblookup-for-store-hours-sub-flow']" doc:name="Set Variable" doc:id="f5d38f9b-e222-47c9-93f0-58d0054d3e79" variableName="flowName"/>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="3973b023-75b0-4c67-9d8e-d8a3bda91338" name="log-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="103761d1-903d-4fa5-8254-f678ccbe3a02" name="audit-receiver-entry-sub-flow"/>
+		<set-variable value="#[p('lookup.key')]" doc:name="Set Key" doc:id="1e7c6608-e6bd-4398-9aea-3ba94fa1456b" variableName="vLookUpData"/>
+		<os:contains doc:name="Check for the value in the Object Store" doc:id="0d2ccc2e-8771-4a1a-8e40-f47dc3af2451" key="#[vars.vLookUpData]"/>
+		<choice doc:name="Choice" doc:id="dcd27df0-4b2f-4963-9faf-409ea798b28d" >
+			<when expression="#[payload ==true]">
+				<os:retrieve doc:name="Retrieve Lookup Data From Object Store" doc:id="9e076075-6f09-4d47-aa54-42c8f20ed3e1" key="#[vars.vLookUpData]"/>
+				<ee:transform doc:name="Transform Message" doc:id="0e53bb31-6a14-457c-81eb-7ce956bfba14">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="Log Process Entry" doc:id="479a256d-8814-4914-aabf-3497082ab6e7" name="log-process-entry-sub-flow"/>
+				<flow-ref doc:name="Audit Process Entry" doc:id="86e30e3a-e668-4632-91c7-72069caf0fe9" name="audit-process-entry-sub-flow"/>
+				<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="fabcbb63-18d5-49c1-b937-cefaa7de29df" millisBetweenRetries="${retry.frequency}">
+					<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout}">
+							<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"Client-Id" : p('lookup.clientId'),
+	"Client-Secret" : p('lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartDate
+}]]]></http:headers>
+					<http:query-params><![CDATA[#[output application/java
+---
+{
+	"source" : p('lookup.queryParam.source'),
+	"type" : p('lookup.queryParam.type'),
+	"category" : p('lookup.queryParam.category')
+}]]]></http:query-params>
+						</http:request>
+				</until-successful>
+				<flow-ref doc:name="Audit Process Exit " doc:id="5a973d30-0dae-4898-b7be-6691a5fe2301" name="audit-process-exit-sub-flow" />
+				<flow-ref doc:name="Log Process Exit" doc:id="d0bbad72-4e72-4d99-beab-4c38d14f16f1" name="log-process-exit-sub-flow" />
+				<os:store doc:name="Store Lookup Data in Object Store" doc:id="d80525d1-f40d-4e2f-a3b6-48e08bb399d8" key="#[vars.vLookUpData]"/>
+			</otherwise>
+		</choice>
+		<flow-ref doc:name="Audit Dispatcher Exist " doc:id="e4e199d6-763f-46d3-9412-7ef6a4773fe4" name="audit-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exist" doc:id="70565c2d-f776-4d69-a68e-3c7d072cd29f" name="log-dispatcher-exit-sub-flow"/>
+	</sub-flow>
 	</mule>

@@ -75,3 +75,21 @@ scheduler:
 client:
   keystore:
     password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"
+    
+status:
+  responsecode: "200"
+  responsemessage: "Success"
+  
+lookup:
+  host: "mule-worker-internal-dev-s-dblookup-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  dbLookupPath: "/lookups"
+  key: "COUNTRY_CODES-ALPHA-3-D365"
+  clientId: "c1751cc13ad746a8a49c404c966839f7"
+  clientSecret: "7d3aFbC44E8e49048935f06A7A2a099d"
+  queryParam:
+    type: "COUNTRY_CODES"
+    category: "ALPHA-3"
+    source: "D365"
+      
