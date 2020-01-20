@@ -10,6 +10,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 	<sub-flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Flow Name" doc:id="4d38c8c1-1432-42f4-8bc1-55deb1121905" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="92260132-ebf4-43d6-8b03-c03ff3e739ef" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="a2d86685-1b9c-4143-b8a0-f9781dcc4523" name="audit-process-entry-sub-flow"/>
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload.stores != null and payload.stores != []]">
 				<flow-ref doc:name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="a01fe197-f7b2-4bde-b89c-d24ee9ee183d" name="get-country-code-from-dblookup-for-store-hours-sub-flow" target="vDBLookupCountryCodes" targetValue="#[payload]"/>
@@ -116,7 +118,7 @@ payload]]></ee:set-payload>
 	"Transaction-Id" : vars.transactionId,
 	"Client-Id" : p('lookup.clientId'),
 	"Client-Secret" : p('lookup.clientSecret'),
-	"Transaction-Start-Time" : vars.transactionStartDate
+	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 					<http:query-params><![CDATA[#[output application/java
 ---

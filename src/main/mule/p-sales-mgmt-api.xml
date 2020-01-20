@@ -42,7 +42,7 @@ output application/java
         <flow-ref doc:name="Log Dispatcher Exit " doc:id="ce1f59c8-96cf-40b1-8d19-e8617a132067" name="log-dispatcher-exit-sub-flow" />
     </flow>
     <flow name="post:\stores:application\json:p-sales-mgmt-api-config">
-        <ee:transform doc:name="Set Flow Name and Transaction Start Date" doc:id="b76f3edb-ec47-49bc-bb47-9d021de7de15">
+        <ee:transform doc:name="Set Flow Name" doc:id="b76f3edb-ec47-49bc-bb47-9d021de7de15">
             <ee:message />
             <ee:variables>
                 <ee:set-variable variableName="flowName"><![CDATA[%dw 2.0
@@ -50,11 +50,6 @@ output application/java
 ---
 
 'post:\stores:application\json:p-sales-mgmt-api-config']]></ee:set-variable>
-                <ee:set-variable variableName="transactionStartDate"><![CDATA[%dw 2.0
-output application/java
-
----
-now() as String {format : "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
 		<flow-ref doc:name="Log Receiver Entry" doc:id="f866dd84-f0b8-44bc-98ee-077e6948fed6" name="log-receiver-entry-sub-flow"/>
