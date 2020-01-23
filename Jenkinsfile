@@ -49,7 +49,7 @@ pipeline {
 	
     tools {
             maven 'maven-3.5.4'
-	          jdk 'jdk1.8.0_181'
+	    jdk 'jdk8u172-b11'
     }
 	
     stages {
