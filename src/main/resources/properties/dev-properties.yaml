@@ -5,9 +5,18 @@ http:
     port: "8091"
   consolePath: "/console/*"
 
+#----Common Block---No change Needed----      
 cloudhub:
-  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
-  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
+  username: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  
+smtp:
+  host: "mail.fatface.net"
+  port: "465"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+#----Common Block---No change Needed----
 
 api:
   discovery:

@@ -5,9 +5,18 @@ http:
     port: "8091"
   consolePath: "/console/*"
 
+#----Common Block---No change Needed----      
 cloudhub:
-  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
-  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
+  username: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  
+smtp:
+  host: "mail.fatface.net"
+  port: "465"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+#----Common Block---No change Needed----
 
 api:
   discovery:
@@ -32,7 +41,6 @@ sqs:
   accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
   secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
   region: "![6lleIG6Qoif/fTA7pK+sUA==]"
-
         
 d365:
   host: "mule-worker-internal-sit-s-d365-api.ir-e1.cloudhub.io"
