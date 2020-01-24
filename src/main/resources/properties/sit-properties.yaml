@@ -7,8 +7,8 @@ http:
 
 #----Common Block---No change Needed----      
 cloudhub:
-  username: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
-  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
+  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
   
 smtp:
   host: "mail.fatface.net"
