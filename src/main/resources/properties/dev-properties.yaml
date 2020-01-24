@@ -32,13 +32,6 @@ sqs:
   accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
   secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
   region: "![6lleIG6Qoif/fTA7pK+sUA==]"
-
-smtp:
-  host: "![rpQtD0vL4qh+Uema8l2LJxRngvgfBbF6l4RD5XEkF7Y=]"
-  port: "![jd2yTmc7NHA+FUYVXGfwbQ==]"
-  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
-  password: "![r9f7FSUCH+2adxR8OeswFg==]"
-  subject: "Fatface API Exception"
         
 d365:
   host: "mule-worker-internal-dev-s-d365-api.ir-e1.cloudhub.io"
@@ -46,7 +39,7 @@ d365:
   basePath: "/api/v1"
   path: "/stores"
   client_id: "c1751cc13ad746a8a49c404c966839f7"
-  client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
+  client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
   dmf:
     path: "/dmf/export"
   store:
@@ -59,7 +52,7 @@ demandware:
  basePath: "/api/v1"
  path: "/store"
  client_id: "c1751cc13ad746a8a49c404c966839f7"
- client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
+ client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
   
 response:
   timeout: "120000"
@@ -84,7 +77,7 @@ lookup:
   dbLookupPath: "/lookups"
   key: "COUNTRY_CODES-ALPHA-3-D365"
   clientId: "c1751cc13ad746a8a49c404c966839f7"
-  clientSecret: "7d3aFbC44E8e49048935f06A7A2a099d"
+  clientSecret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
   queryParam:
     type: "COUNTRY_CODES"
     category: "ALPHA-3"
