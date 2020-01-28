@@ -24,18 +24,16 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 				<flow-ref doc:name="Log Process Entry" doc:id="8759085f-1fbf-45a8-b428-cbe90a141d57" name="log-process-entry-sub-flow"/>
 				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
 				<try doc:name="Try" doc:id="826d58be-0507-4e60-a5dc-9abc58e4cd87" >
-					<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="8aa437e0-bb41-4cf9-98a8-cdd0d9807d4b" millisBetweenRetries="${retry.frequency}">
 					<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}" outputMimeType="application/json">
 					<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"client_secret" : p('demandware.client_secret'),
+	"client_secret" : p('secure::demandware.client_secret'),
 	"vRequestId" : vars.transactionId,
 	"client_id" : p('demandware.client_id')
 }]]]></http:query-params>
 						
 				</http:request>
-				</until-successful>
 					<error-handler >
 						<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b131adb2-7d20-4dfa-84ca-a71f671848a1" type="ANY">
 							<flow-ref doc:name="log error" doc:id="0fcf43cf-dd15-4dc1-a5a2-e4026ae8b9d0" name="log-error-sub-flow"/>
@@ -117,7 +115,7 @@ payload]]></ee:set-payload>
 {
 	"Transaction-Id" : vars.transactionId,
 	"Client-Id" : p('lookup.clientId'),
-	"Client-Secret" : p('lookup.clientSecret'),
+	"Client-Secret" : p('secure::lookup.clientSecret'),
 	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 					<http:query-params><![CDATA[#[output application/java

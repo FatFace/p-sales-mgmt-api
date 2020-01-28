@@ -39,14 +39,13 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		<set-variable value="call-d365-sub-flow" doc:name="Flow Name" doc:id="327c428d-bc07-465e-a1a6-ac9cb51dc349" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="4134c691-3a0f-4188-90f4-b18fbe802cee" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="audit-process-entry-sub-flow" doc:id="a0afa6b4-72b1-470d-a6cd-6fc262c964cc" name="audit-process-entry-sub-flow"/>
-		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="98eaef02-74c5-424d-9020-394080af5f40" millisBetweenRetries="${retry.frequency}">
-			<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="0dbbb798-8a9d-4ae0-888d-f7695d2b39e1" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
+		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="0dbbb798-8a9d-4ae0-888d-f7695d2b39e1" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Transaction-Id" : vars.transactionId,
 	"Client-Id" : p('d365.client_id'),
-	"Client-Secret" : p('d365.client_secret'),
+	"Client-Secret" : p('secure::d365.client_secret'),
 	"Transaction-Start-Time" : vars.transactionStartTime
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[output application/java
@@ -57,7 +56,6 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 }]]]></http:query-params>
 		
 </http:request>
-		</until-successful>
 		<flow-ref doc:name="Audit Process Exit" doc:id="0702e0e4-6865-48c5-b651-bf5040b327ad" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="eeeb6bfc-fefd-4201-81ce-cf2f74c0d877" name="log-process-exit-sub-flow"/>
 	</sub-flow>

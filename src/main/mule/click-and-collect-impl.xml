@@ -66,9 +66,9 @@ output application/json
 					<http:query-params ><![CDATA[#[output application/java
 ---
 {
-	"client_id" : p('demandware.client_id'),
-	"client_secret" : p('demandware.client_secret'),
-	"vRequestId" : vars.transactionId
+	"client_secret" : p('secure::demandware.client_secret'),
+	"vRequestId" : vars.transactionId,
+	"client_id" : p('demandware.client_id')
 }]]]></http:query-params>
 					<http:response-validator>
 					<http:success-status-code-validator values="200,201" />
