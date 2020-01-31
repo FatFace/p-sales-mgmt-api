@@ -62,7 +62,7 @@ output application/json
 	<sub-flow name="p-sales-click-collect-try-sub-flow" doc:id="769c396c-65d5-47f4-8fba-60a19dc0424b" >
 		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="cc2bfa91-294b-4b58-a0e6-92a785b2472a" millisBetweenRetries="${retry.frequency}">
 			<try doc:name="Try" doc:id="6649cd11-7e60-49dc-91c2-6537f86e6fbb" >
-			<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="eefc5df4-978c-4108-bc01-3d9d5536ad5e" path="${demandware.path}" responseTimeout="9000000" config-ref="s_dw_Http_Request_configuration">
+			<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="eefc5df4-978c-4108-bc01-3d9d5536ad5e" path="${demandware.path}" responseTimeout="${response.timeout.system.dw.clickCollect}" config-ref="s_dw_Http_Request_configuration">
 					<http:query-params ><![CDATA[#[output application/java
 ---
 {

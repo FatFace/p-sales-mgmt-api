@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
 				<try doc:name="Try" doc:id="826d58be-0507-4e60-a5dc-9abc58e4cd87" >
 					<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="8aa437e0-bb41-4cf9-98a8-cdd0d9807d4b" millisBetweenRetries="${retry.frequency}">
-					<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}" outputMimeType="application/json">
+					<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout.system.dw.salesManagment}" outputMimeType="application/json">
 					<http:query-params><![CDATA[#[output application/java
 ---
 {
@@ -111,7 +111,7 @@ payload]]></ee:set-payload>
 				<flow-ref doc:name="Log Process Entry" doc:id="479a256d-8814-4914-aabf-3497082ab6e7" name="log-process-entry-sub-flow"/>
 				<flow-ref doc:name="Audit Process Entry" doc:id="86e30e3a-e668-4632-91c7-72069caf0fe9" name="audit-process-entry-sub-flow"/>
 				<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="fabcbb63-18d5-49c1-b937-cefaa7de29df" millisBetweenRetries="${retry.frequency}">
-					<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout}">
+					<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout.system.dblookup.salesManagment}">
 							<http:headers><![CDATA[#[output application/java
 ---
 {
