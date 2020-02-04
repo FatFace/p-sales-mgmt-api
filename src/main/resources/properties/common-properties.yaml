@@ -74,10 +74,10 @@ response:
   timeout:
     system:
       dw:
-        clickCollect: "600000" 
-        salesManagment: "600000"
+        clickCollect: "60000" 
+        salesManagment: "60000"
       d365:
-        salesScheduler: "600000"
+        salesScheduler: "60000"
       dblookup:
-        salesManagment: "600000"           
+        salesManagment: "60000"           
       
