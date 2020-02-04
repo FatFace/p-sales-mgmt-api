@@ -54,21 +54,6 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 	"definitionGroupId" : p('d365.store.definitionGroupId'),
 	"packageName" : vars.packageName
 }]]]></http:query-params>
-			<http:headers ><![CDATA[#[output application/java
----
-{
-	"Transaction-Id" : vars.transactionId,
-	"Client-Id" : p('d365.client_id'),
-	"Client-Secret" : p('d365.client_secret'),
-	"Transaction-Start-Time" : vars.transactionStartTime
-}]]]></http:headers>
-			<http:query-params ><![CDATA[#[output application/java
----
-{
-	"definitionGroupId" : p('d365.store.definitionGroupId'),
-	"packageName" : vars.packageName
-}]]]></http:query-params>
-		
 </http:request>
 		<flow-ref doc:name="Audit Process Exit" doc:id="0702e0e4-6865-48c5-b651-bf5040b327ad" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="eeeb6bfc-fefd-4201-81ce-cf2f74c0d877" name="log-process-exit-sub-flow"/>
