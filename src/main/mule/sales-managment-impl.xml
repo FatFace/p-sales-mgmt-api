@@ -23,9 +23,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 				
 				<flow-ref doc:name="Log Process Entry" doc:id="8759085f-1fbf-45a8-b428-cbe90a141d57" name="log-process-entry-sub-flow"/>
 				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
-				<try doc:name="Try" doc:id="826d58be-0507-4e60-a5dc-9abc58e4cd87" >
-					<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="8aa437e0-bb41-4cf9-98a8-cdd0d9807d4b" millisBetweenRetries="${retry.frequency}">
-					<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}" outputMimeType="application/json">
+				<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout}" outputMimeType="application/json">
 					<http:query-params><![CDATA[#[output application/java
 ---
 {
@@ -35,14 +33,6 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 }]]]></http:query-params>
 						
 				</http:request>
-				</until-successful>
-					<error-handler >
-						<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b131adb2-7d20-4dfa-84ca-a71f671848a1" type="ANY">
-							<flow-ref doc:name="log error" doc:id="0fcf43cf-dd15-4dc1-a5a2-e4026ae8b9d0" name="log-error-sub-flow"/>
-							<flow-ref doc:name="Audit error flow" doc:id="c7ad28cb-12e9-4592-9067-e1e18d0a0a8e" name="audit-error-sub-flow"/>
-						</on-error-propagate>
-					</error-handler>
-				</try>
 				<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -110,8 +100,7 @@ payload]]></ee:set-payload>
 			<otherwise >
 				<flow-ref doc:name="Log Process Entry" doc:id="479a256d-8814-4914-aabf-3497082ab6e7" name="log-process-entry-sub-flow"/>
 				<flow-ref doc:name="Audit Process Entry" doc:id="86e30e3a-e668-4632-91c7-72069caf0fe9" name="audit-process-entry-sub-flow"/>
-				<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="fabcbb63-18d5-49c1-b937-cefaa7de29df" millisBetweenRetries="${retry.frequency}">
-					<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout}">
+				<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout}">
 							<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -128,7 +117,6 @@ payload]]></ee:set-payload>
 	"category" : p('lookup.queryParam.category')
 }]]]></http:query-params>
 						</http:request>
-				</until-successful>
 				<flow-ref doc:name="Audit Process Exit " doc:id="5a973d30-0dae-4898-b7be-6691a5fe2301" name="audit-process-exit-sub-flow" />
 				<flow-ref doc:name="Log Process Exit" doc:id="d0bbad72-4e72-4d99-beab-4c38d14f16f1" name="log-process-exit-sub-flow" />
 				<os:store doc:name="Store Lookup Data in Object Store" doc:id="d80525d1-f40d-4e2f-a3b6-48e08bb399d8" key="#[vars.vLookUpData]"/>
