@@ -39,7 +39,8 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		<set-variable value="call-d365-sub-flow" doc:name="Flow Name" doc:id="327c428d-bc07-465e-a1a6-ac9cb51dc349" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="4134c691-3a0f-4188-90f4-b18fbe802cee" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="audit-process-entry-sub-flow" doc:id="a0afa6b4-72b1-470d-a6cd-6fc262c964cc" name="audit-process-entry-sub-flow"/>
-		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="0dbbb798-8a9d-4ae0-888d-f7695d2b39e1" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout}" outputMimeType="application/json">
+
+		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="0dbbb798-8a9d-4ae0-888d-f7695d2b39e1" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout.system.d365.salesScheduler}" outputMimeType="application/json">
 			<http:headers><![CDATA[#[output application/java
 ---
 {

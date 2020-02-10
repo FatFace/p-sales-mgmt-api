@@ -69,5 +69,15 @@ error:
       invalidFormat: "The given content does not match the format of the configured strategy"
       multipleEntry: "The archive to be decompressed has more than one entry"
       notDecompress: "Not able to decompress" 
-      
+
+response:
+  timeout:
+    system:
+      dw:
+        clickCollect: "60000" 
+        salesManagment: "60000"
+      d365:
+        salesScheduler: "60000"
+      dblookup:
+        salesManagment: "60000"           
       
