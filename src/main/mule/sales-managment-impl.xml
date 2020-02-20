@@ -15,6 +15,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload.stores != null and payload.stores != []]">
 				<flow-ref doc:name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="a01fe197-f7b2-4bde-b89c-d24ee9ee183d" name="get-country-code-from-dblookup-for-store-hours-sub-flow" target="vDBLookupCountryCodes" targetValue="#[payload]"/>
+				<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Set Flow Name" doc:id="ee509747-222a-47cd-9189-2985384451b2" variableName="flowName" />
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
@@ -44,6 +45,8 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
+				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow" />
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<ee:transform doc:name="Response Payload From Process Layer" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
@@ -63,8 +66,6 @@ output application/json
 						<flow-ref doc:name="Logging Payload" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
 					</otherwise>
 				</choice>
-				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow"/>
 			</when>
 			<otherwise>
 				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
@@ -77,6 +78,8 @@ p('batch.response')]]></ee:set-payload>
 				</ee:transform>
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="Log Process Entry" doc:id="932d8195-cbf7-419c-92b7-f2f9ec5d451c" name="log-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Audit Process Entry" doc:id="ee792378-2c7a-464e-a6a5-cf70fd084d02" name="audit-receiver-entry-sub-flow" />
 	</sub-flow>
 	
 	<sub-flow name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="eeeaca8e-3e17-4c62-aa52-f7146fdbc03e" >

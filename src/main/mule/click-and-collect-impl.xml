@@ -42,6 +42,7 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<set-variable value="#['p-sales-click-collect-api-impl-flow']" doc:name="Set Flow Name" doc:id="0d67ede2-58eb-4907-a50b-eb815129f196" variableName="flowName" />
 		<flow-ref doc:name="Audit Process Exit" doc:id="b1247951-160b-438f-aa32-de553301e2e7" name="audit-process-exit-sub-flow"/>
 		<flow-ref doc:name="Log Process Exit" doc:id="960b4b97-15ad-44ca-bd41-1e739b1c6551" name="log-process-exit-sub-flow"/>
 		
