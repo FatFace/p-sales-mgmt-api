@@ -45,8 +45,6 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow" />
 				<choice doc:name="Choice" doc:id="e7df72b1-ca10-4fa8-81a4-2ffbc8ea7064" >
 					<when expression="#[attributes.statusCode == 200]">
 						<ee:transform doc:name="Response Payload From Process Layer" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
@@ -76,21 +74,25 @@ output application/java
 p('batch.response')]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<flow-ref doc:name="Audit Process Exit" doc:id="74f68be2-5f62-4826-bbed-bf71c8d6ec94" name="audit-process-exit-sub-flow"/>
+<flow-ref doc:name="Log Process Exit" doc:id="d7758204-a2b6-436e-9a3e-3e9ef9b658ac" name="log-process-exit-sub-flow" />
 			</otherwise>
 		</choice>
-		<flow-ref doc:name="Log Process Entry" doc:id="932d8195-cbf7-419c-92b7-f2f9ec5d451c" name="log-receiver-entry-sub-flow" />
-		<flow-ref doc:name="Audit Process Entry" doc:id="ee792378-2c7a-464e-a6a5-cf70fd084d02" name="audit-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Log Process Exit" doc:id="085d79d5-c997-4f94-b25e-08d239f374d2" name="log-process-exit-sub-flow" />
+<flow-ref doc:name="Audit Process Exit" doc:id="7d4eea92-1062-43ea-8bda-044278fa8c1f" name="audit-process-exit-sub-flow"/>
 	</sub-flow>
 	
 	<sub-flow name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="eeeaca8e-3e17-4c62-aa52-f7146fdbc03e" >
 		<set-variable value="#['get-country-code-from-dblookup-for-store-hours-sub-flow']" doc:name="Set Variable" doc:id="f5d38f9b-e222-47c9-93f0-58d0054d3e79" variableName="flowName"/>
-		<flow-ref doc:name="Log Receiver Entry" doc:id="3973b023-75b0-4c67-9d8e-d8a3bda91338" name="log-receiver-entry-sub-flow"/>
-		<flow-ref doc:name="Audit Receiver Entry" doc:id="103761d1-903d-4fa5-8254-f678ccbe3a02" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="393ca9d3-23b5-486a-9483-ac2dfa8cac6b" name="log-process-entry-sub-flow"/>
+<flow-ref doc:name="Audit Process Entry" doc:id="1db09296-13a7-4b30-a1a0-096480b4a4a1" name="audit-process-entry-sub-flow"/>
 		<set-variable value="#[p('lookup.key')]" doc:name="Set Key" doc:id="1e7c6608-e6bd-4398-9aea-3ba94fa1456b" variableName="vLookUpData"/>
 		<os:contains doc:name="Check for the value in the Object Store" doc:id="0d2ccc2e-8771-4a1a-8e40-f47dc3af2451" key="#[vars.vLookUpData]"/>
 		<choice doc:name="Choice" doc:id="dcd27df0-4b2f-4963-9faf-409ea798b28d" >
 			<when expression="#[payload ==true]">
 				<os:retrieve doc:name="Retrieve Lookup Data From Object Store" doc:id="9e076075-6f09-4d47-aa54-42c8f20ed3e1" key="#[vars.vLookUpData]"/>
+				<flow-ref doc:name="Log Process Entry" doc:id="7e1216d4-99b4-4047-b65b-34be3b91a40c" name="log-process-entry-sub-flow"/>
+<flow-ref doc:name="Audit Process Entry" doc:id="2e734643-a614-4ba9-8134-2503a6891a61" name="audit-process-entry-sub-flow"/>
 				<ee:transform doc:name="Transform Message" doc:id="0e53bb31-6a14-457c-81eb-7ce956bfba14">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -120,12 +122,10 @@ payload]]></ee:set-payload>
 	"category" : p('lookup.queryParam.category')
 }]]]></http:query-params>
 						</http:request>
-				<flow-ref doc:name="Audit Process Exit " doc:id="5a973d30-0dae-4898-b7be-6691a5fe2301" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="d0bbad72-4e72-4d99-beab-4c38d14f16f1" name="log-process-exit-sub-flow" />
 				<os:store doc:name="Store Lookup Data in Object Store" doc:id="d80525d1-f40d-4e2f-a3b6-48e08bb399d8" key="#[vars.vLookUpData]"/>
 			</otherwise>
 		</choice>
-		<flow-ref doc:name="Audit Dispatcher Exist " doc:id="e4e199d6-763f-46d3-9412-7ef6a4773fe4" name="audit-dispatcher-exit-sub-flow"/>
-		<flow-ref doc:name="Log Dispatcher Exist" doc:id="70565c2d-f776-4d69-a68e-3c7d072cd29f" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="43a876fd-b8b9-42ff-9291-f44e08bc1ff3" name="log-process-exit-sub-flow" />
+<flow-ref doc:name="Audit Process Exit" doc:id="fe7ff78f-f34d-424a-ad87-3b085f3f27be" name="audit-process-exit-sub-flow"/>
 	</sub-flow>
 	</mule>

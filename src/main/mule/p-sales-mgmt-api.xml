@@ -38,6 +38,19 @@ output application/java
         <flow-ref doc:name="Log Receiver Entry" doc:id="3055c916-40ef-4167-8565-7dcb81976865" name="log-receiver-entry-sub-flow" />
         <flow-ref doc:name="Audit Receiver Entry" doc:id="6b73d30e-1b30-4e79-9f70-19343e9943f4" name="audit-receiver-entry-sub-flow" />
         <flow-ref doc:name="Click and Collect" doc:id="9f6f3b64-7c21-4e23-a732-c85472808991" name="p-sales-click-collect-api-impl-flow" />
+         <ee:transform doc:name="Response Message" doc:id="ee94265f-77d0-4d6c-848c-35b205c13303">
+            <ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responseCode: vars.httpStatus,
+  responseMessage: "success"
+}]]></ee:set-payload>
+			</ee:message>
+            <ee:variables>
+            </ee:variables>
+        </ee:transform>
         <set-variable value="#['put:\stores\(store-id):p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="4a424214-8c4a-4c74-b1eb-4c2188ac99f0" variableName="flowName" />
         <flow-ref doc:name="Audit Dispatcher Exit" doc:id="4c9e74f8-f365-4c94-87a9-21da1f73d5f6" name="audit-dispatcher-exit-sub-flow" />
         <flow-ref doc:name="Log Dispatcher Exit " doc:id="ce1f59c8-96cf-40b1-8d19-e8617a132067" name="log-dispatcher-exit-sub-flow" />
@@ -56,6 +69,19 @@ output application/java
 		<flow-ref doc:name="Log Receiver Entry" doc:id="f866dd84-f0b8-44bc-98ee-077e6948fed6" name="log-receiver-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Receiver Entry" doc:id="8c5b5790-c7b7-452e-9f6f-5b2479e1d071" name="audit-receiver-entry-sub-flow"/>
 		<flow-ref doc:name="Sales Store Manager Subflow" doc:id="100632d4-60ad-4bb9-983f-26771120c840" name="sales-managment-app-sub-flow"/>
+		 <ee:transform doc:name="Response Message" doc:id="3154fd2a-a31d-4e30-a73d-4eda46146034">
+            <ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  responseCode: vars.httpStatus,
+  responseMessage: "success"
+}]]></ee:set-payload>
+			</ee:message>
+            <ee:variables>
+            </ee:variables>
+        </ee:transform>
 		<set-variable value="#['post:\stores:application\json:p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="4bf4eaa9-d76b-4d07-bea7-171527ebcf3f" variableName="flowName" />
 		<flow-ref doc:name="Log Dispatcher Exit" doc:id="6fbd517a-6f38-4798-bba7-3f6bb239ccdd" name="log-dispatcher-exit-sub-flow"/>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="51f097d9-0bfb-4155-becf-e9dd740b9156" name="audit-dispatcher-exit-sub-flow"/>
