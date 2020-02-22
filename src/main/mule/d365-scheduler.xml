@@ -19,7 +19,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable variableName="flowName" ><![CDATA[%dw 2.0
 output application/java
 ---
-'d365-schedulerFlow']]></ee:set-variable>
+'d365-trigger-flow']]></ee:set-variable>
 				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
 output application/java
 ---
@@ -31,7 +31,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		
 		<flow-ref doc:name="Calling D365 to get Data" doc:id="9c712369-80d7-4a8c-9f55-6b54d54d75f5" name="call-d365-sub-flow"/>
 		<flow-ref doc:name="Sales Management APP Flow Call" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
-		<set-variable value="#['d365-schedulerFlow']" doc:name="Set Flow Name" doc:id="ea4c59e1-4908-4f05-be6b-e9f1e0be1488" variableName="flowName" />
+		<set-variable value="#['d365-trigger-flow']" doc:name="Set Flow Name" doc:id="ea4c59e1-4908-4f05-be6b-e9f1e0be1488" variableName="flowName" />
 		<flow-ref doc:name="Log Dispatcher Exit" doc:id="67e079d4-6530-4243-aa79-198d6c75203a" name="log-dispatcher-exit-sub-flow"/>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="d3645e17-39b6-4ce8-81ae-ce610ed83327" name="audit-dispatcher-exit-sub-flow"/>
 		
