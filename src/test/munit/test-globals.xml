@@ -7,18 +7,16 @@
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
-	<munit:config name="p-sales-mgmt-api-test-suite.xml" />
-	<munit:test name="p-sales-mgmt-api-test-suite-put:\stores\(store-id):p-sales-mgmt-api-configTest" description="Test" doc:id="8034101a-d03a-4a18-8257-c28ab0481fff" >
+	<munit:config name="test-globals.xml" />
+<!-- 	<munit:test name="p-sales-mgmt-api-test-suite-put:\stores\(store-id):p-sales-mgmt-api-configTest" description="Test" doc:id="8034101a-d03a-4a18-8257-c28ab0481fff" > -->
 	<import doc:name="Import" doc:id="94b99641-2109-4b64-a6ae-9dc4fa63a313" file="common-auditing-framework.xml" />
 	<import doc:name="Import" doc:id="91898b79-6dd5-4b81-885a-05c7ff408ce3" file="common-error-handling.xml" />
 	<import doc:name="Import" doc:id="c8a9a576-623e-4d3c-9c28-096780bf1acc" file="common-logging-framework.xml" />
-	<import doc:name="Import" doc:id="8ea806e6-8983-4b90-abbb-e65cabb93906" file="common-reprocessing-framework.xml" />
+<!-- 	<import doc:name="Import" doc:id="8ea806e6-8983-4b90-abbb-e65cabb93906" file="common-reprocessing-framework.xml" /> -->
 	<import doc:name="Import" doc:id="08846440-892e-4887-b9df-ee7667eeb273" file="globals.xml" />
-	<import doc:name="Import" doc:id="86a4cb37-d070-4f8b-a862-5b895040b517" file="p-sales-click-collect-app.xml" />
+	<import doc:name="Import" doc:id="86a4cb37-d070-4f8b-a862-5b895040b517" file="click-and-collect-impl.xml" />
 	<import doc:name="Import" doc:id="e1aea684-f21b-4cff-83f2-77a47317f478" file="p-sales-mgmt-api.xml" />
-	<import doc:name="Import" doc:id="21e87515-0091-4ce9-88e7-2864be1f1fe0" file="sales-managment-app.xml" />
-		
-	</munit:test>
-
-
+	<import doc:name="Import" doc:id="21e87515-0091-4ce9-88e7-2864be1f1fe0" file="sales-managment-impl.xml" />
+	<import doc:name="Import" doc:id="3013898c-2593-49b6-b488-f96821382f1c" file="d365-scheduler.xml" />		
+<!-- 	</munit:test> -->
 </mule>
