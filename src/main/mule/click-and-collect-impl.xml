@@ -30,19 +30,15 @@ output application/java
 					</ee:variables>
 				</ee:transform>
 <!-- 				<set-variable value="attributes.uriParams.'store-id'" doc:name="store-id" doc:id="b0c9a3aa-ab14-4771-b6fd-5b23e52f0345" variableName="storeId" /> -->
-			<flow-ref doc:name="Log Process Entry" doc:id="42cdcf67-243f-4236-8ebc-033bf3f2f9aa" name="log-process-entry-sub-flow"/>
-<flow-ref doc:name="Audit Process Entry" doc:id="a262b32a-cfc6-453a-aa0e-1c0bed3890b0" name="audit-process-entry-sub-flow"/>
 		
 			<flow-ref doc:name="p-sales-click-collect-retry-impl-sub-flow" doc:id="641c583c-c8f0-49a0-b5db-e060dd85784e" name="p-sales-click-collect-try-sub-flow" />
-		<flow-ref doc:name="Log Process Exit" doc:id="ec22b9da-bd83-400e-b2bc-c13d2e151cca" name="log-process-exit-sub-flow" />
-<flow-ref doc:name="Audit Process Exit" doc:id="90530320-f059-4a76-934f-9bd1ed7f4201" name="audit-process-exit-sub-flow"/>
 		<ee:transform doc:name="Sucess response" doc:id="d2fb7e1c-ec74-4d1d-9592-dda29e2c4349" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-  responseCode: vars.httpStatus,
+  responseCode: 0,
   responseText: "success"
 }]]></ee:set-payload>
 			</ee:message>
@@ -55,6 +51,9 @@ output application/json
 	
 	
 	<sub-flow name="p-sales-click-collect-try-sub-flow" doc:id="769c396c-65d5-47f4-8fba-60a19dc0424b" >
+		<set-variable value="p-sales-click-collect-try-sub-flow" doc:name="Set Flow Name" doc:id="18edab40-fbda-4d5e-b380-7b63a832166a" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="42cdcf67-243f-4236-8ebc-033bf3f2f9aa" name="log-process-entry-sub-flow" />
+		<flow-ref doc:name="Audit Process Entry" doc:id="a262b32a-cfc6-453a-aa0e-1c0bed3890b0" name="audit-process-entry-sub-flow" />
 		<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="eefc5df4-978c-4108-bc01-3d9d5536ad5e" path="${demandware.path}" responseTimeout="9000000" config-ref="s_dw_Http_Request_configuration">
 					<http:query-params><![CDATA[#[output application/java
 ---
@@ -67,5 +66,7 @@ output application/json
 					<http:success-status-code-validator values="200,201" />
 				</http:response-validator>
 		</http:request>
+		<flow-ref doc:name="Log Process Exit" doc:id="ec22b9da-bd83-400e-b2bc-c13d2e151cca" name="log-process-exit-sub-flow" />
+		<flow-ref doc:name="Audit Process Exit" doc:id="90530320-f059-4a76-934f-9bd1ed7f4201" name="audit-process-exit-sub-flow" />
 	</sub-flow>
 	</mule>

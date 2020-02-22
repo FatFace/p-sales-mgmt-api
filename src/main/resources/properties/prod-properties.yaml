@@ -76,8 +76,8 @@ client:
     password: "![Eiy80pOc3NMdDEvvqf5eTmUuYTIchkvpv2kk4Ge7Xv8=]"
 
 status:
-  responsecode: "200"
-  responsemessage: "Success"
+  responseCode: "0"
+  responseMessage: "Success"
   
 lookup:
   host: "mule-worker-internal-prod-s-dblookup-api.ir-e1.cloudhub.io"

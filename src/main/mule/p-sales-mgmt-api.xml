@@ -44,8 +44,8 @@ output application/java
 output application/json
 ---
 {
-  responseCode: vars.httpStatus,
-  responseMessage: "success"
+	"responseCode": p('status.responsecode'),
+	"responseMessage": p('status.responsemessage')
 }]]></ee:set-payload>
 			</ee:message>
             <ee:variables>
@@ -75,8 +75,8 @@ output application/java
 output application/json
 ---
 {
-  responseCode: vars.httpStatus,
-  responseMessage: "success"
+	"responseCode": p('status.responsecode'),
+	"responseMessage": p('status.responsemessage')
 }]]></ee:set-payload>
 			</ee:message>
             <ee:variables>
