@@ -12,11 +12,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<set-variable value="p-sales-click-collect-api-impl-flow" doc:name="Set Flow Name" doc:id="a8f4d08e-f454-4e14-a062-2fa6b095728b" variableName="flowName"/>
 		
 		<flow-ref doc:name="Log Process Entry" doc:id="cfe0d4a6-ee6a-4ee8-99b9-5add5a70299d" name="log-process-entry-sub-flow"/>
-		<flow-ref doc:name="Audit Process Entry" doc:id="7dec4b88-e5c2-4d77-8253-fdf8e142e6a6" name="audit-process-entry-sub-flow"/>
-<!-- 		<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="3c2bae7f-ed78-4599-a1e7-dd91be8f728f" millisBetweenRetries="${retry.frequency}"> -->
-<!-- 			<try doc:name="Try" doc:id="11c2f8e2-c779-4a6c-981e-97d39601ed80"> -->
-			
-		
+		<flow-ref doc:name="Audit Process Entry" doc:id="7dec4b88-e5c2-4d77-8253-fdf8e142e6a6" name="audit-process-entry-sub-flow"/>	
 		<ee:transform doc:name="Request Mapping For DW" doc:id="a5bbc34e-7682-4aba-a949-23fdc67d1955">
 					<ee:message>
 				<ee:set-payload resource="dwl/put-stores-clickandcollect.dwl" />
@@ -54,7 +50,7 @@ output application/json
 		<set-variable value="p-sales-click-collect-try-sub-flow" doc:name="Set Flow Name" doc:id="18edab40-fbda-4d5e-b380-7b63a832166a" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="42cdcf67-243f-4236-8ebc-033bf3f2f9aa" name="log-process-entry-sub-flow" />
 		<flow-ref doc:name="Audit Process Entry" doc:id="a262b32a-cfc6-453a-aa0e-1c0bed3890b0" name="audit-process-entry-sub-flow" />
-		<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="eefc5df4-978c-4108-bc01-3d9d5536ad5e" path="${demandware.path}" responseTimeout="9000000" config-ref="s_dw_Http_Request_configuration">
+		<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="c0c5a3bc-748d-4324-8be5-c69d93d7a5bf" path="${demandware.path}" responseTimeout="${response.timeout.system.dw.clickCollect}" config-ref="s_dw_Http_Request_configuration">
 					<http:query-params><![CDATA[#[output application/java
 ---
 {

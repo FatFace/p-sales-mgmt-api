@@ -20,8 +20,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" mediaType="application/json" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="f1728c1b-5a7a-4634-80e3-8f143691c774" processor="http:request">
-				<munit-tools:with-attributes>
+			<munit-tools:mock-when doc:name="Mock when DB Look Up HTTP Request" doc:id="f6feb66a-74ca-48b4-b280-40d4abbae51f" processor="http:request">
+				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Invoke System Layer Lookup Api to Get Lookup Key" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
@@ -85,7 +85,7 @@ output application/java
 			</ee:transform>
 <!-- 			<set-payload value="#[MunitTools::getResourceAsString('sample_data/db-lookup-data.json')]" doc:name="Set Payload" doc:id="b13f2513-7166-4419-bd42-7967ef38e417" mimeType="application/json"/> -->
 			<set-payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" doc:name="Set Payload" doc:id="f0afd19d-ac88-4a5c-8de6-710c8cdea64c" mimeType="application/json"/>
-			<flow-ref doc:name="d365-schedulerFlow" doc:id="932a4717-b674-4e6d-abad-81749e047dd5" name="d365-schedulerFlow"/>
+			<flow-ref doc:name="d365-schedulerFlow" doc:id="932a4717-b674-4e6d-abad-81749e047dd5" name="d365-trigger-flow"/>
 		</munit:execution>
 	</munit:test>
 </mule>

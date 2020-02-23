@@ -37,8 +37,15 @@
                     <classifier>mule-application</classifier>
                 </configuration>
 			</plugin>
-			
-		<plugin>
+			<plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-clean-plugin</artifactId>
+		    <version>3.1.0</version>
+		    <configuration>
+		     <failOnError>false</failOnError>
+		    </configuration>
+		   </plugin>
+		   <plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
                 <artifactId>munit-maven-plugin</artifactId>
                 <version>${munit.version}</version>
@@ -59,6 +66,11 @@
                         <formats>
                             <format>html</format>
                         </formats>
+                        <ignoreFiles>
+						    <ignoreFile>common-auditing-framework.xml</ignoreFile>
+						    <ignoreFile>common-error-handling.xml</ignoreFile>
+						    <ignoreFile>common-logging-framework.xml</ignoreFile>
+						</ignoreFiles>
                     </coverage>
                 </configuration>
             </plugin>
