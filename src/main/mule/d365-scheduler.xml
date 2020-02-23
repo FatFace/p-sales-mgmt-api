@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="d365-schedulerFlow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
+	<flow name="d365-trigger-flow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
 		<scheduler doc:name="Scheduler" doc:id="0b166167-9d22-41c7-a477-1c3f5897be0b" >
 			<scheduling-strategy >
 				<fixed-frequency frequency="${scheduler.cron.fixed}" timeUnit="SECONDS"/>
