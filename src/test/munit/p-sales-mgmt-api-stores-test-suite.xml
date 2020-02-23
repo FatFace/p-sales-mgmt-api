@@ -87,5 +87,13 @@ output application/java
 			<set-payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" doc:name="Set Payload" doc:id="f0afd19d-ac88-4a5c-8de6-710c8cdea64c" mimeType="application/json"/>
 			<flow-ref doc:name="d365-schedulerFlow" doc:id="932a4717-b674-4e6d-abad-81749e047dd5" name="d365-trigger-flow"/>
 		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8e4c581f-9648-4ddd-b8b4-8bf34bea1fbb" expression="#[message.attributes.httpStatus == 200]" is="#[MunitTools::notNullValue()]"/>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="e440ebb6-2896-4810-a191-118c9cc7fb73" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Invoke System Layer D365 API to Get Stores" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
 	</munit:test>
 </mule>

@@ -37,14 +37,7 @@
                     <classifier>mule-application</classifier>
                 </configuration>
 			</plugin>
-			<plugin>
-		    <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-clean-plugin</artifactId>
-		    <version>3.1.0</version>
-		    <configuration>
-		     <failOnError>false</failOnError>
-		    </configuration>
-		   </plugin>
+			
 		   <plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
                 <artifactId>munit-maven-plugin</artifactId>

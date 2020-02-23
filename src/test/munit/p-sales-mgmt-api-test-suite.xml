@@ -19,6 +19,14 @@
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-response.xml')]" mediaType="application/xml" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0ae5105b-345c-4e79-a58e-4a9cc88185a1" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Invoke System Layer Lookup Api to Get Lookup Key" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/db-lookup-data.json')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
 			<set-payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-request.json')]" doc:name="Set Payload" doc:id="815ce5d1-76d4-4046-b2f5-89562e56d111" mimeType="application/json"/>
