@@ -1,0 +1,50 @@
+{
+    "stores": [
+        {
+            "disableOnCheckout": "YES",
+            "fulfillFromStore": "YES",
+            "latitude": "53.991943",
+            "longitude": "-1.540017",
+            "name": "Manchester Store",
+            "openingTimingFriday": "08:00:00 - 19:00:00",
+            "openingTimingSaturday": "08:00:00 - 17:44:00",
+            "openingTimingsMonday": "08:00:00 - 17:00:00",
+            "openingTimingSunday": "08:00:00 - 08:00:00",
+            "openingTimingThursday": "08:00:00 - 17:00:00",
+            "openingTimingTuesday": "08:00:00 - 17:00:00",
+            "openingTimingWednesday": "08:00:00 - 17:00:00",
+            "store-address": {
+                "city": "Harrogate",
+                "country-code": "GB",
+                "phone": "654768890",
+                "postal-code": "HG1 1NH",
+                "state": null,
+                "street": "8 Princes Street"
+            },
+            "store-id": "000013"
+        },
+        {
+            "disableOnCheckout": "YES",
+            "fulfillFromStore": "YES",
+            "latitude": "53.991943",
+            "longitude": "-1.540017",
+            "name": "Manchester Store",
+            "openingTimingFriday": "08:00:00 - 19:00:00",
+            "openingTimingSaturday": "08:00:00 - 17:44:00",
+            "openingTimingsMonday": "08:00:00 - 17:00:00",
+            "openingTimingSunday": "08:00:00 - 08:00:00",
+            "openingTimingThursday": "08:00:00 - 17:00:00",
+            "openingTimingTuesday": "08:00:00 - 17:00:00",
+            "openingTimingWednesday": "08:00:00 - 17:00:00",
+            "store-address": {
+                "city": "Harrogate",
+                "country-code": "GB",
+                "phone": "654768890",
+                "postal-code": "HG1 1NH",
+                "state": null,
+                "street": "8 Princes Street"
+            },
+            "store-id": "000013"
+        }
+    ]
+}
