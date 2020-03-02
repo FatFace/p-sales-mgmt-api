@@ -45,9 +45,9 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 ---
 {
 	"Transaction-Id" : vars.transactionId,
-	"Client-Id" : p('d365.client_id'),
-	"Client-Secret" : p('secure::d365.client_secret'),
-	"Transaction-Start-Time" : vars.transactionStartTime
+	"client_secret" : p('secure::d365.client_secret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('d365.client_id')
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[output application/java
 ---
