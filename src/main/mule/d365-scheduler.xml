@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="d365-trigger-flow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
 		<scheduler doc:name="Scheduler" doc:id="0b166167-9d22-41c7-a477-1c3f5897be0b" >
 			<scheduling-strategy >
-				<fixed-frequency frequency="${scheduler.cron.fixed}" timeUnit="SECONDS"/>
+				<cron expression="${scheduler.cron.expression}" />
 			</scheduling-strategy>
 		</scheduler>
 		<ee:transform doc:name="Transform Message" doc:id="7d43a99c-e3c3-4325-bebe-eebeb5135785" >
