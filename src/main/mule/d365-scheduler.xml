@@ -56,6 +56,17 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 	"packageName" : vars.packageName
 }]]]></http:query-params>
 </http:request>
+		<ee:transform doc:name="Response Payload" doc:id="183b5ed1-b081-4444-8fdb-273b007102ed" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "responsecode": 0,
+ "responseText": "SUCCESS"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<flow-ref doc:name="Audit Process Exit" doc:id="0702e0e4-6865-48c5-b651-bf5040b327ad" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="eeeb6bfc-fefd-4201-81ce-cf2f74c0d877" name="log-process-exit-sub-flow"/>
 	</sub-flow>

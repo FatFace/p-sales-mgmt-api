@@ -62,6 +62,19 @@ output application/json
 					<http:success-status-code-validator values="200,201" />
 				</http:response-validator>
 		</http:request>
+		<ee:transform doc:name="Response Payload" doc:id="e2d72330-dfd8-419d-8d86-935fd2f70023" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[
+
+%dw 2.0
+output application/json
+---
+{
+ "responsecode": 0,
+ "responseText": "SUCCESS"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<flow-ref doc:name="Log Process Exit" doc:id="ec22b9da-bd83-400e-b2bc-c13d2e151cca" name="log-process-exit-sub-flow" />
 		<flow-ref doc:name="Audit Process Exit" doc:id="90530320-f059-4a76-934f-9bd1ed7f4201" name="audit-process-exit-sub-flow" />
 	</sub-flow>
