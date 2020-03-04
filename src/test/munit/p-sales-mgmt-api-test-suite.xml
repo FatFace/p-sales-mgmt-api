@@ -8,10 +8,7 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="p-sales-mgmt-api-test-suite.xml" />
-	<import doc:name="Import" doc:id="76eab35b-e654-402f-96d4-9b9a1812f3b3" file="p-sales-click-collect-app-test-suite.xml" />
-	<import doc:name="Import" doc:id="7c08ad5b-a865-4167-9861-29ac7531b505" file="b-sales-mgmt-app-test-suite.xml" />
-	
-	<import doc:name="Import" doc:id="67033f77-7f22-4154-b272-5c9522aa2cc9" file="globals.xml" />
+	<import doc:name="Import" doc:id="05b87053-24d5-4117-a691-529b4e60b821" file="test-globals.xml" />
 	<munit:test name="p-sales-mgmt-api-test-suite-post:\stores:application\json:p-sales-mgmt-api-configTest" description="Test" doc:id="026d0f00-01fc-4b77-912d-d3557faabe1d" >
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Invoke System Layer of DW API to Put Stores" doc:id="77334890-2001-420e-a240-6c3b3464e2d9" processor="http:request">
@@ -20,6 +17,14 @@
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/stores-hours-response.xml')]" mediaType="application/xml" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0ae5105b-345c-4e79-a58e-4a9cc88185a1" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Invoke System Layer Lookup Api to Get Lookup Key" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sample_data/db-lookup-data.json')]" mediaType="application/json" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>

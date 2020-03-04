@@ -8,6 +8,8 @@ http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	
+	
 	<sub-flow name="sales-managment-app-sub-flow" doc:id="188b86e8-4160-4dd3-b01c-bdf300a52b84" >
 		<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Flow Name" doc:id="4d38c8c1-1432-42f4-8bc1-55deb1121905" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="92260132-ebf4-43d6-8b03-c03ff3e739ef" name="log-process-entry-sub-flow"/>
@@ -15,32 +17,13 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 		<choice doc:name="Choice" doc:id="e2a189a7-7066-4c31-888b-ee2a9ed02476" >
 			<when expression="#[payload.stores != null and payload.stores != []]">
 				<flow-ref doc:name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="a01fe197-f7b2-4bde-b89c-d24ee9ee183d" name="get-country-code-from-dblookup-for-store-hours-sub-flow" target="vDBLookupCountryCodes" targetValue="#[payload]"/>
+				<set-variable value="#['sales-managment-app-sub-flow']" doc:name="Set Flow Name" doc:id="ee509747-222a-47cd-9189-2985384451b2" variableName="flowName" />
 				<ee:transform doc:name="Request Mapping For DW" doc:id="ae02ecf2-8211-4843-bb5b-7ee8d45ea2be">
 					<ee:message>
 						<ee:set-payload resource="dwl/transform_d365_json_to_deamandware_request.dwl" />
 					</ee:message>
 				</ee:transform>
-				
-				<flow-ref doc:name="Log Process Entry" doc:id="8759085f-1fbf-45a8-b428-cbe90a141d57" name="log-process-entry-sub-flow"/>
-				<flow-ref doc:name="Audit Process Entry" doc:id="e075cb8d-c2f0-4791-ac04-55a596139a5f" name="audit-process-entry-sub-flow"/>
-				<try doc:name="Try" doc:id="826d58be-0507-4e60-a5dc-9abc58e4cd87" >
-					<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="ea1df148-5e08-4e6e-86e3-9e9fec05c743" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout.system.dw.salesManagment}" outputMimeType="application/json">
-					<http:query-params><![CDATA[#[output application/java
----
-{
-	"client_secret" : p('secure::demandware.client_secret'),
-	"vRequestId" : vars.transactionId,
-	"client_id" : p('demandware.client_id')
-}]]]></http:query-params>
-						
-				</http:request>
-					<error-handler >
-						<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b131adb2-7d20-4dfa-84ca-a71f671848a1" type="ANY">
-							<flow-ref doc:name="log error" doc:id="0fcf43cf-dd15-4dc1-a5a2-e4026ae8b9d0" name="log-error-sub-flow"/>
-							<flow-ref doc:name="Audit error flow" doc:id="c7ad28cb-12e9-4592-9067-e1e18d0a0a8e" name="audit-error-sub-flow"/>
-						</on-error-propagate>
-					</error-handler>
-				</try>
+				<flow-ref doc:name="Put Stores DW call" doc:id="266e5ac7-f74f-4115-bba5-04662934e807" name="put-stores-dw-sub-flow" />
 				<ee:transform doc:name="Response Payload From DW" doc:id="5d75de42-0a51-4710-81f7-e317ff4dc518">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -60,8 +43,8 @@ output application/json
 output application/json
 ---
 {
-	"responsecode": p('status.responsecode'),
-	"responsemessage": p('status.responsemessage')
+ "responsecode": 0,
+ "responseText": "SUCCESS"
 }]]></ee:set-payload>
 							</ee:message>
 						</ee:transform>
@@ -71,8 +54,6 @@ output application/json
 						<flow-ref doc:name="Logging Payload" doc:id="d3ed8a48-c46b-46c0-9088-e88573f45513" name="logging-sub-flow"/>
 					</otherwise>
 				</choice>
-				<flow-ref doc:name="Audit Process Exit" doc:id="1283fd6e-9de6-4475-b186-774d067d21c5" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="f19b432b-cf43-415f-998e-deeaa73e9d6f" name="log-process-exit-sub-flow"/>
 			</when>
 			<otherwise>
 				<ee:transform doc:name="No Store Data From System Layer" doc:id="adb90018-06e6-4050-954a-96c4dfc98855" >
@@ -83,19 +64,26 @@ output application/java
 p('batch.response')]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<flow-ref doc:name="Audit Warn Sub Flow" doc:id="74f68be2-5f62-4826-bbed-bf71c8d6ec94" name="audit-process-exit-sub-flow"/>
+<flow-ref doc:name="Log Warn Sub Flow" doc:id="d7758204-a2b6-436e-9a3e-3e9ef9b658ac" name="log-process-exit-sub-flow" />
 			</otherwise>
 		</choice>
+		<set-variable value="sales-managment-app-sub-flow" doc:name="Flow Name" doc:id="f537598d-dd98-4613-9602-59f5bae052e3" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="085d79d5-c997-4f94-b25e-08d239f374d2" name="log-process-exit-sub-flow" />
+<flow-ref doc:name="Audit Process Exit" doc:id="7d4eea92-1062-43ea-8bda-044278fa8c1f" name="audit-process-exit-sub-flow"/>
 	</sub-flow>
 	
 	<sub-flow name="get-country-code-from-dblookup-for-store-hours-sub-flow" doc:id="eeeaca8e-3e17-4c62-aa52-f7146fdbc03e" >
 		<set-variable value="#['get-country-code-from-dblookup-for-store-hours-sub-flow']" doc:name="Set Variable" doc:id="f5d38f9b-e222-47c9-93f0-58d0054d3e79" variableName="flowName"/>
-		<flow-ref doc:name="Log Receiver Entry" doc:id="3973b023-75b0-4c67-9d8e-d8a3bda91338" name="log-receiver-entry-sub-flow"/>
-		<flow-ref doc:name="Audit Receiver Entry" doc:id="103761d1-903d-4fa5-8254-f678ccbe3a02" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="393ca9d3-23b5-486a-9483-ac2dfa8cac6b" name="log-process-entry-sub-flow"/>
+<flow-ref doc:name="Audit Process Entry" doc:id="1db09296-13a7-4b30-a1a0-096480b4a4a1" name="audit-process-entry-sub-flow"/>
 		<set-variable value="#[p('lookup.key')]" doc:name="Set Key" doc:id="1e7c6608-e6bd-4398-9aea-3ba94fa1456b" variableName="vLookUpData"/>
 		<os:contains doc:name="Check for the value in the Object Store" doc:id="0d2ccc2e-8771-4a1a-8e40-f47dc3af2451" key="#[vars.vLookUpData]"/>
 		<choice doc:name="Choice" doc:id="dcd27df0-4b2f-4963-9faf-409ea798b28d" >
 			<when expression="#[payload ==true]">
 				<os:retrieve doc:name="Retrieve Lookup Data From Object Store" doc:id="9e076075-6f09-4d47-aa54-42c8f20ed3e1" key="#[vars.vLookUpData]"/>
+				<flow-ref doc:name="Logging Sub Flow" doc:id="7e1216d4-99b4-4047-b65b-34be3b91a40c" name="logging-sub-flow"/>
+<flow-ref doc:name="Audit Success Sub Flow" doc:id="2e734643-a614-4ba9-8134-2503a6891a61" name="audit-process-entry-sub-flow"/>
 				<ee:transform doc:name="Transform Message" doc:id="0e53bb31-6a14-457c-81eb-7ce956bfba14">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -106,17 +94,28 @@ payload]]></ee:set-payload>
 				</ee:transform>
 			</when>
 			<otherwise >
-				<flow-ref doc:name="Log Process Entry" doc:id="479a256d-8814-4914-aabf-3497082ab6e7" name="log-process-entry-sub-flow"/>
-				<flow-ref doc:name="Audit Process Entry" doc:id="86e30e3a-e668-4632-91c7-72069caf0fe9" name="audit-process-entry-sub-flow"/>
-				<until-successful maxRetries="${retry.attempts}" doc:name="Until Successful" doc:id="fabcbb63-18d5-49c1-b937-cefaa7de29df" millisBetweenRetries="${retry.frequency}">
-					<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="abd83968-5146-43af-8434-42db247f5612" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout.system.dblookup.salesManagment}">
+				<flow-ref doc:name="DB lookup Key Call" doc:id="1c3ea8fe-2728-4380-a871-56c0189de815" name="get-db-lookup-key-sub-flow" />
+				<os:store doc:name="Store Lookup Data in Object Store" doc:id="d80525d1-f40d-4e2f-a3b6-48e08bb399d8" key="#[vars.vLookUpData]"/>
+				<flow-ref doc:name="Logging Sub Flow" doc:id="479a256d-8814-4914-aabf-3497082ab6e7" name="log-process-entry-sub-flow" />
+				<flow-ref doc:name="Audit Success Sub Flow" doc:id="86e30e3a-e668-4632-91c7-72069caf0fe9" name="audit-process-entry-sub-flow" />
+			</otherwise>
+		</choice>
+		<set-variable value="#['get-country-code-from-dblookup-for-store-hours-sub-flow']" doc:name="Set Flow Name" doc:id="b3666ab2-dd1b-4cf8-839c-a0d3956587ba" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="43a876fd-b8b9-42ff-9291-f44e08bc1ff3" name="log-process-exit-sub-flow" />
+		<flow-ref doc:name="Audit Process Exit" doc:id="fe7ff78f-f34d-424a-ad87-3b085f3f27be" name="audit-process-exit-sub-flow"/>
+	</sub-flow>
+	<sub-flow name="get-db-lookup-key-sub-flow" doc:id="ae49769e-0070-46f2-bee4-4f76aaeb79ec" >
+		<set-variable value="get-db-lookup-key-sub-flow" doc:name="Flow Name" doc:id="4edd0456-de49-4e7a-a79c-5f9caf8d0a3a" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="9deb23a8-d428-4adb-8364-c7b1c064cafd" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="da0bb6e8-d254-4487-918d-dcd9827e021a" name="audit-process-entry-sub-flow"/>
+		<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="8347e5cb-945e-425e-a3c9-b0636c2404d6" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" outputMimeType="application/json" responseTimeout="${response.timeout.system.dblookup.salesManagment}">
 							<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Transaction-Id" : vars.transactionId,
-	"Client-Id" : p('lookup.clientId'),
-	"Client-Secret" : p('secure::lookup.clientSecret'),
-	"Transaction-Start-Time" : vars.transactionStartTime
+	"client_secret" : p('secure::lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('lookup.clientId')
 }]]]></http:headers>
 					<http:query-params><![CDATA[#[output application/java
 ---
@@ -126,13 +125,25 @@ payload]]></ee:set-payload>
 	"category" : p('lookup.queryParam.category')
 }]]]></http:query-params>
 						</http:request>
-				</until-successful>
-				<flow-ref doc:name="Audit Process Exit " doc:id="5a973d30-0dae-4898-b7be-6691a5fe2301" name="audit-process-exit-sub-flow" />
-				<flow-ref doc:name="Log Process Exit" doc:id="d0bbad72-4e72-4d99-beab-4c38d14f16f1" name="log-process-exit-sub-flow" />
-				<os:store doc:name="Store Lookup Data in Object Store" doc:id="d80525d1-f40d-4e2f-a3b6-48e08bb399d8" key="#[vars.vLookUpData]"/>
-			</otherwise>
-		</choice>
-		<flow-ref doc:name="Audit Dispatcher Exist " doc:id="e4e199d6-763f-46d3-9412-7ef6a4773fe4" name="audit-dispatcher-exit-sub-flow"/>
-		<flow-ref doc:name="Log Dispatcher Exist" doc:id="70565c2d-f776-4d69-a68e-3c7d072cd29f" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="90bbc651-791e-4a23-b39e-2babde951716" name="log-process-exit-sub-flow" />
+		<flow-ref doc:name="Audit Process Exit" doc:id="24fcd2a3-f807-4ebb-b65e-4a2be9a40d4a" name="audit-process-exit-sub-flow"/>
+	</sub-flow>
+	<sub-flow name="put-stores-dw-sub-flow" doc:id="67df9847-bb02-4725-8860-bf950d92e82d" >
+		<set-variable value="put-stores-dw-sub-flow" doc:name="Flow Name" doc:id="1ac9087b-ad87-40ad-a568-dd5badabc080" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="0bacd80e-cb90-45b1-8417-ae0d9223f421" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="2f55b441-2b67-4e96-a7bf-3408c2633d43" name="audit-process-entry-sub-flow"/>
+		<http:request method="PUT" doc:name="Invoke System Layer of DW API to Put Stores" doc:id="e7f4e6de-f6c3-4609-85ba-ec46bf10eee1" config-ref="s_dw_Http_Request_configuration" path="${demandware.path}" responseTimeout="${response.timeout.system.dw.salesManagment}" outputMimeType="application/json">
+					<http:query-params><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('secure::demandware.client_secret'),
+	"vRequestId" : vars.transactionId,
+	"client_id" : p('demandware.client_id')
+}]]]></http:query-params>
+			
+						
+				</http:request>
+				<flow-ref doc:name="Log Process Exit" doc:id="58b6e9ed-891a-46da-a9a1-b60a0765feb6" name="log-process-exit-sub-flow" />
+<flow-ref doc:name="Audit Process Exit" doc:id="86c49e8b-6813-4bd2-a9b6-c22064fe2f1f" name="audit-process-exit-sub-flow"/>
 	</sub-flow>
 	</mule>

@@ -69,15 +69,14 @@ response:
 scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
-    fixed: "10"
     
 client:
   keystore:
     password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"
     
 status:
-  responsecode: "200"
-  responsemessage: "Success"
+  responseCode: "0"
+  responseMessage: "Success"
   
 lookup:
   host: "mule-worker-internal-dev-s-dblookup-api.ir-e1.cloudhub.io"

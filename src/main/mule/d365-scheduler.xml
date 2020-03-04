@@ -6,10 +6,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="d365-schedulerFlow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
+	<flow name="d365-trigger-flow" doc:id="3bb7b46d-705d-42e3-a122-65b3c21320f2">
 		<scheduler doc:name="Scheduler" doc:id="0b166167-9d22-41c7-a477-1c3f5897be0b" >
 			<scheduling-strategy >
-				<fixed-frequency frequency="${scheduler.cron.fixed}" timeUnit="SECONDS"/>
+				<cron expression="${scheduler.cron.expression}" />
 			</scheduling-strategy>
 		</scheduler>
 		<ee:transform doc:name="Transform Message" doc:id="7d43a99c-e3c3-4325-bebe-eebeb5135785" >
@@ -19,7 +19,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable variableName="flowName" ><![CDATA[%dw 2.0
 output application/java
 ---
-'d365-schedulerFlow']]></ee:set-variable>
+'d365-trigger-flow']]></ee:set-variable>
 				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
 output application/java
 ---
@@ -31,6 +31,7 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		
 		<flow-ref doc:name="Calling D365 to get Data" doc:id="9c712369-80d7-4a8c-9f55-6b54d54d75f5" name="call-d365-sub-flow"/>
 		<flow-ref doc:name="Sales Management APP Flow Call" doc:id="25235ee5-c5ea-426c-909c-34bf5b71f251" name="sales-managment-app-sub-flow" />
+		<set-variable value="#['d365-trigger-flow']" doc:name="Set Flow Name" doc:id="ea4c59e1-4908-4f05-be6b-e9f1e0be1488" variableName="flowName" />
 		<flow-ref doc:name="Log Dispatcher Exit" doc:id="67e079d4-6530-4243-aa79-198d6c75203a" name="log-dispatcher-exit-sub-flow"/>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="d3645e17-39b6-4ce8-81ae-ce610ed83327" name="audit-dispatcher-exit-sub-flow"/>
 		
@@ -39,15 +40,14 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 		<set-variable value="call-d365-sub-flow" doc:name="Flow Name" doc:id="327c428d-bc07-465e-a1a6-ac9cb51dc349" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="4134c691-3a0f-4188-90f4-b18fbe802cee" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="audit-process-entry-sub-flow" doc:id="a0afa6b4-72b1-470d-a6cd-6fc262c964cc" name="audit-process-entry-sub-flow"/>
-
-		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="0dbbb798-8a9d-4ae0-888d-f7695d2b39e1" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout.system.d365.salesScheduler}" outputMimeType="application/json">
+		<http:request method="GET" doc:name="Invoke System Layer D365 API to Get Stores" doc:id="e22920c5-e8cc-4452-b68d-81d956856520" path="${d365.dmf.path}" config-ref="D365_Http_Request_configuration" responseTimeout="${response.timeout.system.d365.salesScheduler}" outputMimeType="application/json">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Transaction-Id" : vars.transactionId,
-	"Client-Id" : p('d365.client_id'),
-	"Client-Secret" : p('secure::d365.client_secret'),
-	"Transaction-Start-Time" : vars.transactionStartTime
+	"client_secret" : p('secure::d365.client_secret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('d365.client_id')
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[output application/java
 ---
@@ -55,8 +55,18 @@ p('d365.store.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:s
 	"definitionGroupId" : p('d365.store.definitionGroupId'),
 	"packageName" : vars.packageName
 }]]]></http:query-params>
-		
 </http:request>
+		<ee:transform doc:name="Response Payload" doc:id="183b5ed1-b081-4444-8fdb-273b007102ed" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "responsecode": 0,
+ "responseText": "SUCCESS"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<flow-ref doc:name="Audit Process Exit" doc:id="0702e0e4-6865-48c5-b651-bf5040b327ad" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="eeeb6bfc-fefd-4201-81ce-cf2f74c0d877" name="log-process-exit-sub-flow"/>
 	</sub-flow>
