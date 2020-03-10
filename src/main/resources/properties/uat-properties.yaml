@@ -29,7 +29,7 @@ db:
    port: "1433"
    user: "![AyD0mBi0zwPqptV8KbEJGkjzeMuTdVHL2AEWiq0N3sQ=]"
    password: "![PX91DJD02zpJ0MJ3jLRKUw==]"
-   database: "FATFACE_DB" 
+   database: "FATFACE_UAT_DB" 
 
 sftp:
   host: "ftp.fatface.com"
