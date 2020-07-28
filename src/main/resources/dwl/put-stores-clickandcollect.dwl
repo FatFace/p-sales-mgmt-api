@@ -16,6 +16,7 @@ output application/json
      },
      "latitude": "",
      "longitude": "",
+     "availableForCC": upper(payload."click-and-collect"),
      "disableOnCheckout": upper(payload."click-and-collect"),
      "fulfillFromStore": "",
      "openingTimingsMonday": "",
