@@ -17,7 +17,6 @@ fun returnCountryCode(countryCode) = (vars.vDBLookupCountryCodes.lookups filter 
 		latitude : $.latitude,
 		longitude : $.longitude,
 		"availableForCC": upper($."click-and-collect"),
-		"disableOnCheckout" : upper($."click-and-collect"),
 		"fulfillFromStore" : upper($."fulfill-from-store"),
 		"openingTimingsMonday" : $."monday-open-time" ++ " - " ++ $."monday-close-time",
 		"openingTimingTuesday" : $."tuesday-open-time" ++ " - " ++ $."tuesday-close-time",
