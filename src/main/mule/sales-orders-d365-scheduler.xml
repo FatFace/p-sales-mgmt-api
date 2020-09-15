@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="sales-order-d365-trigger-flow" doc:id="864ef309-2eb7-435a-a57e-d0e300467cd0" >
+		<scheduler doc:name="Scheduler" doc:id="ea90a938-18b4-4b45-9de2-c29e0e820510" >
+			<scheduling-strategy >
+				<cron expression="${scheduler.cron.expression}"/>
+			</scheduling-strategy>
+		</scheduler>
+		<ee:transform doc:name="Set Attributes" doc:id="2af3afbd-cb58-43c4-91bd-e5ef1d44d2bd" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="flowName" ><![CDATA['sales-order-d365-trigger-flow']]></ee:set-variable>
+				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
+output application/json
+---
+p('d365.dmf.export.IDD002.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="69253692-1304-4e6b-ae5d-f6152b7a2d47" name="log-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="a3daef08-c26f-464a-bfa5-467e67b2d821" name="audit-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Log Process Entry" doc:id="cded7ec5-1b14-41f8-aa17-b6f5c9605c18" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="a589acc8-3de0-411e-b9bd-51a9341b703a" name="audit-process-entry-sub-flow"/>
+		<http:request method="GET" doc:name="Invoke D365 System Layer Api" doc:id="d4b4ca47-80fb-4215-8b25-95f468b4f56e" config-ref="D365_Http_Request_configuration" target="originalPayload" path="${d365.dmf.export.path}" responseTimeout="${response.timeout.system.d365.scheduler}">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::d365.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('d365.clientId')
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"definitionGroupId" : p('d365.dmf.export.IDD002.definitionGroupId'),
+	"packageName" : p('d365.dmf.export.IDD002.packageName')
+}]]]></http:query-params>
+		
+			</http:request>
+		<set-variable value="#['sales-order-d365-trigger-flow']" doc:name="Set Flow Name" doc:id="47c0e575-4f8b-426d-95d6-4c5358e106a7" variableName="flowName"/>
+		<flow-ref doc:name="Audit Process Exit" doc:id="4d9987c0-b06c-46b6-8797-e701a1f237d1" name="audit-process-exit-sub-flow"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="e90df057-1338-4cd9-957a-f5f3671c1a7b" name="log-process-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="c8eebef0-b4b7-48db-a87d-23c5acd27268" name="audit-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="2977b5ab-59c4-47e0-b6a2-2ddd6a0108d0" name="log-dispatcher-exit-sub-flow"/>
+	</flow>
+</mule>

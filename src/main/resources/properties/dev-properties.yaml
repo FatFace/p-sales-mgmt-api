@@ -50,7 +50,11 @@ d365:
   client_id: "c1751cc13ad746a8a49c404c966839f7"
   client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
   dmf:
-    path: "/dmf/export"
+    export:
+      path: "/dmf/export"
+      IDD002:
+        definitionGroupId: "IDD019-RoyalMailManifest-Export"
+        packageName: "Shipment-Manifest-"
   store:
     definitionGroupId: "IDD022-RetailStoreIntegration-Export"
     packageName: "Store-Data-"
@@ -62,6 +66,15 @@ demandware:
  path: "/store"
  client_id: "c1751cc13ad746a8a49c404c966839f7"
  client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
+
+royalmail:
+  host: "mule-worker-internal-dev-s-royalmail-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  create-shipment-path: "/shipment/label-creation"
+  confirm-shipment-path: "/shipment/parcel-manifest"
+  client_id: "c1751cc13ad746a8a49c404c966839f7"
+  client_secret: "7d3aFbC44E8e49048935f06A7A2a099d"
   
 response:
   timeout: "120000"
@@ -84,9 +97,14 @@ lookup:
   basePath: "/api/v1"
   dbLookupPath: "/lookups"
   key: "COUNTRY_CODES-ALPHA-3-D365"
+  create-shipment-key: "DELIVERY_TYPE-MODE-D365"
   clientId: "c1751cc13ad746a8a49c404c966839f7"
   clientSecret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
   queryParam:
     type: "COUNTRY_CODES"
     category: "ALPHA-3"
-    source: "D365"      
+    source: "D365"  
+  create-shipment-queryParam:
+    type: "DELIVERY_TYPE"
+    category: "MODE"
+    source: "D365"    

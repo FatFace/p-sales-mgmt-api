@@ -47,12 +47,43 @@ uses:
             application/json:
               example: |
                 { "responseCode" : 0,  "responseText" : "success"}    
-      
+/orders:
+  /shipment:
+    /label-creation:
+      type:
+        resourceTypesLib.collection:
+      is: [traitsLib.traceable: {required: true},traitsLib.secured: {required: true}]
+      post:
+        description: |
+          Resource to create shipment label in RoyalMail System
+        body:
+          application/json:            
+            properties:
+              sales-orders: dataTypesLib.sales-orders
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  { "responseCode" : 0,  "responseText" : "success"}
 
-
-
-
-
+    /parcel-manifest:
+      type:
+        resourceTypesLib.collection:
+      is: [traitsLib.traceable: {required: true},traitsLib.secured: {required: true}]
+      post:
+        description: |
+          Resource to inform Royal Mail about the list of parcels which are ready for collection.
+        body:
+          application/json:
+            properties:
+              sales-orders: dataTypesLib.sales-orders
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  { "responseCode" : 0,  "responseText" : "success"}
 
 
 
