@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<flow name="confirm-shipment-scheduler-flow" doc:id="864ef309-2eb7-435a-a57e-d0e300467cd0" >
+		<scheduler doc:name="Scheduler" doc:id="ea90a938-18b4-4b45-9de2-c29e0e820510" >
+			<scheduling-strategy >
+				<cron expression="${scheduler.cron.expression}"/>
+			</scheduling-strategy>
+		</scheduler>
+		<ee:transform doc:name="Set Attributes" doc:id="2af3afbd-cb58-43c4-91bd-e5ef1d44d2bd" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="flowName" ><![CDATA['confirm-shipment-scheduler-flow']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[%dw 2.0
+output application/java
+---
+correlationId]]></ee:set-variable>
+                <ee:set-variable variableName="transactionStartTime"><![CDATA[%dw 2.0
+output application/java
+---
+now() as String {format: "yyyy-MM-dd'T'hh:mm:ss.SS'Z'"}]]></ee:set-variable>
+				<ee:set-variable variableName="packageName" ><![CDATA[%dw 2.0
+output application/json
+---
+p('d365.dmf.export.IDD002.packageName') ++ now() as String {format: "ddMMyyyyhhms"}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="69253692-1304-4e6b-ae5d-f6152b7a2d47" name="log-receiver-entry-sub-flow" />
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="a3daef08-c26f-464a-bfa5-467e67b2d821" name="audit-receiver-entry-sub-flow" />
+		<try doc:name="Try" doc:id="1f86fc2a-790c-4563-a2c8-a2bd270b689f" >
+			<http:request method="GET" doc:name="Invoke D365 System Layer Api" doc:id="d4b4ca47-80fb-4215-8b25-95f468b4f56e" config-ref="D365_Http_Request_configuration" target="originalPayload" path="${d365.dmf.export.path}" responseTimeout="${d365.responseTimeout}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::d365.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('d365.clientId')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"definitionGroupId" : p('d365.dmf.export.IDD002.definitionGroupId'),
+	"packageName" : p('d365.dmf.export.IDD002.packageName')
+}]]]></http:query-params>
+		
+			</http:request>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a5b98b30-0be3-47c8-be22-e69ceb77fe5c" >
+					<flow-ref doc:name="Flow Reference audit-error-sub-flow" doc:id="219e3592-ffa6-4499-becb-bff16d23a3c9" name="audit-error-sub-flow"/>
+					<flow-ref doc:name="Flow Reference log-error-sub-flow" doc:id="56e1ad3d-5ba0-48dc-ba45-83edb22a2a56" name="log-error-sub-flow"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<flow-ref doc:name="Flow Reference audit-process-entry-sub-flow" doc:id="cf92f14f-47a3-4919-bc7e-5bf35d93e323" name="audit-process-entry-sub-flow"/>
+		<flow-ref doc:name="Flow Reference confirm-shipment-implSub_Flow" doc:id="f95895b5-66ea-41da-bee8-57ea0403fc17" name="log-process-entry-sub-flow"/>
+		<try doc:name="Try" doc:id="cade4e2c-7df3-43ba-814a-e52f830caec2" >
+			<flow-ref doc:name="Flow Reference confirm-shipment-implSub_Flow" doc:id="f03d8175-2c64-424e-bad7-c57941680cc7" name="confirm-shipment-implSub_Flow" />
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b5c172b3-a998-495e-82b7-2f32985dde8d" >
+					<flow-ref doc:name="Flow Reference audit-error-sub-flow" doc:id="dead797d-d400-4502-86c3-673bd2d7f1b6" name="audit-error-sub-flow"/>
+					<flow-ref doc:name="Flow Reference log-error-sub-flow" doc:id="ed559c86-f3e7-49ac-95a7-959851d97825" name="log-error-sub-flow"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="c8eebef0-b4b7-48db-a87d-23c5acd27268" name="audit-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="2977b5ab-59c4-47e0-b6a2-2ddd6a0108d0" name="log-dispatcher-exit-sub-flow"/>
+	</flow>
+	<flow name="fetch-lookups-scheduler-flow" doc:id="0aaf7776-1fb9-41c8-b270-88d114fc322a" >
+		<scheduler doc:name="Scheduler" doc:id="8ff10db7-3683-4e97-a085-fb91b8067d4f" >
+			<scheduling-strategy >
+				<cron expression="${lookup.cron.scheduler}" />
+			</scheduling-strategy>
+		</scheduler>
+		<ee:transform doc:name="Set Flow Name and Transaction Start Date" doc:id="a5e9714c-f7c2-4fc1-bbae-c44f044c6fa0">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="flowName"><![CDATA[%dw 2.0
+output application/java
+---
+'fetch-lookups-scheduler-flow']]></ee:set-variable>
+                <ee:set-variable variableName="transactionId"><![CDATA[%dw 2.0
+output application/java
+---
+correlationId]]></ee:set-variable>
+                <ee:set-variable variableName="transactionStartTime"><![CDATA[%dw 2.0
+output application/java
+---
+now() as String {format: "yyyy-MM-dd'T'hh:mm:ss.SS'Z'"}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <flow-ref doc:name="Log Receiver Entry" doc:id="16bb563f-f5e7-4338-ae64-6ec56f3ce47f" name="log-receiver-entry-sub-flow" />
+        <flow-ref doc:name="Audit Receiver Entry" doc:id="35a25ff8-d3ae-4d69-8312-bfaad269d038" name="audit-receiver-entry-sub-flow" />
+		<try doc:name="Try" doc:id="93425240-8a4c-419f-a513-bdc271a16234" >
+			<http:request method="GET" doc:name="Invoke Lookup Api to Fetch CountryCodes" doc:id="1eb4d03e-a04c-4228-b085-abf22a93e056" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" target="countryCodesResponse">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('lookup.clientId')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"source" : p('lookup.queryParam.source'),
+	"type" : p('lookup.queryParam.type'),
+	"category" : p('lookup.queryParam.category')
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2cd8fabf-4f43-4e1a-8019-d75b53c6df26" >
+					<ee:transform doc:name="Set Empty Response" doc:id="67a1d1d9-81a0-47da-919d-50c958325452" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="serviceLevelResponse" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<try doc:name="Try" doc:id="0140eccb-2f77-45e4-8000-894a601d1d6c" >
+			<http:request method="GET" doc:name="Invoke Lookup Api to Fetch Service Level" doc:id="f61bd199-8417-4da8-8011-f668f1bc2875" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" target="serviceLevelResponse">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('lookup.clientId')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"source" : p('lookup.serviceLevelQueryParam.source'),
+	"type" : p('lookup.serviceLevelQueryParam.type'),
+	"category" : p('lookup.serviceLevelQueryParam.category')
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="575c227f-4e43-47d2-979b-e295ff6f7aaf" >
+					<ee:transform doc:name="Set Empty Response" doc:id="cc4f38fd-5fdb-40d8-adf6-3454f860c6ec" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="serviceLevelResponse" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<try doc:name="Try" doc:id="28ce56be-9a85-40d5-a529-3ec34c31b770" >
+			<http:request method="GET" doc:name="Invoke Lookup Api to Fetch Service Format" doc:id="b795ee11-2bb5-4f5c-8cc5-89d5e4e66acd" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" target="serviceFormatResponse">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('lookup.clientId')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"source" : p('lookup.serviceFormatQueryParam.source'),
+	"type" : p('lookup.serviceFormatQueryParam.type'),
+	"category" : p('lookup.serviceFormatQueryParam.category')
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1dc6c968-3fd9-4482-9e56-df02b161bd29" >
+					<ee:transform doc:name="Set Empty Response" doc:id="f7c3a232-6c97-4932-845a-dc307fea4df7" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="serviceFormatResponse" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<try doc:name="Try" doc:id="f3b14733-d6b1-4e27-9524-ceac8db130eb" >
+			<http:request method="GET" doc:name="Invoke Lookup Api to Fetch Posting Location" doc:id="d90dee75-58bb-45f1-ab97-05edfcf97d30" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}" target="postingLocationResponse">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::lookup.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('lookup.clientId')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"source" : p('lookup.postingLocationQueryParam.source'),
+	"type" : p('lookup.postingLocationQueryParam.type'),
+	"category" : p('lookup.postingLocationQueryParam.category')
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="67928c6c-3bfc-4e99-ab9f-90a51279095e" >
+					<ee:transform doc:name="Set Empty response" doc:id="269778fb-c044-4cd2-8c7a-281e4e56d046" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="postingLocationResponse" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Lookup Collection" doc:id="20142f60-057a-4b46-9f93-c51ef9192d95" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+((vars.serviceLevelResponse.lookups default []) ++
+(vars.serviceFormatResponse.lookups default []) ++
+(vars.countryCodesResponse.lookups default []) ++
+(vars.postingLocationResponse.lookups default [])) reduce ((item, acc = {}) -> 
+	acc ++ 
+	{
+		(item.'lookup-key'): item.'lookup-value'
+	} 
+)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<os:store doc:name="Store lookup data in Object Store" doc:id="16199b54-83cc-44e1-9b74-537db399bcf7" key="lookupData" objectStore="Object_store" />
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="37d0f8d0-e7b3-42f9-bd40-c5ca4963f3be" name="log-dispatcher-exit-sub-flow" />
+        <flow-ref doc:name="Audit Dispatcher Exit" doc:id="a2833a79-b1bb-4570-be7f-575c67575877" name="audit-dispatcher-exit-sub-flow" />
+	</flow>
+</mule>

@@ -8,24 +8,10 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="confirm-shipment-implSub_Flow" doc:id="091a1d9f-c315-4eb1-9919-5db266bf2198" >
 		<set-variable value="#['create-shipment-implSub_Flow']" doc:name="Set Flow Name" doc:id="74951ae1-165c-4d95-b91f-88aa494708a8" variableName="flowName"/>
-		<ee:transform doc:name="Request Mapping For RoyalMail-confirm-shipment" doc:id="afdd9cc8-420b-4eff-aec8-d2763a492812" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
 		<flow-ref doc:name="Log Process Entry" doc:id="b4a433f2-e4ca-4882-9525-3a42066804ab" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="59f886b7-cb1a-40f2-b443-be6511416b21" name="audit-process-entry-sub-flow"/>
-		<http:request method="POST" doc:name="Call s-royalmail-api for confirm shipment" doc:id="6673ad5a-5f01-4ed4-8fab-16cf70d73c3c" config-ref="Royalmail_HTTP_Request_configuration" path="${royalmail.confirm-shipment-path}">
-			<http:query-params ><![CDATA[#[output application/java
----
-{
-	"client_secret" : p('royalmail.client_secret'),
-	"client_id" : p('royalmail.client_id')
-}]]]></http:query-params>
-		</http:request>
+		<set-variable value="${royalmail.confirmShipmentPath}" doc:name="Set Variable Operation" doc:id="922750fb-0036-413c-8b20-a451f24542b5" variableName="operation"/>
+		<flow-ref doc:name="Call Royal Mail API" doc:id="1f83a583-e5b3-4a8e-a8ac-03a0b67c6fbe" name="royalmail-system-api-call-sub-flow"/>
 		<flow-ref doc:name="Audit Process Exit" doc:id="b6654ba7-fb70-4b85-a887-0d461b817a1b" name="audit-process-exit-sub-flow"/>
 		<flow-ref doc:name="Log Process Exit" doc:id="38ebe51c-a29e-42f8-8275-ed357b744378" name="log-process-exit-sub-flow"/>
 	</sub-flow>

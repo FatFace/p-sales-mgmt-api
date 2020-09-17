@@ -7,95 +7,118 @@ http://www.mulesoft.org/schema/mule/common-logging-extension http://www.mulesoft
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="1bf1e8cd-227d-4e20-ba33-5dc96811db5e" />
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="337e6aa6-0cfe-40c2-ae84-680da4aff31d" maxEntries="${objectstore.maxEntries}" entryTtl="${objectstore.ttl}" expirationInterval="${objectstore.expirationInterval}" config-ref="ObjectStore_Config"/>
 	<sub-flow name="create-shipment-implSub_Flow" doc:id="091a1d9f-c315-4eb1-9919-5db266bf2198" >
 		<set-variable value="#['create-shipment-implSub_Flow']" doc:name="Set Flow Name" doc:id="74951ae1-165c-4d95-b91f-88aa494708a8" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="b4a433f2-e4ca-4882-9525-3a42066804ab" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="59f886b7-cb1a-40f2-b443-be6511416b21" name="audit-process-entry-sub-flow"/>
-		<flow-ref doc:name="get-store-code-posting-location-from-dblookup-sub-flow" doc:id="5a6d9ad1-54c5-4215-bb08-b5fb5ef184f3" name="get-store-code-posting-location-from-dblookup-sub-flow" target="vDBLookupCountryCodes"/>
+		<try doc:name="Try" doc:id="ec0c3ea7-b938-4447-9636-e62766169382" >
+			<os:retrieve doc:name="Retrieve Lookup Data from Store" doc:id="561f1a52-49e7-46e5-9bf3-764139c214e4" key="lookupData" objectStore="Object_store" target="lookupData">
+			<os:default-value><![CDATA[#[{
+	"GBR":"GB",
+	"70462":"9000257150"
+}]]]></os:default-value>
+		</os:retrieve>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ee6a1e30-a9a7-4b04-af43-fd6148c2a918" >
+					<ee:transform doc:name="Set Empty Response" doc:id="580876e4-72eb-40a0-a12d-3752913431ed" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="lookupData" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"GBR":"GB",
+	"70462":"9000257150"
+}]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<logger level="INFO" doc:name="Logger" doc:id="aadc9924-a368-4e53-bb2b-c3cc2990cbfd" message="LookupData is #[vars.lookupData]"/>
 		<ee:transform doc:name="Request Mapping For RoyalMail" doc:id="58f0bd76-a285-44bf-90c3-f679ae89fb60" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json  skipNullOn='everywhere'
+output application/json
 ---
 {
-  "sales-orders": payload."sales-orders" map {
-    "order-no": $."order-no",
-    "currency": $.currency,
-    "invoice-amount": $."invoice-amount",
-    'order-type': $.'order-type',
-    'sales-pool': $.'sales-pool',
-    'sales-status': $.'sales-status',
-    'transaction-id': $.'transaction-id',
-    "orderlines": {
-      'data-area-id': $.orderlines.'data-area-id',
-      'package-slip-id': $.orderlines.'package-slip-id',
-      'sales-price': $.orderlines.'sales-price',
-      'item-id': $.orderlines.'item-id',
-      'tax-group-id': $.orderlines.'tax-group-id',
-      'amount': $.orderlines.amount,
-      'line-id':$.orderlines.'line-id',
-      'created-date':$.orderlines.'created-date',
-      'cancelled-quantity': $.orderlines.'cancelled-quantity',
-      'delivered-quantity': $.orderlines.'delivered-quantity',
-      'delivery-remainder': $.orderlines.'delivery-remainder',
-      'invoice-remainder': $.orderlines.'invoice-remainder',
-      'delivery-mode': $.orderlines.'delivery-mode',
-      'ordered-quantity': $.orderlines.'ordered-quantity',
-       "customer": {
-        'customer-id': $.orderlines.customer.'customer-id',
-        'fullname': $.orderlines.customer.fullname,
-        'email': $.orderlines.customer.email
-      },
-      "product": {
-        'product-id': $.orderlines.product.ProductNumber,
-        "skus": [
-          {
-            'description': $.orderlines.product.description,
-            'barcode': $.orderlines.product.barcode,
-            'colour': $.orderlines.product.colour,
-            'size': $.orderlines.product.size,
-            'fit': $.orderlines.product.fit
-          }
-        ]
-      },
+    'create-shipment': payload.'create-shipment' map {
+        "order-no": $."order-no",
+        "currency": $.currency,
+        "invoice-amount": $."invoice-amount",
+        'order-type': $.'order-type',
+        'sales-pool': $.'sales-pool',
+        'sales-status': $.'sales-status',
+        'transaction-id': $.'transaction-id',
+        "orderlines": $.orderlines map {
+            'data-area-id': $.'data-area-id',
+            'package-slip-id': $.'package-slip-id',
+            'sales-price': $.'sales-price',
+            'item-id': $.'item-id',
+            'tax-group-id': $.'tax-group-id',
+            'amount': $.amount,
+            'line-id':$.'line-id',
+            'created-date':$.'created-date',
+            'cancelled-quantity': $.'cancelled-quantity',
+            'delivered-quantity': $.'delivered-quantity',
+            'delivery-remainder': $.'delivery-remainder',
+            'invoice-remainder': $.'invoice-remainder',
+            'delivery-mode': p($.'delivery-mode'),
+            'ordered-quantity': $.'ordered-quantity',
+            "customer": {
+                    'customer-id': $.customer.'customer-id',
+                    'fullname': $.customer.fullname,
+                    'email': $.customer.email
+                },
+            "product": {
+                'product-id': $.product.'product-id',
+                "skus": $.product.skus map
+                {
+                    'description': $.description,
+                    'barcode': $.barcode,
+                    'colour': $.colour,
+                    'size': $.size,
+                    'fit': $.fit,
+                    'weight': $.weight default (p('createShipment.default.weight') as Number)
+                }
+            },
       "warehouse": {
-        'warehouse-id': $.orderlines.warehouse.'warehouse-id',
-        'name': $.orderlines.warehouse.name,
+        'warehouse-id': $.warehouse.'warehouse-id',
+        'name': $.warehouse.name,
         'warehouse-address': {
-          'address-1': $.orderlines.warehouse.'warehouse-address'.'address-1',
-          'address-2': $.orderlines.warehouse.'warehouse-address'.'address-2',
-          'city': $.orderlines.warehouse.'warehouse-address'.city,
-          'country': $.orderlines.warehouse.'warehouse-address'.country,
-          'postcode': $.orderlines.warehouse.'warehouse-address'.postcode,
-          'contact-number': $.orderlines.warehouse.'warehouse-address'.'contact-number',
-          'email': $.orderlines.warehouse.'warehouse-address'.email
+          'address-1': $.warehouse.'warehouse-address'.'address-1',
+          'address-2': $.warehouse.'warehouse-address'.'address-2',
+          'city': $.warehouse.'warehouse-address'.city,
+          'country': vars.lookupData[$.warehouse.'warehouse-address'.country],
+          'postcode': $.warehouse.'warehouse-address'.postcode,
+          'contact-number': $.warehouse.'warehouse-address'.'contact-number',
+          'email': $.warehouse.'warehouse-address'.email
         }
       },
       "promotions": {
-        'promotion-id': $.orderlines.promotions.'promotion-id'
+        'promotion-id': $.promotions.'promotion-id'
       },
-      "custom-attributes":  vars.vDBLookupCountryCodes.lookups map (vDBLookup, indexOfvDBLookup) ->
-        {
-          'custom-attribute-key': vDBLookup."lookup-key",
-          'custom-attribute-value': vDBLookup."lookup-value"  
-        }
-      
+      "custom-attributes":  vars.lookupData
     },
-    "shipments": {
-      "shipping-address": {
-        'street': $.shipments."shipping-address".street,
-        'city': $.shipments."shipping-address".city,
-        'county': $.shipments."shipping-address".county,
-        'country': $.shipments."shipping-address".country,
-        'postcode': $.shipments."shipping-address".postcode,
-        'contact-number': $.shipments."shipping-address".'contact-number'
-      }
+    "shipments": $.shipments map {
+        "shipping-address": {
+            'street': $."shipping-address".street,
+            'city': $."shipping-address".city,
+            'county': $."shipping-address".county,
+            'country': vars.lookupData[$."shipping-address".country],
+            'postcode': $."shipping-address".postcode,
+            'contact-number': $."shipping-address".'contact-number'
+        }
     }
-  }
+    }
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<flow-ref doc:name="Call Royal Mail API" doc:id="643e2616-0035-4464-a5c2-ace1c75e3460" name="post-create-shipment-sub-flow"/>
+		<set-variable value="${royalmail.createShipmentPath}" doc:name="Set Variable Operation" doc:id="b95fe63b-7c83-4280-8958-7577780c5dfa" variableName="operation"/>
+		<flow-ref doc:name="Call Royal Mail API" doc:id="643e2616-0035-4464-a5c2-ace1c75e3460" name="royalmail-system-api-call-sub-flow"/>
 		<ee:transform doc:name="Response Payload From RoyalMail" doc:id="84338071-3c91-4c09-897d-0eb5ac08d364" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -105,66 +128,31 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<sub-flow name="get-store-code-posting-location-from-dblookup-sub-flow" doc:id="4a77a2c9-ce45-4a03-8bfd-ae29897d47a0" >
-		<set-variable value="#['get-store-code-posting-location-from-dblookup-sub-flow']" doc:name="Set Flow Name" doc:id="9ae9753d-1ff2-476d-a063-229eb10e91f7" variableName="flowName"/>
-		<flow-ref doc:name="Log Process Entry" doc:id="90bf1670-2f21-47be-aa02-f22119ac823c" name="log-process-entry-sub-flow"/>
-		<flow-ref doc:name="Audit Process Entry" doc:id="06ab6ccb-c11c-4430-a251-8f73358ed544" name="audit-process-entry-sub-flow"/>
-		<set-variable value="#[p('lookup.create-shipment-key')]" doc:name="Set Key" doc:id="999a7d8c-b08e-4a92-8073-42819de7e08b" variableName="vLookUpData"/>
-		<os:contains doc:name="Check for the value in the Object Store" doc:id="337e6aa6-0cfe-40c2-ae84-680da4aff31d" key="#[vars.vLookUpData]"/>
-		<choice doc:name="Choice" doc:id="f6eed575-7089-44fd-ad30-306634345826" >
-			<when expression="#[payload ==true]">
-				<os:retrieve doc:name="Retrieve Lookup Data From Object Store" doc:id="6239f382-df52-4b5e-afbb-27d9b9a18418" key="#[vars.vLookUpData]"/>
-				<flow-ref doc:name="Logging Sub Flow" doc:id="4ff82780-473c-4bae-9a9a-b949fe617691" name="logging-sub-flow"/>
-				<flow-ref doc:name="Audit Success Sub Flow" doc:id="f5b18477-99da-4eb0-9552-cf4d428eb8f0" name="audit-process-entry-sub-flow"/>
-				<ee:transform doc:name="Transform Message" doc:id="005e90ed-85db-4d62-aa47-dd1d39860887" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<otherwise >
-				<flow-ref doc:name="DB lookup Key Call" doc:id="989175f4-07cf-44f3-8658-f5ec3d624233" name="get-db-lookup-sub-flow"/>
-				<os:store doc:name="Store Lookup Data in Object Store" doc:id="005c3dda-7f5d-46e2-8e84-0a4b636f51f8" key="#[vars.vLookUpData]"/>
-				<flow-ref doc:name="Logging Sub Flow" doc:id="a64909b4-76bf-4e8a-836b-229d3a20961f" name="log-process-entry-sub-flow"/>
-				<flow-ref doc:name="Audit Success Sub Flow" doc:id="611d00bf-acfc-4d90-8de6-684474bb5d04" name="audit-process-entry-sub-flow"/>
-			</otherwise>
-		</choice>
-		<set-variable value="" doc:name="Set Flow Name" doc:id="96345874-7ee1-420c-9a02-4bc8155f99b4" variableName="flowName"/>
-		<flow-ref doc:name="Log Process Exit" doc:id="53ea1168-2edf-4c23-96f2-80c70dd7344a" name="log-process-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Process Exit" doc:id="46eba299-30ae-4bb2-8b5b-40e51e0d5906" name="audit-process-exit-sub-flow"/>
-	</sub-flow>
-	<sub-flow name="get-db-lookup-sub-flow" doc:id="47af840b-8c84-4029-85f7-eedf1feb4fc7" >
-		<set-variable value="#['get-db-lookup-sub-flow']" doc:name="Flow Name" doc:id="18531ef5-98e0-451b-a957-aab56913c534" variableName="flowName"/>
-		<flow-ref doc:name="Log Process Entry" doc:id="8c9ef36c-d45d-4458-8f4f-83f1a5048edd" name="log-process-entry-sub-flow"/>
-		<flow-ref doc:name="Audit Process Entry" doc:id="40076b43-cb1b-4c03-8ffc-3024fafc71bb" name="audit-process-entry-sub-flow"/>
-		<http:request method="GET" doc:name="Invoke System Layer Lookup Api to Get Lookup Key" doc:id="c7286eb7-223f-41e4-9024-6abbce04c9f6" config-ref="dbLookup_HTTP_Request_configuration" path="${lookup.dbLookupPath}">
-			<http:query-params ><![CDATA[#[output application/java
----
-{
-	"source" : p('lookup.create-shipment-queryParam.source'),
-	"type" : p('lookup.create-shipment-queryParam.type'),
-	"category" : p('lookup.create-shipment-queryParam.category')
-}]]]></http:query-params>
-		</http:request>
-		<flow-ref doc:name="Log Process Exit" doc:id="d2902fbd-283b-4571-9d0d-c0e8f96a876b" name="log-process-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Process Exit" doc:id="ce40554d-fe82-4898-b759-b10037b3ae74" name="audit-process-exit-sub-flow"/>
-	</sub-flow>
-	<sub-flow name="post-create-shipment-sub-flow" doc:id="aa3461d0-d4ae-4c4b-be71-2eddc6704210" >
-		<set-variable value="#['post-create-shipment-sub-flow']" doc:name="Flow Name" doc:id="ab717e92-917b-4d9d-a9ed-c72d1013ccb4" variableName="flowName"/>
+	<sub-flow name="royalmail-system-api-call-sub-flow" doc:id="aa3461d0-d4ae-4c4b-be71-2eddc6704210" >
+		<set-variable value="#['royalmail-system-api-call-sub-flow']" doc:name="Flow Name" doc:id="ab717e92-917b-4d9d-a9ed-c72d1013ccb4" variableName="flowName"/>
 		<flow-ref doc:name="Log Process Entry" doc:id="9a429dc8-f515-4872-810c-dabcbcb0434f" name="log-process-entry-sub-flow"/>
 		<flow-ref doc:name="Audit Process Entry" doc:id="c29dd02a-eafb-4080-80ef-e59135495ac8" name="audit-process-entry-sub-flow"/>
-		<http:request method="POST" doc:name="Invoke System Layer of RoyalMail API to create shipment" doc:id="f092df9b-bcc8-47f6-82f3-83eda9055f99" config-ref="Royalmail_HTTP_Request_configuration" path="${royalmail.create-shipment-path}">
-			<http:query-params ><![CDATA[#[output application/java
+		<until-successful maxRetries="${royalmail.untilSuccessful.retries}" doc:name="Until Successful" doc:id="f8be9914-11da-45ff-8cd5-427658353629" millisBetweenRetries="${royalmail.untilSuccessful.frequency}">
+			<try doc:name="Try" doc:id="a8020e4f-3d6a-474a-b38a-cdd3cbc88e7f" >
+				<http:request method="POST" doc:name="Invoke RoyalMail API" doc:id="f092df9b-bcc8-47f6-82f3-83eda9055f99" config-ref="Royalmail_HTTP_Request_configuration" path="#[vars.operation]">
+			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"client_secret" : p('royalmail.client_secret'),
-	"client_id" : p('royalmail.client_id')
-}]]]></http:query-params>
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::royalmail.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('royalmail.clientId')
+}]]]></http:headers>
 		</http:request>
+				<error-handler >
+					<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d8eb6b77-73a6-423f-bfef-ee9de7b36781" >
+						<flow-ref doc:name="Flow Reference audit-error-sub-flow" doc:id="afb9c96b-02c1-4130-9ebd-5388c71ac71b" name="audit-error-sub-flow"/>
+						<flow-ref doc:name="Flow Reference log-error-sub-flow" doc:id="966c080d-5d21-42ad-8da9-bfda468b683b" name="log-error-sub-flow"/>
+					</on-error-propagate>
+				</error-handler>
+			</try>
+		</until-successful>
+		<flow-ref doc:name="Audit Process Exit" doc:id="0103b6e5-d821-4156-9522-28dbe1da83a8" name="audit-process-exit-sub-flow" />
 		<flow-ref doc:name="Log Process Exit" doc:id="61dc14af-23ae-4853-ad1d-4cbdb545f3ee" name="log-process-exit-sub-flow"/>
-		<flow-ref doc:name="Audit Process Exit" doc:id="0103b6e5-d821-4156-9522-28dbe1da83a8" name="audit-process-exit-sub-flow"/>
 	</sub-flow>
 </mule>
