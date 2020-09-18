@@ -34,7 +34,7 @@ db:
 sftp:
   host: "ftp.fatface.com"
   port: "22"
-  username: "mulesoft-prod"
+  username: "![hBYq3P3h6kCiXYBgZxMFGA==]"
   password: "![LtYbkrW+7j7ggzPQPNal7Q/0d+v+b/22eIcYbhfeW3w=]" 
   
 sqs:
