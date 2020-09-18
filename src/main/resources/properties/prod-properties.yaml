@@ -8,8 +8,8 @@ http:
 #----Common Block---No change Needed----      
 cloudhub:
   username: "![0so5SqsEunWc4U+W5DRa5eJOhljaw4Nx0qJg4yp3qnA=]"
-  password: "![828g0ukkhaCDoayPBgPZ06Oa0uDELiXntFk5OykvNdk=]"
-  
+  password: "![avdAlF/7zHhA3/onlsWMTnMf91n0ai/MeHWp4YwZ2E8=]"
+ 
 smtp:
   host: "mail.fatface.net"
   port: "465"
@@ -25,22 +25,22 @@ api:
 db:
  audit: 
   config:
-   host: "mule-sandbox.cm1i2vsjtzdf.eu-west-1.rds.amazonaws.com"
+   host: "mule-production.cqrprw6rtaub.eu-west-1.rds.amazonaws.com"
    port: "1433"
-   user: "![AyD0mBi0zwPqptV8KbEJGkjzeMuTdVHL2AEWiq0N3sQ=]"
-   password: "![PX91DJD02zpJ0MJ3jLRKUw==]"
-   database: "FATFACE_DB" 
+   user: "![l6tm9JzV+ULxt4hKV/MzKZ83Yn4cCE/917I1vt54IW4=]"
+   password: "![r6KAK6ZTbrr0hzQelsG8af4HTWiInKYoBUvqXIJ9Mlo=]"
+   database: "MULE_DB"
 
 sftp:
   host: "ftp.fatface.com"
   port: "22"
-  username: "![W49cMbSedB3HHfPcr0pWWyYHk27r5mLh++/a62Nglxg=]"
-  password: "![YoKYhq6QWsR9eW3AVcCh2TRSSvrwrp94baroSAHlBlg=]" 
+  username: "mulesoft-prod"
+  password: "![LtYbkrW+7j7ggzPQPNal7Q/0d+v+b/22eIcYbhfeW3w=]" 
   
 sqs:
-  accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
-  secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
-  region: "![6lleIG6Qoif/fTA7pK+sUA==]"
+  accessKey: "![HUPOgqa/QyAmhhcFSFdICKQbbkOqmeVoTjBD+AVdN2U=]"
+  secretKey: "![Fq6D1+D6Lfgal8yEK17QktkXJGj9Orvt+Sph9eHUYIDsFg7mN8CKjpAamL6AHeq8]"
+  region: "![5yV0cMXIWtD0Vl58lOKrzQ==]"
         
 d365:
   host: "mule-worker-internal-s-d365-api.ir-e1.cloudhub.io"
@@ -63,9 +63,6 @@ demandware:
   client_id: "587f052383c44efbadc76e22201cba19"
   client_secret: "![+6LrbmEe+njbAiXUXZX1+7Nq1IMTLZTmBBLwyUF89jr5yQxXx6ydvM5v0UczJCgE]"
   
-response:
-  timeout: "120000"
-  
 scheduler:
   cron:
     expression: "0 30 16 1/1 * ? *"
@@ -79,7 +76,7 @@ status:
   responseMessage: "Success"
   
 lookup:
-  host: "mule-worker-internal-prod-s-dblookup-api.ir-e1.cloudhub.io"
+  host: "mule-worker-internal-s-dblookup-api.ir-e1.cloudhub.io"
   port: "8091"
   basePath: "/api/v1"
   dbLookupPath: "/lookups"
