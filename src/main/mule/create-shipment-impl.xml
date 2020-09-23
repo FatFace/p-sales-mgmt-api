@@ -126,7 +126,7 @@ output application/json
 			</otherwise>
 		</choice>
 		<choice doc:name="If Errors" doc:id="d488ceab-ade6-40de-aeb5-915900a84147" >
-			<when expression="#[sizeOf(flatten(payload.createShipmentResponse..errors)) &gt; 0]">
+			<when expression="#[sizeOf(flatten(payload.'create-shipment-response'..errors)) &gt; 0]">
 				<raise-error doc:name="Raise error" doc:id="594cf5d5-312f-4b92-82c9-4d5350148d71" type="SHIPMENT:LABEL_GENERATION_ERROR"/>
 			</when>
 		</choice>
