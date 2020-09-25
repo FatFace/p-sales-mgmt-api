@@ -59,17 +59,6 @@ p('d365.dmf.export.IDD002.packageName') ++ now() as String {format: "ddMMyyyyhhm
 				</on-error-propagate>
 			</error-handler>
 		</try>
-		<flow-ref doc:name="Flow Reference audit-process-entry-sub-flow" doc:id="cf92f14f-47a3-4919-bc7e-5bf35d93e323" name="audit-process-entry-sub-flow"/>
-		<flow-ref doc:name="Flow Reference confirm-shipment-implSub_Flow" doc:id="f95895b5-66ea-41da-bee8-57ea0403fc17" name="log-process-entry-sub-flow"/>
-		<try doc:name="Try" doc:id="cade4e2c-7df3-43ba-814a-e52f830caec2" >
-			<flow-ref doc:name="Flow Reference confirm-shipment-implSub_Flow" doc:id="f03d8175-2c64-424e-bad7-c57941680cc7" name="confirm-shipment-implSub_Flow" />
-			<error-handler >
-				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b5c172b3-a998-495e-82b7-2f32985dde8d" >
-					<flow-ref doc:name="Flow Reference audit-error-sub-flow" doc:id="dead797d-d400-4502-86c3-673bd2d7f1b6" name="audit-error-sub-flow"/>
-					<flow-ref doc:name="Flow Reference log-error-sub-flow" doc:id="ed559c86-f3e7-49ac-95a7-959851d97825" name="log-error-sub-flow"/>
-				</on-error-propagate>
-			</error-handler>
-		</try>
 		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="c8eebef0-b4b7-48db-a87d-23c5acd27268" name="audit-dispatcher-exit-sub-flow"/>
 		<flow-ref doc:name="Log Dispatcher Exit" doc:id="2977b5ab-59c4-47e0-b6a2-2ddd6a0108d0" name="log-dispatcher-exit-sub-flow"/>
 	</flow>
