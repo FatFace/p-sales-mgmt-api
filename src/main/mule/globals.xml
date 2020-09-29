@@ -53,7 +53,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     <http:request-config name="dbLookup_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="8e8c5d58-bd01-459b-9676-aef18760a4b1" basePath="${lookup.basePath}" >
 		<http:request-connection host="${lookup.host}" port="${lookup.port}" />
 	</http:request-config>
-	<http:request-config name="Royalmail_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="cecf37ae-28c4-45c6-916a-e0c27b38287d" basePath="${royalmail.basePath}">
+	<http:request-config name="Royalmail_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="cecf37ae-28c4-45c6-916a-e0c27b38287d" basePath="${royalmail.basePath}" responseTimeout="${royalmail.responseTimeout}">
 		<http:request-connection host="${royalmail.host}" port="${royalmail.port}" />
 	</http:request-config>
 </mule>

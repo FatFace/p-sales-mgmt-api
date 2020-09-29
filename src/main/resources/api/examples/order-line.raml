@@ -1,0 +1,29 @@
+#%RAML 1.0 NamedExample
+"data-area-id": "1ffl"
+"package-slip-id": "DLV000000001"
+"sales-price": 43.75
+"item-id": "939136"
+"tax-group-id": "STD"
+"amount": 1
+"line-id": 1
+"created-date": "2018-07-03T18:25:43.200Z"
+"cancelled-quantity": 0
+"delivered-quantity": 1
+"delivery-remainder": 0
+"invoice-remainder": 0
+"delivery-mode": "nextdayGBP"
+"ordered-quantity": 1
+"customer": 
+  "customer-id": "CU1000011"
+  "fullname": "Order Two"
+  "email": ""
+"product": 
+  "product-id": "939136 :  : M : ADMIRAL BL :"
+  "skus": [!include sku.raml]
+"warehouse":
+  "warehouse-id": "70462"
+  "name": "DUNSBURY"
+  "warehouse-address": !include store-address.raml
+"promotions":
+  ["promotion-id": ""]
+"custom-attributes": [!include custom-attributes.raml]      

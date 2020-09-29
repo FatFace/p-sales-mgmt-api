@@ -77,6 +77,7 @@ royalmail:
   confirmShipmentPath: "/shipment/parcel-manifest"
   clientId: "c1751cc13ad746a8a49c404c966839f7"
   clientSecret: "7d3aFbC44E8e49048935f06A7A2a099d"
+  responseTimeout: "300000"
   untilSuccessful:
     retries: "0"
     frequency: "30000"
