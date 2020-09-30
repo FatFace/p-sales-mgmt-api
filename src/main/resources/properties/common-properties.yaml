@@ -26,6 +26,12 @@ db:
       max: "35"
       min: "13"
       
+STANDARD: "TPLN"
+standGBP: "TPLN"
+NEXTDAY: "TPMN" 
+nextdayGBP: "TPMN"
+DtsGBP: "TPMN"     
+      
 error:
   msg:
     '404': "Resource not found"

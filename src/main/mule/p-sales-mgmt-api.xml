@@ -84,4 +84,22 @@ output application/json
         <flow-ref doc:name="Log Dispatcher Exit" doc:id="6fbd517a-6f38-4798-bba7-3f6bb239ccdd" name="log-dispatcher-exit-sub-flow" />
         <flow-ref doc:name="Audit Dispatcher Exit" doc:id="51f097d9-0bfb-4155-becf-e9dd740b9156" name="audit-dispatcher-exit-sub-flow" />
     </flow>
+	<flow name="post:\orders\shipment\label-creation:application\json:p-sales-mgmt-api-config" doc:id="b895b558-722b-463b-a3d4-73241948ba69" >
+		<set-variable value="#['post:\orders\shipment\label-creation\:application\json:p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="8920845b-d8fc-4b19-88a1-1c61f0c15711" variableName="flowName"/>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="2c4e448c-0d21-472c-9980-8e4cb26d43ec" name="log-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="abba9c57-da1c-4782-9978-c079774e4c91" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="create-shipment-impl-sub_flow" doc:id="a22ca9c3-e1f0-49bb-9d55-9464e4f56653" name="create-shipment-implSub_Flow"/>
+		<set-variable value="#['post:\orders\shipment\label-creation\:application\json:p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="93283d74-41ca-48d3-bff9-8505d3923c74" variableName="flowName"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="ce1a00ee-8fba-40e0-becd-6a396c046141" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="3bc94a32-5b9d-4f74-93a5-a1300cac83b5" name="audit-dispatcher-exit-sub-flow"/>
+	</flow>
+	<flow name="post:\orders\shipment\parcel-manifest:application\json:p-sales-mgmt-api-config" doc:id="2903d8de-6b6c-4780-8857-982842d89829" >
+		<set-variable value="#['post:\orders\shipment\parcel-manifest\:application\json:p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="ad30e9ec-37cb-4415-8e3a-390b20b9737b" variableName="flowName"/>
+		<flow-ref doc:name="Log Receiver Entry" doc:id="da59ab22-0706-4092-b47b-d526c198b44c" name="log-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Receiver Entry" doc:id="7200544d-e37b-4189-ad04-be1ab6c6c2fd" name="audit-receiver-entry-sub-flow"/>
+		<flow-ref doc:name="confirm-shipment-impl-sub_Flow" doc:id="85b74c89-4397-4b87-b4da-3aba84c7d3ce" name="confirm-shipment-implSub_Flow"/>
+		<set-variable value="#['post:\orders\shipment\parcel-manifest\:application\json:p-sales-mgmt-api-config']" doc:name="Set Flow Name" doc:id="03c529af-273f-4c2d-8a60-c3b630cfbee5" variableName="flowName"/>
+		<flow-ref doc:name="Log Dispatcher Exit" doc:id="9fb30cd8-9108-4517-a24e-1d845cc9ebcd" name="log-dispatcher-exit-sub-flow"/>
+		<flow-ref doc:name="Audit Dispatcher Exit" doc:id="814bcd4b-09d0-4c2c-81bd-c2da771a240b" name="audit-dispatcher-exit-sub-flow"/>
+	</flow>
 </mule>

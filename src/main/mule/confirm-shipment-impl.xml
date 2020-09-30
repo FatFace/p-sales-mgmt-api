@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:common-logging-extension="http://www.mulesoft.org/schema/mule/common-logging-extension"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/common-logging-extension http://www.mulesoft.org/schema/mule/common-logging-extension/current/mule-common-logging-extension.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="confirm-shipment-implSub_Flow" doc:id="091a1d9f-c315-4eb1-9919-5db266bf2198" >
+		<set-variable value="#['p-sales-create-shipment-sub-flow']" doc:name="Set Flow Name" doc:id="74951ae1-165c-4d95-b91f-88aa494708a8" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="b4a433f2-e4ca-4882-9525-3a42066804ab" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="59f886b7-cb1a-40f2-b443-be6511416b21" name="audit-process-entry-sub-flow"/>
+		<set-variable value="${royalmail.confirmShipmentPath}" doc:name="Set Variable Operation" doc:id="922750fb-0036-413c-8b20-a451f24542b5" variableName="operation" />
+		<choice doc:name="Choice" doc:id="8c2ae64c-b388-4ff9-8cfb-9e3e549b63fc" >
+			<when expression="#[sizeOf(payload.'manifests')&gt;0]">
+				<flow-ref doc:name="Call Royal Mail API" doc:id="1f83a583-e5b3-4a8e-a8ac-03a0b67c6fbe" name="royalmail-system-api-call-sub-flow" />
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise error" doc:id="92436b6f-e62a-4de3-8916-6db37d1bf141" type="MANIFEST:NO_TRACKING_NUMBERS" />
+			</otherwise>
+		</choice>
+		<choice doc:name="If Errors" doc:id="c3ebeab2-0cb7-4413-a9b0-2ad3dfc0842f" >
+			<when expression="#[sizeOf(flatten(payload.'confirm-shipment-response'..errors)) &gt; 0]" >
+				<raise-error doc:name="Raise error" doc:id="ee7bd293-a1f9-41ff-a679-88b5eeaca331" type="MANIFEST:MANIFEST_ERROR" />
+			</when>
+		</choice>
+		<set-variable value="#['p-sales-create-shipment-sub-flow']" doc:name="Set Variable" doc:id="12c571b0-5bc1-413c-804d-93369cbbeb41" variableName="flowName"/>
+		<flow-ref doc:name="Audit Process Exit" doc:id="b6654ba7-fb70-4b85-a887-0d461b817a1b" name="audit-process-exit-sub-flow"/>
+		<flow-ref doc:name="Log Process Exit" doc:id="38ebe51c-a29e-42f8-8275-ed357b744378" name="log-process-exit-sub-flow"/>
+		
+	</sub-flow>
+</mule>

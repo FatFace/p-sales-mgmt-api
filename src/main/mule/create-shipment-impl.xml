@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:common-logging-extension="http://www.mulesoft.org/schema/mule/common-logging-extension" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/common-logging-extension http://www.mulesoft.org/schema/mule/common-logging-extension/current/mule-common-logging-extension.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="1bf1e8cd-227d-4e20-ba33-5dc96811db5e" />
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="337e6aa6-0cfe-40c2-ae84-680da4aff31d" maxEntries="${objectstore.maxEntries}" entryTtl="${objectstore.ttl}" expirationInterval="${objectstore.expirationInterval}" config-ref="ObjectStore_Config"/>
+	<sub-flow name="create-shipment-implSub_Flow" doc:id="091a1d9f-c315-4eb1-9919-5db266bf2198" >
+		<set-variable value="#['create-shipment-implSub_Flow']" doc:name="Set Flow Name" doc:id="74951ae1-165c-4d95-b91f-88aa494708a8" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="b4a433f2-e4ca-4882-9525-3a42066804ab" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="59f886b7-cb1a-40f2-b443-be6511416b21" name="audit-process-entry-sub-flow"/>
+		<try doc:name="Try" doc:id="ec0c3ea7-b938-4447-9636-e62766169382" >
+			<os:retrieve doc:name="Retrieve Lookup Data from Store" doc:id="561f1a52-49e7-46e5-9bf3-764139c214e4" key="lookupData" objectStore="Object_store" target="lookupData">
+			<os:default-value><![CDATA[#[{
+	"GBR":"GB",
+	"70462":"9000257150"
+}]]]></os:default-value>
+		</os:retrieve>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ee6a1e30-a9a7-4b04-af43-fd6148c2a918" >
+					<ee:transform doc:name="Set Empty Response" doc:id="580876e4-72eb-40a0-a12d-3752913431ed" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="lookupData" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"GBR":"GB",
+	"70462":"9000257150"
+}]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Request Mapping For RoyalMail" doc:id="58f0bd76-a285-44bf-90c3-f679ae89fb60" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    'create-shipment': payload.'create-shipment' map {
+        "order-no": $."order-no",
+        "currency": $.currency,
+        "invoice-amount": $."invoice-amount",
+        'order-type': $.'order-type',
+        'sales-pool': $.'sales-pool',
+        'sales-status': $.'sales-status',
+        'transaction-id': $.'transaction-id',
+        "orderlines": $.orderlines map {
+            'data-area-id': $.'data-area-id',
+            'package-slip-id': $.'package-slip-id',
+            'sales-price': $.'sales-price',
+            'item-id': $.'item-id',
+            'tax-group-id': $.'tax-group-id',
+            'amount': $.amount,
+            'line-id':$.'line-id',
+            'created-date':$.'created-date',
+            'cancelled-quantity': $.'cancelled-quantity',
+            'delivered-quantity': $.'delivered-quantity',
+            'delivery-remainder': $.'delivery-remainder',
+            'invoice-remainder': $.'invoice-remainder',
+            'delivery-mode': p($.'delivery-mode'),
+            'ordered-quantity': $.'ordered-quantity',
+            "customer": {
+                    'customer-id': $.customer.'customer-id',
+                    'fullname': $.customer.fullname,
+                    'email': $.customer.email
+                },
+            "product": {
+                'product-id': $.product.'product-id',
+                "skus": $.product.skus map
+                {
+                    'description': $.description,
+                    'barcode': $.barcode,
+                    'colour': $.colour,
+                    'size': $.size,
+                    'fit': $.fit,
+                    'weight': $.weight default (p('createShipment.default.weight') as Number)
+                }
+            },
+      "warehouse": {
+        'warehouse-id': $.warehouse.'warehouse-id',
+        'name': $.warehouse.name,
+        'warehouse-address': {
+          'address-1': $.warehouse.'warehouse-address'.'address-1',
+          'address-2': $.warehouse.'warehouse-address'.'address-2',
+          'city': $.warehouse.'warehouse-address'.city,
+          'country': vars.lookupData[$.warehouse.'warehouse-address'.country],
+          'postcode': $.warehouse.'warehouse-address'.postcode,
+          'contact-number': $.warehouse.'warehouse-address'.'contact-number',
+          'email': $.warehouse.'warehouse-address'.email
+        }
+      },
+      "promotions": {
+        'promotion-id': $.promotions.'promotion-id'
+      },
+      "custom-attributes":  vars.lookupData
+    },
+    "shipments": $.shipments map {
+        "shipping-address": {
+            'street': $."shipping-address".street,
+            'city': $."shipping-address".city,
+            'county': $."shipping-address".county,
+            'country': vars.lookupData[$."shipping-address".country],
+            'postcode': $."shipping-address".postcode,
+            'contact-number': $."shipping-address".'contact-number'
+        }
+    }
+    }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="${royalmail.createShipmentPath}" doc:name="Set Variable Operation" doc:id="b95fe63b-7c83-4280-8958-7577780c5dfa" variableName="operation"/>
+		<choice doc:name="Choice" doc:id="fcd6163e-5087-467e-922c-06cac106ff74" >
+			<when expression='#[sizeOf(payload."create-shipment")&gt;0]'>
+				<flow-ref doc:name="Call Royal Mail API" doc:id="643e2616-0035-4464-a5c2-ace1c75e3460" name="royalmail-system-api-call-sub-flow" />
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise error" doc:id="7d71050f-b816-46c6-80f3-ba3f6a3eb558" type="SHIPMENT:EMPTY_PAYLOAD"/>
+			</otherwise>
+		</choice>
+		<choice doc:name="If Errors" doc:id="d488ceab-ade6-40de-aeb5-915900a84147" >
+			<when expression="#[sizeOf(flatten(payload.'create-shipment-response'..errors)) &gt; 0]">
+				<raise-error doc:name="Raise error" doc:id="594cf5d5-312f-4b92-82c9-4d5350148d71" type="SHIPMENT:LABEL_GENERATION_ERROR"/>
+			</when>
+		</choice>
+	</sub-flow>
+	<sub-flow name="royalmail-system-api-call-sub-flow" doc:id="aa3461d0-d4ae-4c4b-be71-2eddc6704210" >
+		<set-variable value="#['royalmail-system-api-call-sub-flow']" doc:name="Flow Name" doc:id="ab717e92-917b-4d9d-a9ed-c72d1013ccb4" variableName="flowName"/>
+		<flow-ref doc:name="Log Process Entry" doc:id="9a429dc8-f515-4872-810c-dabcbcb0434f" name="log-process-entry-sub-flow"/>
+		<flow-ref doc:name="Audit Process Entry" doc:id="c29dd02a-eafb-4080-80ef-e59135495ac8" name="audit-process-entry-sub-flow"/>
+		<until-successful maxRetries="${royalmail.untilSuccessful.retries}" doc:name="Until Successful" doc:id="f8be9914-11da-45ff-8cd5-427658353629" millisBetweenRetries="${royalmail.untilSuccessful.frequency}">
+			<try doc:name="Try" doc:id="a8020e4f-3d6a-474a-b38a-cdd3cbc88e7f" >
+				<http:request method="POST" doc:name="Invoke RoyalMail API" doc:id="f092df9b-bcc8-47f6-82f3-83eda9055f99" config-ref="Royalmail_HTTP_Request_configuration" path="#[vars.operation]">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Transaction-Id" : vars.transactionId,
+	"client_secret" : p('secure::royalmail.clientSecret'),
+	"Transaction-Start-Time" : vars.transactionStartTime,
+	"client_id" : p('royalmail.clientId')
+}]]]></http:headers>
+		</http:request>
+				<error-handler >
+					<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d8eb6b77-73a6-423f-bfef-ee9de7b36781" >
+						<flow-ref doc:name="Flow Reference audit-error-sub-flow" doc:id="afb9c96b-02c1-4130-9ebd-5388c71ac71b" name="audit-error-sub-flow"/>
+						<flow-ref doc:name="Flow Reference log-error-sub-flow" doc:id="966c080d-5d21-42ad-8da9-bfda468b683b" name="log-error-sub-flow"/>
+					</on-error-propagate>
+				</error-handler>
+			</try>
+		</until-successful>
+		<flow-ref doc:name="Audit Process Exit" doc:id="0103b6e5-d821-4156-9522-28dbe1da83a8" name="audit-process-exit-sub-flow" />
+		<flow-ref doc:name="Log Process Exit" doc:id="61dc14af-23ae-4853-ad1d-4cbdb545f3ee" name="log-process-exit-sub-flow"/>
+	</sub-flow>
+</mule>
