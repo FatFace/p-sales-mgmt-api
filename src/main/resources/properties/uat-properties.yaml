@@ -49,8 +49,14 @@ d365:
   path: "/stores"
   client_id: "878d7706ad57449ba28c0fe669d6c921"
   client_secret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  responseTimeout: "300000"
   dmf:
     path: "/dmf/export"
+    export:
+      path: "/dmf/export"
+      IDD002:
+        definitionGroupId: "IDD019-RoyalMailManifest-Export"
+        packageName: "Shipment-Manifest-"
   store:
     definitionGroupId: "IDD022-RetailStoreIntegration-Export"
     packageName: "Store-Data-"
@@ -62,6 +68,19 @@ demandware:
  path: "/store"
  client_id: "878d7706ad57449ba28c0fe669d6c921"
  client_secret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+
+royalmail:
+  host: "mule-worker-internal-uat-s-royalmail-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  createShipmentPath: "/shipment/label-creation"
+  confirmShipmentPath: "/shipment/parcel-manifest"
+  clientId: "878d7706ad57449ba28c0fe669d6c921"
+  clientSecret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  responseTimeout: "300000"
+  untilSuccessful:
+    retries: "0"
+    frequency: "30000"
   
 scheduler:
   cron:
@@ -80,10 +99,35 @@ lookup:
   port: "8091"
   basePath: "/api/v1"
   dbLookupPath: "/lookups"
+  responseTimeout: "300000"
   key: "COUNTRY_CODES-ALPHA-3-D365"
   clientId: "878d7706ad57449ba28c0fe669d6c921"
   clientSecret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  cron:
+    scheduler: "0 30 16 1/1 * ? *"
   queryParam:
     type: "COUNTRY_CODES"
     category: "ALPHA-3"
-    source: "D365"      
+    source: "D365"
+  serviceLevelQueryParam:
+    type: "DELIVERY_TYPE"
+    category: "MODE"
+    source: "D365"
+  serviceFormatQueryParam:
+    type: "SERVICE_FORMAT"
+    category: "MODE"
+    source: "D365"
+  postingLocationQueryParam:
+    type: "HSO Store Code"
+    category: "RM PLN"
+    source: "D365" 
+    
+objectstore:
+  maxEntries: "5"
+  expirationInterval: "5"
+  ttl: "300000"
+  
+  
+createShipment:
+  default:
+    weight: "0.25"            

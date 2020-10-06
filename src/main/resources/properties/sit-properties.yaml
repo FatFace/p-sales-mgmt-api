@@ -49,11 +49,30 @@ d365:
   path: "/stores"
   client_id: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"
   client_secret: "![LW5QbpXxcFCYtiU4/DH0+ENIW/q+2cr3P4u6w65C4pbwoGe1SiiStpjbUB6ntxmh]"
+  responseTimeout: "300000"
   dmf:
     path: "/dmf/export"
+    export:
+      path: "/dmf/export"
+      IDD002:
+        definitionGroupId: "IDD019-RoyalMailManifest-Export"
+        packageName: "Shipment-Manifest-"
   store:
     definitionGroupId: "IDD022-RetailStoreIntegration-Export"
     packageName: "Store-Data-"
+
+royalmail:
+  host: "mule-worker-internal-sit-s-royalmail-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  createShipmentPath: "/shipment/label-creation"
+  confirmShipmentPath: "/shipment/parcel-manifest"
+  clientId: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"
+  clientSecret: "![LW5QbpXxcFCYtiU4/DH0+ENIW/q+2cr3P4u6w65C4pbwoGe1SiiStpjbUB6ntxmh]"
+  responseTimeout: "300000"
+  untilSuccessful:
+    retries: "0"
+    frequency: "30000"
   
 demandware:
  host: "sit-s-dw-data-int.eu.cloudhub.io"
@@ -83,10 +102,35 @@ lookup:
   port: "8091"
   basePath: "/api/v1"
   dbLookupPath: "/lookups"
+  responseTimeout: "300000"
   key: "COUNTRY_CODES-ALPHA-3-D365"
   clientId: "a1c25cbc41dc4a43a1c5c3ecbf1251c5"
   clientSecret: "![LW5QbpXxcFCYtiU4/DH0+ENIW/q+2cr3P4u6w65C4pbwoGe1SiiStpjbUB6ntxmh]"
+  cron:
+    scheduler: "0 30 16 1/1 * ? *"
   queryParam:
     type: "COUNTRY_CODES"
     category: "ALPHA-3"
-    source: "D365"      
+    source: "D365"
+  serviceLevelQueryParam:
+    type: "DELIVERY_TYPE"
+    category: "MODE"
+    source: "D365"
+  serviceFormatQueryParam:
+    type: "SERVICE_FORMAT"
+    category: "MODE"
+    source: "D365"
+  postingLocationQueryParam:
+    type: "HSO Store Code"
+    category: "RM PLN"
+    source: "D365" 
+    
+objectstore:
+  maxEntries: "5"
+  expirationInterval: "5"
+  ttl: "300000"
+  
+  
+createShipment:
+  default:
+    weight: "0.25"            
