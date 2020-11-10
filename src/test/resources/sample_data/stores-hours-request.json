@@ -1,0 +1,64 @@
+{
+ "stores": [
+   {
+     "store-id": "000013",
+     "name": "Manchester Store",
+     "store-address": {
+       "street": "8 Princes Street",
+       "country": "GBR",
+       "postcode": "HG1 1NH",
+       "city": "Harrogate",
+       "state": null,
+       "contact-number": "654768890"
+     },
+     "click-and-collect": "Yes",
+     "fulfill-from-store": "Yes",
+     "longitude": "-1.540017",
+     "latitude": "53.991943",
+     "monday-open-time": "08:00:00",
+     "monday-close-time": "17:00:00",
+     "tuesday-open-time": "08:00:00",
+     "tuesday-close-time": "17:00:00",
+     "wednesday-open-time": "08:00:00",
+     "wednesday-close-time": "17:00:00",
+     "thursday-open-time": "08:00:00",
+     "thursday-close-time": "17:00:00",
+     "friday-open-time": "08:00:00",
+     "friday-close-time": "19:00:00",
+     "saturday-open-time": "08:00:00",
+     "saturday-close-time": "17:44:00",
+     "sunday-open-time": "08:00:00",
+     "sunday-close-time": "08:00:00"
+   },
+   {
+     "store-id": "000013",
+     "name": "Manchester Store",
+     "store-address": {
+       "street": "8 Princes Street",
+       "country": "GBR",
+       "postcode": "HG1 1NH",
+       "city": "Harrogate",
+       "state": null,
+       "contact-number": "654768890"
+     },
+     "click-and-collect": "Yes",
+     "fulfill-from-store": "Yes",
+     "longitude": "-1.540017",
+     "latitude": "53.991943",
+     "monday-open-time": "08:00:00",
+     "monday-close-time": "17:00:00",
+     "tuesday-open-time": "08:00:00",
+     "tuesday-close-time": "17:00:00",
+     "wednesday-open-time": "08:00:00",
+     "wednesday-close-time": "17:00:00",
+     "thursday-open-time": "08:00:00",
+     "thursday-close-time": "17:00:00",
+     "friday-open-time": "08:00:00",
+     "friday-close-time": "19:00:00",
+     "saturday-open-time": "08:00:00",
+     "saturday-close-time": "17:44:00",
+     "sunday-open-time": "08:00:00",
+     "sunday-close-time": "08:00:00"
+   }
+ ]
+}

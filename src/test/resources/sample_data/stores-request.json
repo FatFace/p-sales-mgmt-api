@@ -1,0 +1,27 @@
+{
+  "stores": [
+    {
+      "store-id": "0001",
+      "name": "",
+      "store-address": {
+        "street": "",
+        "city": "",
+        "postal-code": "",
+        "state": "",
+        "country-code": "",
+        "phone": ""
+      },
+      "latitude": "",
+      "longitude": "",
+      "disableOnCheckout": null,
+      "fulfillFromStore": "",
+      "openingTimingsMonday": "",
+      "openingTimingTuesday": "",
+      "openingTimingWednesday": "",
+      "openingTimingThursday": "",
+      "openingTimingFriday": "",
+      "openingTimingSaturday": "",
+      "openingTimingSunday": ""
+    }
+  ]
+}

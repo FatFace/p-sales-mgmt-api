@@ -1,13 +1,26 @@
 http:
-  basePath: "/api/*"
-  host: "localhost"
-  port: "8081"
+  basePath: "/api/v1/*"
+  host: "0.0.0.0"
   private:
     port: "8091"
-  
+  consolePath: "/console/*"
+
+#----Common Block---No change Needed----      
 cloudhub:
-  username: "![Wkd/i0mr4M5DRXGPkpxl3A+qPh6NASJ83cobwz2qfXs=]"
-  password: "![TUOtb96a5rFz9HgwE5GrsA==]"
+  username: "![V1H6cIZG27BimoyWHnUmWwgd7Z72XsoF+lx6EKe7Hfc=]"
+  password: "![pU6khIodBBpK1c7QxH7VmdEtcJxtRvmoKBlI+hYGFqk=]"
+  
+smtp:
+  host: "mail.fatface.net"
+  port: "465"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+#----Common Block---No change Needed----
+
+api:
+  discovery:
+    id: ""
 
 db:
  audit: 
@@ -28,31 +41,52 @@ sqs:
   accessKey: "![iKDP0/LYfR1ghGUCOAayKYI5kMT/ieTr3IMibNfn9y8=]"
   secretKey: "![z8W9r4EBG78ATEDLlzRgrDu8pSr3cf8u0RPGoG/mEyLZSeyc1prL/JqYzbF2CWUY]"
   region: "![6lleIG6Qoif/fTA7pK+sUA==]"
-  queue:
-    target:
-      inventory: "Inventory"
-    url: 
-      reprocessingQueue: "https://sqs.eu-west-1.amazonaws.com/691628577374/msg-reprocessing-q"
-      targetQueueUrl: "https://sqs.eu-west-1.amazonaws.com/691628577374/inventory-q"
-smtp:
-  host: "![rpQtD0vL4qh+Uema8l2LJxRngvgfBbF6l4RD5XEkF7Y=]"
-  port: "![jd2yTmc7NHA+FUYVXGfwbQ==]"
-  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
-  password: "![r9f7FSUCH+2adxR8OeswFg==]"
-  subject: "Fatface API Exception"
         
-
-azureauth:
-  host: "login.microsoftonline.com"
-  path: "/98feb338-6c8b-4865-84ce-6f5fc1212b56/oauth2/token"
-  clientId : "![y1ZTfedy8w4xshPXXuZbJJ/GU5c8VD312jEaFLEGUfv//eT1fDyEVTBSfe9S7XKM]"
-  clientSecret : "![vUhDa6pay9WGQv+kKUXOuzvIgkjEfmJox5SupZYbId1WXEp3qaDkdYi01sZ16m78]"
-  grantType : "client_credentials"
-  resource : "https://ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
- 
 d365:
- host: "ff-sandbox779a0fb324d79bdaaos.cloud.retail.dynamics.com"
- getStoreGroupPath: "/data/StoreGroups"
- getStorePath: "/data/store"
+  host: "mule-worker-internal-dev-s-d365-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  path: "/stores"
+  client_id: "c1751cc13ad746a8a49c404c966839f7"
+  client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
+  dmf:
+    path: "/dmf/export"
+  store:
+    definitionGroupId: "IDD022-RetailStoreIntegration-Export"
+    packageName: "Store-Data-"
   
-response.timeout: "30000"
+demandware:
+ host: "dev-s-dw-data-int.ir-e1.cloudhub.io"
+ port: "443"
+ basePath: "/api/v1"
+ path: "/store"
+ client_id: "c1751cc13ad746a8a49c404c966839f7"
+ client_secret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
+  
+response:
+  timeout: "120000"
+  
+scheduler:
+  cron:
+    expression: "0 30 16 1/1 * ? *"
+    
+client:
+  keystore:
+    password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"
+    
+status:
+  responseCode: "0"
+  responseMessage: "Success"
+  
+lookup:
+  host: "mule-worker-internal-dev-s-dblookup-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  dbLookupPath: "/lookups"
+  key: "COUNTRY_CODES-ALPHA-3-D365"
+  clientId: "c1751cc13ad746a8a49c404c966839f7"
+  clientSecret: "![Uve1NAvt5zaIs55ecLLnd6rhKY81uIy0j5/clihbaHvBkxed9l+lipNeE/ztkCnm]"
+  queryParam:
+    type: "COUNTRY_CODES"
+    category: "ALPHA-3"
+    source: "D365"      

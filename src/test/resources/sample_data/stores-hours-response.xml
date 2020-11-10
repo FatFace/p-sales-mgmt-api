@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<stores xmlns="http://www.demandware.com/xml/impex/store/2007-04-30">
+  <store store-id="000013">
+    <name>Manchester Test Store</name>
+    <address1>8 Princes Street</address1>
+    <country-code>BR</country-code>
+    <postal-code>HG1 1NH</postal-code>
+    <city>Harrogate</city>
+    <state-code></state-code>
+    <phone>12345</phone>
+    <latitude>53.991943</latitude>
+    <longitude>-1.540017</longitude>
+    <custom-attributes>
+      <custom-attribute attribute-id="openingTimesMonday">08:00:00 - 19:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesTuesday">08:00:00 - 19:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesWednesday">08:00:00 - 19:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesThursday">08:00:00 - 19:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesFriday">08:00:00 - 19:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesSaturday">08:00:00 - 17:00:00</custom-attribute>
+      <custom-attribute attribute-id="openingTimesSunday">08:00:00 - 17:00:00</custom-attribute>
+      <custom-attribute attribute-id="disableOnCheckout">TRUE</custom-attribute>
+      <custom-attribute attribute-id="fulfillFromStore">TRUE</custom-attribute>
+    </custom-attributes>
+  </store>
+</stores>

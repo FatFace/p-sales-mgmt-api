@@ -2,6 +2,8 @@ is:
   audit:
     toggle: "ON"
     payload: "ON"
+    details:
+      toggle: "ON"
   logging:
     toggle: "OFF"
 
@@ -15,7 +17,15 @@ flow:
 retry:
   frequency: "2000"
   attempts: "3"   
-  
+shipment:
+  labelImageFormat: "PNG"  
+
+db:
+  pool:
+    size:
+      max: "35"
+      min: "13"
+      
 error:
   msg:
     '404': "Resource not found"
@@ -54,5 +64,20 @@ error:
       connection: "SFTP Connectivity error"
       path: "SFTP Illegal Path"
       retry: "SFTP Retry Exhausted"  
-      
+    compress:
+      notCompress: "Not able to compress"
+      invalidFormat: "The given content does not match the format of the configured strategy"
+      multipleEntry: "The archive to be decompressed has more than one entry"
+      notDecompress: "Not able to decompress" 
+
+response:
+  timeout:
+    system:
+      dw:
+        clickCollect: "60000" 
+        salesManagment: "60000"
+      d365:
+        salesScheduler: "60000"
+      dblookup:
+        salesManagment: "60000"           
       

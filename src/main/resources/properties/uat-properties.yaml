@@ -1,19 +1,89 @@
 http:
-  basePath: "/api/*"
+  basePath: "/api/v1/*"
+  host: "0.0.0.0"
   private:
     port: "8091"
-  api:
-    p-template-api:
-      basePath: "/"
-      host: ""
-      port: ""
-      path: ""  
-autodiscovery:
-  id: ""
-  flow: "x-template-api-main"
+  consolePath: "/console/*"
 
+#----Common Block---No change Needed----      
 cloudhub:
-  domain: ""
-  usrname: ""
-  password: ""
-  environment: ""
+  username: "![V1H6cIZG27BimoyWHnUmWwgd7Z72XsoF+lx6EKe7Hfc=]"
+  password: "![wmZO64w9adSbkSupgF1rvuPY6b41eRIir+fDY77v8zU=]"
+  
+smtp:
+  host: "mail.fatface.net"
+  port: "465"
+  user: "![XImJcfQv4D6cYan0i6XwPZi8Uxv0OkDQvTITnsw/onM=]"
+  password: "![r9f7FSUCH+2adxR8OeswFg==]"
+  subject: "Fatface API Exception"
+#----Common Block---No change Needed----
+
+api:
+  discovery:
+    id: ""
+
+db:
+ audit: 
+  config:
+   host: "mule-sandbox.cm1i2vsjtzdf.eu-west-1.rds.amazonaws.com"
+   port: "1433"
+   user: "![AyD0mBi0zwPqptV8KbEJGkjzeMuTdVHL2AEWiq0N3sQ=]"
+   password: "![PX91DJD02zpJ0MJ3jLRKUw==]"
+   database: "FATFACE_UAT_DB" 
+
+sftp:
+  host: "ftp.fatface.com"
+  port: "22"
+  username: "![W49cMbSedB3HHfPcr0pWWyYHk27r5mLh++/a62Nglxg=]"
+  password: "![YoKYhq6QWsR9eW3AVcCh2TRSSvrwrp94baroSAHlBlg=]" 
+  
+sqs:
+  accessKey: "![0Bna5lThT35ukyJf1B4b+NBulG5Jn3QQkYSe2AQTrhI=]"
+  secretKey: "![YeUejrLAXF1G2lBwQcIhz9Sid46kdmSOB5j0CXeQxGBfNQRpQE+hxJQna0as7ws5]"
+  region: "![6lleIG6Qoif/fTA7pK+sUA==]"
+        
+d365:
+  host: "mule-worker-internal-uat-s-d365-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  path: "/stores"
+  client_id: "878d7706ad57449ba28c0fe669d6c921"
+  client_secret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  dmf:
+    path: "/dmf/export"
+  store:
+    definitionGroupId: "IDD022-RetailStoreIntegration-Export"
+    packageName: "Store-Data-"
+  
+demandware:
+ host: "uat-s-dw-data-int.ir-e1.cloudhub.io"
+ port: "443"
+ basePath: "/api/v1"
+ path: "/store"
+ client_id: "878d7706ad57449ba28c0fe669d6c921"
+ client_secret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  
+scheduler:
+  cron:
+    expression: "0 30 16 1/1 * ? *"
+    
+client:
+  keystore:
+    password: "![yqrYtFIRqm28xrunLqR/2kqfcVd97HqoY0AWEfF+m8M=]"
+    
+status:
+  responseCode: "0"
+  responseMessage: "Success"
+  
+lookup:
+  host: "mule-worker-internal-uat-s-dblookup-api.ir-e1.cloudhub.io"
+  port: "8091"
+  basePath: "/api/v1"
+  dbLookupPath: "/lookups"
+  key: "COUNTRY_CODES-ALPHA-3-D365"
+  clientId: "878d7706ad57449ba28c0fe669d6c921"
+  clientSecret: "![xXfiJhHOrpkgby8wWnyNRCdoKPeIjUWXj8Gl9gKMxtLWIW0YMHZE2jE76rGwkF0V]"
+  queryParam:
+    type: "COUNTRY_CODES"
+    category: "ALPHA-3"
+    source: "D365"      

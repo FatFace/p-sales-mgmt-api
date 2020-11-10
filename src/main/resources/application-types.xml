@@ -38,4 +38,8 @@ type error = {|
   <types:enrichment select="#b9a498c1-4573-46e3-abf8-eb9be66cdc03"/>
   <types:enrichment select="#a8dfe333-5a21-485c-a37a-151562202a97"/>
   <types:enrichment select="#7f09d129-8d5b-40e9-a6db-8e1984b24cdb"/>
+  <types:enrichment select="#25b295ee-b5c2-4a2f-87d6-10a9b40cbbc2"/>
+  <types:enrichment select="#0f4b4a9e-4888-47ce-b69a-3c22f8aa22c3"/>
+  <types:enrichment select="#7d43a99c-e3c3-4325-bebe-eebeb5135785"/>
+  <types:enrichment select="#b76f3edb-ec47-49bc-bb47-9d021de7de15"/>
 </types:mule>

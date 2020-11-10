@@ -1,0 +1,1249 @@
+{
+  "lookups": [
+    {
+      "lookup_id": 11,
+      "lookup-key": "AFG",
+      "lookup-value": "AF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ALB",
+      "lookup-value": "AL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DZA",
+      "lookup-value": "DZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ASM",
+      "lookup-value": "AS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AND",
+      "lookup-value": "AD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AGO",
+      "lookup-value": "AO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AIA",
+      "lookup-value": "AI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ATA",
+      "lookup-value": "AQ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ATG",
+      "lookup-value": "AG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ARG",
+      "lookup-value": "AR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ARM",
+      "lookup-value": "AM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ABW",
+      "lookup-value": "AW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AUS",
+      "lookup-value": "AU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AUT",
+      "lookup-value": "AT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "AZE",
+      "lookup-value": "AZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BHS",
+      "lookup-value": "BS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BHR",
+      "lookup-value": "BH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BGD",
+      "lookup-value": "BD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BRB",
+      "lookup-value": "BB"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BLR",
+      "lookup-value": "BY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BEL",
+      "lookup-value": "BE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BLZ",
+      "lookup-value": "BZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BEN",
+      "lookup-value": "BJ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BMU",
+      "lookup-value": "BM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BTN",
+      "lookup-value": "BT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BOL",
+      "lookup-value": "BO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BES",
+      "lookup-value": "BQ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BIH",
+      "lookup-value": "BA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BWA",
+      "lookup-value": "BW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BVT",
+      "lookup-value": "BV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BRA",
+      "lookup-value": "BR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IOT",
+      "lookup-value": "IO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BRN",
+      "lookup-value": "BN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BGR",
+      "lookup-value": "BG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BFA",
+      "lookup-value": "BF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BDI",
+      "lookup-value": "BI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CPV",
+      "lookup-value": "CV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KHM",
+      "lookup-value": "KH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CMR",
+      "lookup-value": "CM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CAN",
+      "lookup-value": "CA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CYM",
+      "lookup-value": "KY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CAF",
+      "lookup-value": "CF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TCD",
+      "lookup-value": "TD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CHL",
+      "lookup-value": "CL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CHN",
+      "lookup-value": "CN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CXR",
+      "lookup-value": "CX"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CCK",
+      "lookup-value": "CC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "COL",
+      "lookup-value": "CO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "COM",
+      "lookup-value": "KM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "COD",
+      "lookup-value": "CD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "COG",
+      "lookup-value": "CG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "COK",
+      "lookup-value": "CK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CRI",
+      "lookup-value": "CR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HRV",
+      "lookup-value": "HR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CUB",
+      "lookup-value": "CU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CUW",
+      "lookup-value": "CW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CYP",
+      "lookup-value": "CY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CZE",
+      "lookup-value": "CZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CIV",
+      "lookup-value": "CI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DNK",
+      "lookup-value": "DK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DJI",
+      "lookup-value": "DJ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DMA",
+      "lookup-value": "DM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DOM",
+      "lookup-value": "DO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ECU",
+      "lookup-value": "EC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "EGY",
+      "lookup-value": "EG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SLV",
+      "lookup-value": "SV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GNQ",
+      "lookup-value": "GQ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ERI",
+      "lookup-value": "ER"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "EST",
+      "lookup-value": "EE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SWZ",
+      "lookup-value": "SZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ETH",
+      "lookup-value": "ET"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FLK",
+      "lookup-value": "FK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FRO",
+      "lookup-value": "FO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FJI",
+      "lookup-value": "FJ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FIN",
+      "lookup-value": "FI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FRA",
+      "lookup-value": "FR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GUF",
+      "lookup-value": "GF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PYF",
+      "lookup-value": "PF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ATF",
+      "lookup-value": "TF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GAB",
+      "lookup-value": "GA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GMB",
+      "lookup-value": "GM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GEO",
+      "lookup-value": "GE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "DEU",
+      "lookup-value": "DE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GHA",
+      "lookup-value": "GH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GIB",
+      "lookup-value": "GI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GRC",
+      "lookup-value": "GR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GRL",
+      "lookup-value": "GL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GRD",
+      "lookup-value": "GD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GLP",
+      "lookup-value": "GP"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GUM",
+      "lookup-value": "GU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GTM",
+      "lookup-value": "GT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GGY",
+      "lookup-value": "GG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GIN",
+      "lookup-value": "GN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GNB",
+      "lookup-value": "GW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GUY",
+      "lookup-value": "GY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HTI",
+      "lookup-value": "HT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HMD",
+      "lookup-value": "HM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VAT",
+      "lookup-value": "VA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HND",
+      "lookup-value": "HN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HKG",
+      "lookup-value": "HK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "HUN",
+      "lookup-value": "HU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ISL",
+      "lookup-value": "IS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IND",
+      "lookup-value": "IN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IDN",
+      "lookup-value": "ID"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IRN",
+      "lookup-value": "IR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IRQ",
+      "lookup-value": "IQ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IRL",
+      "lookup-value": "IE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "IMN",
+      "lookup-value": "IM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ISR",
+      "lookup-value": "IL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ITA",
+      "lookup-value": "IT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "JAM",
+      "lookup-value": "JM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "JPN",
+      "lookup-value": "JP"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "JEY",
+      "lookup-value": "JE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "JOR",
+      "lookup-value": "JO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KAZ",
+      "lookup-value": "KZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KEN",
+      "lookup-value": "KE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KIR",
+      "lookup-value": "KI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PRK",
+      "lookup-value": "KP"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KOR",
+      "lookup-value": "KR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KWT",
+      "lookup-value": "KW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KGZ",
+      "lookup-value": "KG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LAO",
+      "lookup-value": "LA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LVA",
+      "lookup-value": "LV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LBN",
+      "lookup-value": "LB"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LSO",
+      "lookup-value": "LS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LBR",
+      "lookup-value": "LR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LBY",
+      "lookup-value": "LY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LIE",
+      "lookup-value": "LI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LTU",
+      "lookup-value": "LT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LUX",
+      "lookup-value": "LU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MAC",
+      "lookup-value": "MO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MDG",
+      "lookup-value": "MG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MWI",
+      "lookup-value": "MW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MYS",
+      "lookup-value": "MY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MDV",
+      "lookup-value": "MV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MLI",
+      "lookup-value": "ML"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MLT",
+      "lookup-value": "MT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MHL",
+      "lookup-value": "MH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MTQ",
+      "lookup-value": "MQ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MRT",
+      "lookup-value": "MR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MUS",
+      "lookup-value": "MU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MYT",
+      "lookup-value": "YT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MEX",
+      "lookup-value": "MX"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "FSM",
+      "lookup-value": "FM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MDA",
+      "lookup-value": "MD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MCO",
+      "lookup-value": "MC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MNG",
+      "lookup-value": "MN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MNE",
+      "lookup-value": "ME"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MSR",
+      "lookup-value": "MS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MAR",
+      "lookup-value": "MA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MOZ",
+      "lookup-value": "MZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MMR",
+      "lookup-value": "MM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NAM",
+      "lookup-value": "NA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NRU",
+      "lookup-value": "NR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NPL",
+      "lookup-value": "NP"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NLD",
+      "lookup-value": "NL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NCL",
+      "lookup-value": "NC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NZL",
+      "lookup-value": "NZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NIC",
+      "lookup-value": "NI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NER",
+      "lookup-value": "NE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NGA",
+      "lookup-value": "NG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NIU",
+      "lookup-value": "NU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NFK",
+      "lookup-value": "NF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MNP",
+      "lookup-value": "MP"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "NOR",
+      "lookup-value": "NO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "OMN",
+      "lookup-value": "OM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PAK",
+      "lookup-value": "PK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PLW",
+      "lookup-value": "PW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PSE",
+      "lookup-value": "PS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PAN",
+      "lookup-value": "PA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PNG",
+      "lookup-value": "PG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PRY",
+      "lookup-value": "PY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PER",
+      "lookup-value": "PE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PHL",
+      "lookup-value": "PH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PCN",
+      "lookup-value": "PN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "POL",
+      "lookup-value": "PL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PRT",
+      "lookup-value": "PT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "PRI",
+      "lookup-value": "PR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "QAT",
+      "lookup-value": "QA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MKD",
+      "lookup-value": "MK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ROU",
+      "lookup-value": "RO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "RUS",
+      "lookup-value": "RU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "RWA",
+      "lookup-value": "RW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "REU",
+      "lookup-value": "RE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "BLM",
+      "lookup-value": "BL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SHN",
+      "lookup-value": "SH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "KNA",
+      "lookup-value": "KN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LCA",
+      "lookup-value": "LC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "MAF",
+      "lookup-value": "MF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SPM",
+      "lookup-value": "PM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VCT",
+      "lookup-value": "VC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "WSM",
+      "lookup-value": "WS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SMR",
+      "lookup-value": "SM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "STP",
+      "lookup-value": "ST"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SAU",
+      "lookup-value": "SA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SEN",
+      "lookup-value": "SN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SRB",
+      "lookup-value": "RS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SYC",
+      "lookup-value": "SC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SLE",
+      "lookup-value": "SL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SGP",
+      "lookup-value": "SG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SXM",
+      "lookup-value": "SX"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SVK",
+      "lookup-value": "SK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SVN",
+      "lookup-value": "SI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SLB",
+      "lookup-value": "SB"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SOM",
+      "lookup-value": "SO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ZAF",
+      "lookup-value": "ZA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SGS",
+      "lookup-value": "GS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SSD",
+      "lookup-value": "SS"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ESP",
+      "lookup-value": "ES"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "LKA",
+      "lookup-value": "LK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SDN",
+      "lookup-value": "SD"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SUR",
+      "lookup-value": "SR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SJM",
+      "lookup-value": "SJ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SWE",
+      "lookup-value": "SE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "CHE",
+      "lookup-value": "CH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "SYR",
+      "lookup-value": "SY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TWN",
+      "lookup-value": "TW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TJK",
+      "lookup-value": "TJ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TZA",
+      "lookup-value": "TZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "THA",
+      "lookup-value": "TH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TLS",
+      "lookup-value": "TL"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TGO",
+      "lookup-value": "TG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TKL",
+      "lookup-value": "TK"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TON",
+      "lookup-value": "TO"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TTO",
+      "lookup-value": "TT"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TUN",
+      "lookup-value": "TN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TUR",
+      "lookup-value": "TR"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TKM",
+      "lookup-value": "TM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TCA",
+      "lookup-value": "TC"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "TUV",
+      "lookup-value": "TV"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "UGA",
+      "lookup-value": "UG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "UKR",
+      "lookup-value": "UA"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ARE",
+      "lookup-value": "AE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "GBR",
+      "lookup-value": "GB"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "UMI",
+      "lookup-value": "UM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "USA",
+      "lookup-value": "US"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "URY",
+      "lookup-value": "UY"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "UZB",
+      "lookup-value": "UZ"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VUT",
+      "lookup-value": "VU"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VEN",
+      "lookup-value": "VE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VNM",
+      "lookup-value": "VN"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VGB",
+      "lookup-value": "VG"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "VIR",
+      "lookup-value": "VI"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "WLF",
+      "lookup-value": "WF"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ESH",
+      "lookup-value": "EH"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "YEM",
+      "lookup-value": "YE"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ZMB",
+      "lookup-value": "ZM"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ZWE",
+      "lookup-value": "ZW"
+    },
+    {
+      "lookup_id": 11,
+      "lookup-key": "ALA",
+      "lookup-value": "AX"
+    }
+  ]
+}
