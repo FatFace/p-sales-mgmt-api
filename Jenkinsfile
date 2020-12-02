@@ -20,7 +20,7 @@ pipeline {
         string(name: 'MULE_CLOUDHUB_RUNTIME', defaultValue: '4.3.0', description: 'Mule runtime')
         string(name: 'MULE_APPLICATION_NAME', defaultValue: 'dev-p-sales-mgmt-api', description: 'Unique name of the application [mule artifact] while deploying Anypoint platform')
         string(name: 'MULE_ENV', defaultValue: 'Development', description: 'Enviroment setting for Mule app/api artifact')
-    	    
+ 	    
         gitParameter name: 'BRANCH_TAG',
                      type: 'PT_BRANCH_TAG',
                      defaultValue: 'feature/royalmail',
@@ -30,7 +30,7 @@ pipeline {
     
  	environment {
 		GITHUB_CREDENTIAL_ID = credentials('Jenkins-Fatface-Pat')
-		ENCRYPTION_KEY = credentials('mule-encryption-key')	
+		ENCRYPTION_KEY = credentials('mule-encryption-key')
  		MULE_CLOUDHUB_URI = 'https://anypoint.mulesoft.com'
  		MULE_CLOUDHUB_USER = 'Mulesoft-ApiOwner'
  		MULE_CLOUDHUB_PASSWORD = '%0xaX$v8KnhAqfJh'
@@ -76,7 +76,7 @@ pipeline {
             } 
             steps {
                 script {               
-			    		def lastCommit = sh returnStdout: true, script: 'git log -1'
+			def lastCommit = sh returnStdout: true, script: 'git log -1'
 	                if (lastCommit.contains("[maven-release-plugin]")){
 	                    echo  "Deployment skipped because it has been managed by release plugin"
 	                } else {
