@@ -18,7 +18,7 @@ pipeline {
         )
         
         string(name: 'MULE_CLOUDHUB_RUNTIME', defaultValue: '4.3.0', description: 'Mule runtime')
-        string(name: 'MULE_APPLICATION_NAME', defaultValue: 'dev-p-sales-mgmt-api', description: 'Unique name of the application [mule artifact] while deploying Anypoint platform')
+        string(name: 'MULE_APPLICATION_NAME', defaultValue: 'ffdev-p-sales-mgmt-api', description: 'Unique name of the application [mule artifact] while deploying Anypoint platform')
         string(name: 'MULE_ENV', defaultValue: 'Development', description: 'Enviroment setting for Mule app/api artifact')
  	    
         gitParameter name: 'BRANCH_TAG',
