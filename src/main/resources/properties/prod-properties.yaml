@@ -43,9 +43,9 @@ sqs:
   region: "![5yV0cMXIWtD0Vl58lOKrzQ==]"
         
 d365:
-  host: "mule-worker-internal-s-d365-api.ir-e1.cloudhub.io"
-  port: "8091"
-  basePath: "/api/v1"
+  host: "internal-ff-test-dlb.lb.anypointdns.net"
+  port: "80"
+  basePath: "/s-d365-api/api/v1"
   path: "/stores"
   client_id: "587f052383c44efbadc76e22201cba19"
   client_secret: "![+6LrbmEe+njbAiXUXZX1+7Nq1IMTLZTmBBLwyUF89jr5yQxXx6ydvM5v0UczJCgE]"
