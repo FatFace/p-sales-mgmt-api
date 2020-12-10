@@ -13,31 +13,33 @@ pipeline {
         )
         
 	booleanParam(name: 'IS_MULE_DEPLOYMENT_REQUIRED',
-		defaultValue: false,
+		defaultValue: true,
 		description: 'Enable if you would like to deploy into Mule runtime.'
         )
         
-        string(name: 'MULE_CLOUDHUB_RUNTIME', defaultValue: '4.2.1', description: 'Mule runtime')
-        string(name: 'MULE_APPLICATION_NAME', defaultValue: 'dev-p-sales-mgmt-api', description: 'Unique name of the application [mule artifact] while deploying Anypoint platform')
-        string(name: 'MULE_ENV', defaultValue: 'dev', description: 'Enviroment setting for Mule app/api artifact')
-    	    
+        string(name: 'MULE_CLOUDHUB_RUNTIME', defaultValue: '4.3.0', description: 'Mule runtime')
+        string(name: 'MULE_APPLICATION_NAME', defaultValue: 'ffdev-p-sales-mgmt-api', description: 'Unique name of the application [mule artifact] while deploying Anypoint platform')
+        string(name: 'MULE_ENV', defaultValue: 'Development', description: 'Enviroment setting for Mule app/api artifact')
+ 	    
         gitParameter name: 'BRANCH_TAG',
                      type: 'PT_BRANCH_TAG',
-                     defaultValue: 'develop',
+                     defaultValue: 'fix/dlb-changes',
                      description: 'Choose a git branch to start CI/CD pipeline.'	
     	
     }
     
  	environment {
 		GITHUB_CREDENTIAL_ID = credentials('Jenkins-Fatface-Pat')
-		ENCRYPTION_KEY = credentials('mule-encryption-key')	
+		ENCRYPTION_KEY = credentials('mule-encryption-key')
  		MULE_CLOUDHUB_URI = 'https://anypoint.mulesoft.com'
- 		MULE_CLOUDHUB_USER = 'jenkins@fatface.com'
- 		MULE_CLOUDHUB_PASSWORD = 'jenkins123'
+ 		MULE_CLOUDHUB_USER = 'Mulesoft-ApiOwner'
+ 		MULE_CLOUDHUB_PASSWORD = '%0xaX$v8KnhAqfJh'
  		MULE_CLOUDHUB_BUSINESS_GROUP = 'fatface'
  		MULE_CLOUDHUB_REGION = 'eu-west-1'
  		MULE_CLOUDHUB_WORKER_TYPE = 'Micro'
  		MULE_CLOUDHUB_WORKERS = '1'
+ 		MULE_RUNTIME_VERSION = "${params.MULE_CLOUDHUB_RUNTIME}"
+ 		MULE_RUNTIME_ENVIRONMENT = "${params.MULE_ENV}"
 
  	}
  
@@ -74,7 +76,7 @@ pipeline {
             } 
             steps {
                 script {               
-			    		def lastCommit = sh returnStdout: true, script: 'git log -1'
+			def lastCommit = sh returnStdout: true, script: 'git log -1'
 	                if (lastCommit.contains("[maven-release-plugin]")){
 	                    echo  "Deployment skipped because it has been managed by release plugin"
 	                } else {
@@ -92,7 +94,6 @@ pipeline {
             when {
                  expression {return params.IS_MAVEN_RELEASE == false}
 		 expression {return params.IS_PUBLISH_REQUIRED == false}
-                 expression { BRANCH_TAG ==~ '^(?:.*develop)$' }            
             } 
             steps {
                     
@@ -103,7 +104,7 @@ pipeline {
                             } else {
                                 echo  "Build and test artifact.."
                                 withMaven(globalMavenSettingsConfig: 'global-maven-settings-xml-id') {
-                                   sh 'mvn clean package -Dmule.env="${MULE_ENV}" -Dencryption.key="${ENCRYPTION_KEY}"'
+                                   sh 'mvn clean package -DskipMunitTests -Dmule.env="${MULE_ENV}" -Dencryption.key="${ENCRYPTION_KEY}"'
                             	}
 
                            }
@@ -141,7 +142,7 @@ pipeline {
                   		expression {return params.IS_MAVEN_RELEASE == false}
 				expression {return params.IS_PUBLISH_REQUIRED == false}
 			 	expression {return params.IS_MULE_DEPLOYMENT_REQUIRED}
-			      	expression { BRANCH_TAG ==~ '^(?:.*develop|.*release/.*|.*fix/.*|.*hotfix/.*)$' } 				
+			      	expression { BRANCH_TAG ==~ '^(?:.*develop|.*release/.*|.*fix/.*|.*hotfix/.*|.*feature/.*)$' } 				
 	        	} 
 	 		steps {
 	 			    

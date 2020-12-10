@@ -32,7 +32,28 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-				<sharedLibraries>
+					<cloudHubDeployment>
+							<uri>${env.MULE_CLOUDHUB_URI}</uri>
+							<muleVersion>${env.MULE_RUNTIME_VERSION}</muleVersion>
+							<username>${env.MULE_CLOUDHUB_USER}</username>
+							<password>${env.MULE_CLOUDHUB_PASSWORD}</password>
+							<environment>${env.MULE_RUNTIME_ENVIRONMENT}</environment>
+							<businessGroup>${env.MULE_CLOUDHUB_BUSINESS_GROUP}</businessGroup>
+							<region>eu-west-1</region>
+							<workerType>Small</workerType>
+							<workers>1</workers>
+							<applicationName>${env.MULE_APPLICATION_NAME}</applicationName>
+							<properties>
+								<mule.env>dev</mule.env>
+								<encryption.key>jabdlgue34btiu2s</encryption.key>
+								<anypoint.platform.analytics_base_uri>https://analytics-ingest.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
+								<anypoint.platform.client_secret>756304852F734855B98F0c310FF41e3a</anypoint.platform.client_secret>
+								<anypoint.platform.client_id>9693bfbf5f7740f880dc7c5daa780675</anypoint.platform.client_id>
+								<cloudhub.password>%0xaX$v8KnhAqfJh</cloudhub.password>
+								<cloudhub.username>Mulesoft-ApiOwner</cloudhub.username>
+							</properties>
+						</cloudHubDeployment>	
+					<sharedLibraries>
                         <sharedLibrary>
                             <groupId>com.microsoft.sqlserver</groupId>
                             <artifactId>mssql-jdbc</artifactId>
@@ -191,45 +212,4 @@
 				<url>http://nexus01.aws.fatface.org:8081/repository/maven-releases/</url>
 			</repository>
 	</distributionManagement>
-	<profiles>
-		<profile>
-			<id>cloudhub-deployment</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.mule.tools.maven</groupId>
-						<artifactId>mule-maven-plugin</artifactId>
-						<version>${mule.maven.plugin.version}</version>
-						<extensions>true</extensions>
-						<configuration>
-							<cloudHubDeployment>
-								<uri>${env.MULE_CLOUDHUB_URI}</uri>
-								<muleVersion>${params.MULE_CLOUDHUB_RUNTIME}</muleVersion>
-								<username>${env.MULE_CLOUDHUB_USER}</username>
-								<password>${env.MULE_CLOUDHUB_PASSWORD}</password>
-								<environment>${params.MULE_CLOUDHUB_ENVIROMENT}</environment>
-								<businessGroup>${env.MULE_CLOUDHUB_BUSINESS_GROUP}</businessGroup>
-								<region>eu-west-1</region>
-								<workerType>Micro</workerType>
-								<workers>1</workers>
-								<applicationName>${env.MULE_APPLICATION_NAME}</applicationName>
-								<properties>
-									<mule.env>${params.MULE_ENV}</mule.env>
-								</properties>
-							</cloudHubDeployment>
-						</configuration>
-						<executions>
-							<execution>
-								<id>deploy</id>
-								<phase>deploy</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
