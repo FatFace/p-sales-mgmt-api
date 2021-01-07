@@ -43,7 +43,7 @@ sqs:
   region: "![5yV0cMXIWtD0Vl58lOKrzQ==]"
         
 d365:
-  host: "internal-ff-prod-dlb.lb.anypointdns.net"
+  host: "ff-prod-dlb.lb.anypointdns.net"
   port: "80"
   basePath: "/s-d365-api/api/v1"
   path: "/stores"

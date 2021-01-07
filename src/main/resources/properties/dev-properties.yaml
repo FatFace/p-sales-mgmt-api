@@ -43,7 +43,7 @@ sqs:
   region: "![6lleIG6Qoif/fTA7pK+sUA==]"
         
 d365:
-  host: "internal-ff-test-dlb.lb.anypointdns.net"
+  host: "ff-test-dlb.lb.anypointdns.net"
   port: "80"
   basePath: "/dev-s-d365-api/api/v1"
   path: "/stores"
